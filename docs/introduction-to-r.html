@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Introduction to R | Applied Statistics in Environment and Ecology</title>
+  <meta name="description" content="A book to support content in ERS 669." />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Introduction to R | Applied Statistics in Environment and Ecology" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="A book to support content in ERS 669." />
+  <meta name="github-repo" content="openscapes/series" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Introduction to R | Applied Statistics in Environment and Ecology" />
+  
+  <meta name="twitter:description" content="A book to support content in ERS 669." />
+  
+
+<meta name="author" content="Dr. Brad Fedy" />
+
+
+<meta name="date" content="2024-01-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="operators.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="lib/css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="lib/css/style.css" type="text/css" />
+<link rel="stylesheet" href="lib/css/lesson.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Welcome</a></li>
+<li class="chapter" data-level="2" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#what-is-r"><i class="fa fa-check"></i><b>2.1</b> What is R?</a></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#rstudio"><i class="fa fa-check"></i><b>2.2</b> RStudio</a></li>
+<li class="chapter" data-level="2.3" data-path="introduction-to-r.html"><a href="introduction-to-r.html#before-you-begin"><i class="fa fa-check"></i><b>2.3</b> Before you begin</a></li>
+<li class="chapter" data-level="2.4" data-path="introduction-to-r.html"><a href="introduction-to-r.html#setting-a-working-directory"><i class="fa fa-check"></i><b>2.4</b> Setting a working directory</a></li>
+<li class="chapter" data-level="2.5" data-path="introduction-to-r.html"><a href="introduction-to-r.html#getting-help-in-r"><i class="fa fa-check"></i><b>2.5</b> Getting help in R</a></li>
+<li class="chapter" data-level="2.6" data-path="introduction-to-r.html"><a href="introduction-to-r.html#defining-r-objects"><i class="fa fa-check"></i><b>2.6</b> Defining R objects</a></li>
+<li class="chapter" data-level="2.7" data-path="introduction-to-r.html"><a href="introduction-to-r.html#exporting-data-frames"><i class="fa fa-check"></i><b>2.7</b> Exporting data frames</a>
+<ul>
+<li class="chapter" data-level="2.7.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#installing-and-loading-packages"><i class="fa fa-check"></i><b>2.7.1</b> Installing and loading packages</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="operators.html"><a href="operators.html"><i class="fa fa-check"></i><b>3</b> Operators</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="operators.html"><a href="operators.html#manipulating-r-objects"><i class="fa fa-check"></i><b>3.1</b> Manipulating R objects</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>4</b> Data</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="data.html"><a href="data.html#writing-scripts"><i class="fa fa-check"></i><b>4.1</b> Writing scripts</a></li>
+<li class="chapter" data-level="4.2" data-path="data.html"><a href="data.html#importing-viewing-and-editing-data"><i class="fa fa-check"></i><b>4.2</b> Importing, viewing, and editing data</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="data.html"><a href="data.html#summarizing-and-manipulating-data"><i class="fa fa-check"></i><b>4.2.1</b> Summarizing and manipulating data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="data-visualization.html"><a href="data-visualization.html"><i class="fa fa-check"></i><b>5</b> Data Visualization</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="data-visualization.html"><a href="data-visualization.html#plotting-data"><i class="fa fa-check"></i><b>5.1</b> Plotting data</a></li>
+<li class="chapter" data-level="5.2" data-path="data-visualization.html"><a href="data-visualization.html#manipulating-plots"><i class="fa fa-check"></i><b>5.2</b> Manipulating plots</a></li>
+<li class="chapter" data-level="5.3" data-path="data-visualization.html"><a href="data-visualization.html#adding-low-level-plotting-functions"><i class="fa fa-check"></i><b>5.3</b> Adding low-level plotting functions</a></li>
+<li class="chapter" data-level="5.4" data-path="data-visualization.html"><a href="data-visualization.html#facet-plots"><i class="fa fa-check"></i><b>5.4</b> Facet plots</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="data-exploration.html"><a href="data-exploration.html"><i class="fa fa-check"></i><b>6</b> Data Exploration</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="data-exploration.html"><a href="data-exploration.html#outliers"><i class="fa fa-check"></i><b>6.1</b> Outliers</a></li>
+<li class="chapter" data-level="6.2" data-path="data-exploration.html"><a href="data-exploration.html#homoscedasticity-homegeneity-of-variance"><i class="fa fa-check"></i><b>6.2</b> Homoscedasticity (homegeneity of variance)</a></li>
+<li class="chapter" data-level="6.3" data-path="data-exploration.html"><a href="data-exploration.html#distribution-of-the-response-variable"><i class="fa fa-check"></i><b>6.3</b> Distribution of the response variable</a></li>
+<li class="chapter" data-level="6.4" data-path="data-exploration.html"><a href="data-exploration.html#collinearity-among-x-variables"><i class="fa fa-check"></i><b>6.4</b> Collinearity among x variables</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Applied Statistics in Environment and Ecology</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="introduction-to-r" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Introduction to R<a href="introduction-to-r.html#introduction-to-r" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="what-is-r" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> What is R?<a href="introduction-to-r.html#what-is-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>R is a programming language and software environment for statistical computing and graphics created by Ross Ihaka and Robert GentlemanIhaka R. &amp; Gentleman R. 1996. R: a language for data analysis and graphics. Journal of Computational and Graphical Statistics 5: 299-314. The development and distribution of R is carried out by a group of statisticians known as the R Development Core Team and is distributed under the terms of the GNU Public License. Thus, R can be freely downloaded from the Comprehensive R Archive Network (CRAN) <a href="http://www.r-project.org">website</a>. The fact that R is free and available across operating systems is one of the main benefits of learning and using R for statistical analysis. There are multiple other freely available programming languages and software what can be used for statistics and data science (e.g., <a href="https://www.python.org/">Python</a>), but R is one of the most common for applications in academia and in ecology and environmental studies, specifically. Additionally, there are many commercial statistical packages that are comparable and can be used to similar ends; but, at a cost &gt; $1,000 per license.</p>
+<p>Installation of R software is straight forward for all major platforms and instructions are provided on the website. Most of the analyses and tasks that are conducted in R are done through the command-line interface and thus, for the non-programmer the learning curve for this software may be steeper than for most point and click statistical programs. There are, however, several advantages of using R and the command-line setup that make putting the effort into learning this program well worth your time:</p>
+<ul>
+<li><p><strong>Cost:</strong> It’s free! No matter what lab, agency, or company you work with, R can go with you.</p></li>
+<li><p><strong>Simplicity:</strong> R is a relatively simple programming language, allowing you to accomplish a lot with minimal lines of code.</p></li>
+<li><p><strong>Diverse and continued package development:</strong> In the past, researchers have needed to learn multiple software packages to conduct their analyses and display their results. Because R is open source and relies on user contributed <code>packages</code>, a wide variety of general and specialized analyses and plotting functions can be conducted in R. New <code>packages</code> are developed and existing ones are updated each day. This reduces this need to learn multiple software packages.</p></li>
+<li><p><strong>Integration:</strong> R works nicely with other scripting languages and open source software used for a variety of tasks, including Geographic Information Systems (e.g., <a href="http://grass.osgeo.org">GRASS</a>, <a href="http://www.qgis.org">QGIS</a>) and document production (e.g., <a href="https://www.markdownguide.org/">Markdown</a> - more on this later).</p></li>
+<li><p><strong>Reproducibility:</strong> If used properly, command-line scripting keeps detailed records of your analyses. This makes is easy to share, repeat, and modify your work. <em>This is an important point</em>. One of the most important components of good science is replicability. Most research requires many steps from organizing and checking the data to conducting the analysis. Using statistical software that allows you to point and click through your analysis does not usually leave any record of what has been done. Thus, it can be difficult to remember and precisely replicate the data manipulation and analyses. Using command-line scripting requires the analyst to type out a line of code for every action they want to perform. Use of a code hosting platform such as <a href="https://github.com/">GitHub</a> can further facilitate transparency, reproducibility, version control, and collaboration. We will not cover the use of <a href="https://github.com/">GitHub</a> explicitly in this course, but it is a potentially useful tool you may encounter as you progress through your research.</p></li>
+<li><p><strong>Self-education:</strong> There is a large, active, and (mostly) helpful community of people dedicated to education and training in R programming languages. With enough effort you can find online tutorials or examples for any statistical analysis in R, along with example code. This community is one that you will rely on throughout your R programming and statistical education.</p></li>
+</ul>
+<p>This manual will serve multiple purposes. It will be used to provide examples during lectures and code that you will be required to work through on you own. The introduction to R will be brief so that we can get into working with data as quickly as possible. However, there are many excellent resources to facilitate your R-based education. <em>Do not fall behind in your understanding of R</em>. Ask frequent questions of Dr. Fedy and your colleagues. Be sure you understand each line of code. We will use R for all course topics. It is essential that you understand the code in order to understand the data management and statistics that are the focus of the course.</p>
+<p>This manual is not intended to turn you all into R programming ninjas and statisticians. The intention is to provide you with the tools required for self-education. R is a potentially relevant tool for anyone who uses numbers to understand the world - regardless of your area of interest. When programming in R, there are often multiple ways to solve the same problem. That is part of the fun and challenge of programming. Of course, the different options to completing an analysis increase with increasing complexity of the problem; for simple problems there are usually only a few ways to solve it, for complex problems there are often many ways to solve it. Throughout the course I will demonstrate the code and approaches that have worked for me, my students, and collaborators. However, I intentionally do not provide all the answers and you will need to problem-solve and self-educate in order to successfully complete all the assignments.</p>
+<p>You will need to install two pieces of software on your computer: <a href="https://www.r-project.org/">R</a> and <a href="https://www.r-project.org/">RStudio</a>. Both of these are free to download. When you open R, you will see the basic command-line console version of R. RStudio is an Integrated Development Environment (IDE) for R, that provides a few more bells and whistles and tends to ease the introduction to R. You do not <em>have to</em> use RStudio, but it is highly recommended.</p>
+</div>
+<div id="rstudio" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> RStudio<a href="introduction-to-r.html#rstudio" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+One of the most significant advantages of using the command-line structure in R is that, if done properly, you have detailed documentation for everything that you do. This allows you to easily change, manipulate, and share your code with others. This process is facilitated by writing any code you use into a script file, instead of entering it directly into R. <a href="http://www.rstudio.com/ide/">Rstudio</a> can be customized in many ways, but is typically divided into four windows and that provide simultaneous views of important information. The most frequently used windows and tabs are:
+<ol>
+<li>
+<strong>scripts:</strong> Write your code here for a permanent record.
+</li>
+<li>
+<strong>console:</strong> Essentially R running within RStudio. Displays output and any errors.
+</li>
+<li>
+<strong>Environment/Plots:</strong> Environment shows you the objects that are currently saved in your workspace and Plots displays any plots that you create.
+</li>
+<li>
+<strong>History/Files/Packages:</strong> These tabs are less commonly referenced and are fairly self-explanatory.
+</li>
+</ol>
+</div>
+<div id="before-you-begin" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Before you begin<a href="introduction-to-r.html#before-you-begin" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>There are four important things that you should note about R and this manual that will help you as you work through the instructions and exercises:</p>
+<ul>
+<li><p>Throughout this book R code is in the grey boxes, with results that you should see in R following this text prefaced by <code>##</code>. Text following a <code>#</code> are not read by R and are used to comment the code. I use <code>#</code> marks to provide information about a particular command or function.</p></li>
+<li><p>When working in the R console, the up and down arrows can be used to retrieve past commands, saving you from re-typing it.</p></li>
+<li><p>If you see a <code>+</code> prompt, it means R is waiting for more input. Often this means that you have forgotten a closing parenthesis or made some other syntax error. If you cannot figure out its meaning, hit the escape key and start the command fresh.</p></li>
+<li><p>In R, tasks such as calculating means, conducting statistical analysis or generating plots are completed through the use of functions. A function in mathematics is something that relates an input to an output. It has three basic components an input, a relationship, an output. The function defines the relationship. The arguments are the variables or inputs required for the function to produce the desired output. For example, a function to calculate the mean height of everyone in the class would require 1 argument: the height of each person. The function calculates the number of people (n) based on the number of observations and outputs the mean by summing all individual heights and dividing by n. We will go through many examples of functions throughout the course. Functions in R accept arguments, which are used to complete the task (produce output) and use the following syntax: <code>&gt; functionname(argument 1, argument 2, ...)</code></p></li>
+<li><p>The arguments are always surrounded by (round) parentheses and separated by commas. Some functions (e.g., <code>data()</code>) have no required arguments, but you still need the parentheses.</p></li>
+<li><p>If you type a function name without the parentheses, you will see the code that is the basis for that function including the required arguments.</p></li>
+<li><p>Before you begin any analysis it is important that you tell R the home directory that you will be working in by using the command <code>setwd(“path to folder”)</code>. It is important that you include the quotation marks (“”) around the pathname. It is also important that you have write access to the drive that you are using for your working directory. Please keep this in mind if you are using multiple computers. You can set your working directory using the drop down menus in RStudio, by typing out the path manually, or by using the command <code>file.choose()</code>.</p></li>
+</ul>
+</div>
+<div id="setting-a-working-directory" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Setting a working directory<a href="introduction-to-r.html#setting-a-working-directory" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The first steps for setting a working director typically happen outside of R or RStudio. The first step is to create a new folder on your computer where you want to store all of the work associated with this class or with a particular assignment. Once the folder is created, the second step is to put a file into the folder you created. It does not matter what type of file you put in this folder. Typically, I use a simple blank .txt or the data file (typically .csv) file for examples in class. Once this is complete navigate back to R and type in the following command at the prompt:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="introduction-to-r.html#cb1-1" tabindex="-1"></a><span class="fu">file.choose</span>()</span></code></pre></div>
+<p>R will then open your computers file management and navigation system. For Mac OS this is Finder, in Windows machines, the Explorer window will open. Within that window, navigate to the working folder you just created and the file you put in it. Then select (“choose”) that file. R will respond by putting the entire path name into your R console window.</p>
+<pre><code>[1] &quot;/Users/bfedy/Documents/PROJECTS/Rwork/Anything filename.txt&quot;</code></pre>
+<p>Select everything in the path except for the file name (e.g., the .txt file) and copy and paste it into your setwd command.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="introduction-to-r.html#cb3-1" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;/Users/bfedy/Documents/PROJECTS/Rwork/&quot;</span>)</span></code></pre></div>
+<p>Once this is completed R will put everything it generates and look for any files you pass to it in the “Rwork” file that I created above. Please note: the path names will be different on every computer that you use, so you will need to reset the working director every time you change computers.</p>
+</div>
+<div id="getting-help-in-r" class="section level2 hasAnchor" number="2.5">
+<h2><span class="header-section-number">2.5</span> Getting help in R<a href="introduction-to-r.html#getting-help-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The list of functions available within R is much too great to provide even an adequate summary. There are, however, a wide variety of online resources available that we expect you to draw on throughout this course. Searching “R” and “Type of analysis” in a search engine will often produce code and sometimes tutorials for the analyses you are looking to undertake. To be more specific, you can also include “cran” as a keyword. As you work through this manual and your assignments I encourage you to start a document where you note commands that you find useful with a brief description. This will help save you from learning the same command multiple times. You are learning a new language, please take notes and do not expect yourself to remember everything. You might want to check out some <a href="http://r-dir.com/reference/crib-sheets.html%7C%7Chttp://r-dir.com/reference/crib-sheets.html">cheat sheets</a> compiled by R as examples. There are also a variety of ways to get help within the R software. If you type a <code>?</code> followed by the command or <code>help(commandname)</code> will pull up a help file document with the follow structure:</p>
+<p><strong>Description:</strong> Brief description.</p>
+<p><strong>Usage:</strong> For a function, gives the name with all its arguments and the possible options (with the corresponding default values); for an operator gives the typical use.</p>
+<p><strong>Arguments:</strong> For a function, details each of its arguments.</p>
+<p><strong>Details:</strong> Detailed description.</p>
+<p><strong>Value:</strong> If applicable, the type of object returned by the function or the operator.</p>
+<p><strong>See Also:</strong> Other help pages close or similar to the present one.</p>
+<p><strong>Examples:</strong> Some working examples of the function or operator.</p>
+<p>Other methods for obtaining help when you do not know the exact name of the command you are looking for is to use <code>??</code> or <code>help.search</code> with a key word. This will give a list of commands with topics that match your key word.</p>
+Expect to spend a good amount of time searching for help on the internet while you are programming - particularly at the beginning. It is common to spend as much time (or more) searching the internet as you spend writing code when first starting out. There are many excellent websites and free resources for help and guidance through your R and statistical journey. I cannot list them all here; however, two books that I go back to regularly for R programming help are:
+<ol>
+<li>
+<a href="https://r4ds.hadley.nz/">R for Data Science</a>
+<li>
+<a href="https://r-graphics.org/">R Graphics Cookbook</a>
+</ol>
+</div>
+<div id="defining-r-objects" class="section level2 hasAnchor" number="2.6">
+<h2><span class="header-section-number">2.6</span> Defining R objects<a href="introduction-to-r.html#defining-r-objects" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A fundamental concept of R is that when R is running, data and results are stored in the active memory in the form of objects, which are all assigned a name by the user. The user can then manipulate these objects through the use of <em>operators</em> or <em>functions</em>. <em>Operators</em> perform tasks including arimetic, logical, and conditional actions. <em>Functions</em> are the work horses of R and are self-contained modules of code that accomplish a specific task. Functions are typically provided data (i.e., values, vectors, dataframes), process that data according to the rules defined in the function, and return a result. Functions can be user-generated, but the majority of functions that you use will be contained within R <code>packages</code>. Much more information will be presented on both these topics throughout the book. Objects can be stored in a variety of ways and it is critical to understand how objects are created, their formats, and what they mean as a first step in learning R. The most basic form of an object is a scalar (i.e., single value), which can be creating using the “assign” <code>&lt;-</code> operator. The assign operator is simply a less than sign followed by a minus sign. The following examples demonstrate the basics.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="introduction-to-r.html#cb4-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb4-2"><a href="introduction-to-r.html#cb4-2" tabindex="-1"></a>n</span></code></pre></div>
+<pre><code>## [1] 15</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="introduction-to-r.html#cb6-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="st">&quot;Applied Statistics&quot;</span></span>
+<span id="cb6-2"><a href="introduction-to-r.html#cb6-2" tabindex="-1"></a>n</span></code></pre></div>
+<pre><code>## [1] &quot;Applied Statistics&quot;</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="introduction-to-r.html#cb8-1" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">18</span></span></code></pre></div>
+<p>Two things of particular note in the example above, 1) R is case sensitive with <code>n</code> being different than <code>N</code>, and 2) if an object exists and is assigned a new name, the previous value is erased without any warning. Thus, it is important to pay attention to the variables you create and those which are already stored in your active memory. You can get a list of the names of variables in memory with the <code>ls()</code> command or for the variables with some details on the objects use <code>ls.str()</code>. In RStudio, you can also see all the objects you have created in the ‘Environment’ tab. To remove objects from the active memory you can use the <code>rm('object')</code> command. Look at the example below and note that we use <code>rm(list=ls())</code> to list and remove all objects in the active memory. It is good practice to start all of your new scripts with the <code>rm(list=ls()</code> command. That way you know the script is not dependent on any objects previously stored in your Environment (i.e., working memory). When you run the code below, you will see the corresponding values show up in R console. If you want to save those values for later use, you will need to assign them an object name.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="introduction-to-r.html#cb9-1" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">10</span>,<span class="dv">11</span>,<span class="dv">11</span>,<span class="dv">12</span>)  <span class="co"># create a vector of these numbers</span></span>
+<span id="cb9-2"><a href="introduction-to-r.html#cb9-2" tabindex="-1"></a>Y[<span class="dv">4</span>]  <span class="co"># select the fourth value</span></span></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="introduction-to-r.html#cb11-1" tabindex="-1"></a>Y[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]  <span class="co"># select the first five values</span></span></code></pre></div>
+<pre><code>## [1] 2 2 3 5 6</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="introduction-to-r.html#cb13-1" tabindex="-1"></a>Y[<span class="dv">5</span><span class="sc">:</span><span class="dv">10</span>]  <span class="co"># select the last five values</span></span></code></pre></div>
+<pre><code>## [1]  6  7 10 11 11 12</code></pre>
+<p>To select or identify values within two dimensional data such as matrices and data frames you will need two numbers (separated by a comma) in the square brackets. The first number specifies the row or range of rows, and the second number specifies the column or range of columns (Dr. Fedy finds it helpful to think of RC Cola to remember the order: rows, then columns. You may not have heard of RC Cola, but you get the point, think of something meaningful to you). For data frames you may also want to extract the column headers of names of columns, which you can replace if you wish to change the name of one or more columns. Below are some examples executed using base R. There are multiple packages that make the selection of data and values more intuitive (much more on those later).</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="introduction-to-r.html#cb15-1" tabindex="-1"></a><span class="co"># Set up a 2 dimensional data frame</span></span>
+<span id="cb15-2"><a href="introduction-to-r.html#cb15-2" tabindex="-1"></a><span class="fu">options</span>(<span class="at">digits =</span> <span class="dv">3</span>)  <span class="co"># set significant digits in R</span></span>
+<span id="cb15-3"><a href="introduction-to-r.html#cb15-3" tabindex="-1"></a>snake.df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">species =</span> <span class="fu">rep</span>(<span class="st">&quot;P.gloydi&quot;</span>, <span class="dv">20</span>), </span>
+<span id="cb15-4"><a href="introduction-to-r.html#cb15-4" tabindex="-1"></a>                       <span class="at">sex =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;male&quot;</span>, <span class="st">&quot;female&quot;</span>),<span class="dv">10</span>)),</span>
+<span id="cb15-5"><a href="introduction-to-r.html#cb15-5" tabindex="-1"></a>                       <span class="at">mass =</span> <span class="fu">runif</span>(<span class="at">n=</span><span class="dv">20</span>, <span class="at">min=</span><span class="fl">0.5</span>, <span class="at">max=</span><span class="fl">1.5</span>),</span>
+<span id="cb15-6"><a href="introduction-to-r.html#cb15-6" tabindex="-1"></a>                       <span class="at">length =</span> <span class="fu">runif</span>(<span class="at">n=</span><span class="dv">20</span>, <span class="at">min=</span><span class="dv">50</span>, <span class="at">max=</span><span class="dv">100</span>))</span>
+<span id="cb15-7"><a href="introduction-to-r.html#cb15-7" tabindex="-1"></a>snake.df</span></code></pre></div>
+<pre><code>##     species    sex  mass length
+## 1  P.gloydi   male 1.360   92.2
+## 2  P.gloydi female 0.759   75.3
+## 3  P.gloydi   male 0.670   78.0
+## 4  P.gloydi female 0.611   82.6
+## 5  P.gloydi   male 0.714   50.2
+## 6  P.gloydi female 1.345   96.2
+## 7  P.gloydi   male 1.252   56.9
+## 8  P.gloydi female 0.623   59.1
+## 9  P.gloydi   male 0.565   83.0
+## 10 P.gloydi female 0.618   99.4
+## 11 P.gloydi   male 0.615   61.8
+## 12 P.gloydi female 1.015   73.6
+## 13 P.gloydi   male 1.108   60.8
+## 14 P.gloydi female 1.081   63.4
+## 15 P.gloydi   male 0.855   87.8
+## 16 P.gloydi female 1.213   80.1
+## 17 P.gloydi   male 0.520   71.4
+## 18 P.gloydi female 0.785   66.5
+## 19 P.gloydi   male 1.330   56.6
+## 20 P.gloydi female 1.412   58.7</code></pre>
+<p>Be sure that you understand what is happening in each of the lines of code above. This would be a good time to use the help functions in R to help you understand.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="introduction-to-r.html#cb17-1" tabindex="-1"></a><span class="co"># The output from the following code will show up in your R console</span></span>
+<span id="cb17-2"><a href="introduction-to-r.html#cb17-2" tabindex="-1"></a><span class="fu">names</span>(snake.df)  <span class="co"># extract names of columns</span></span></code></pre></div>
+<pre><code>## [1] &quot;species&quot; &quot;sex&quot;     &quot;mass&quot;    &quot;length&quot;</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="introduction-to-r.html#cb19-1" tabindex="-1"></a>snake.df[ , <span class="dv">1</span>]  <span class="co"># extract the first column (note: the space are not necessary)</span></span></code></pre></div>
+<pre><code>##  [1] &quot;P.gloydi&quot; &quot;P.gloydi&quot; &quot;P.gloydi&quot; &quot;P.gloydi&quot; &quot;P.gloydi&quot; &quot;P.gloydi&quot;
+##  [7] &quot;P.gloydi&quot; &quot;P.gloydi&quot; &quot;P.gloydi&quot; &quot;P.gloydi&quot; &quot;P.gloydi&quot; &quot;P.gloydi&quot;
+## [13] &quot;P.gloydi&quot; &quot;P.gloydi&quot; &quot;P.gloydi&quot; &quot;P.gloydi&quot; &quot;P.gloydi&quot; &quot;P.gloydi&quot;
+## [19] &quot;P.gloydi&quot; &quot;P.gloydi&quot;</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="introduction-to-r.html#cb21-1" tabindex="-1"></a>snake.df[<span class="dv">1</span>, ]  <span class="co"># extract the first row</span></span></code></pre></div>
+<pre><code>##    species  sex mass length
+## 1 P.gloydi male 1.36   92.2</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="introduction-to-r.html#cb23-1" tabindex="-1"></a>snake.df[ , <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]  <span class="co"># extract the first 3 columns</span></span></code></pre></div>
+<pre><code>##     species    sex  mass
+## 1  P.gloydi   male 1.360
+## 2  P.gloydi female 0.759
+## 3  P.gloydi   male 0.670
+## 4  P.gloydi female 0.611
+## 5  P.gloydi   male 0.714
+## 6  P.gloydi female 1.345
+## 7  P.gloydi   male 1.252
+## 8  P.gloydi female 0.623
+## 9  P.gloydi   male 0.565
+## 10 P.gloydi female 0.618
+## 11 P.gloydi   male 0.615
+## 12 P.gloydi female 1.015
+## 13 P.gloydi   male 1.108
+## 14 P.gloydi female 1.081
+## 15 P.gloydi   male 0.855
+## 16 P.gloydi female 1.213
+## 17 P.gloydi   male 0.520
+## 18 P.gloydi female 0.785
+## 19 P.gloydi   male 1.330
+## 20 P.gloydi female 1.412</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="introduction-to-r.html#cb25-1" tabindex="-1"></a>snake.df[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]  <span class="co"># extract the first 3 columns and 4 rows</span></span></code></pre></div>
+<pre><code>##    species    sex  mass
+## 1 P.gloydi   male 1.360
+## 2 P.gloydi female 0.759
+## 3 P.gloydi   male 0.670
+## 4 P.gloydi female 0.611</code></pre>
+<p>It is also possible using base R to call individual columns of a data frame using the names of the data frame and the column separated by a <code>$</code>.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="introduction-to-r.html#cb27-1" tabindex="-1"></a>snake.df<span class="sc">$</span>sex</span></code></pre></div>
+<pre><code>##  [1] male   female male   female male   female male   female male   female
+## [11] male   female male   female male   female male   female male   female
+## Levels: female male</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="introduction-to-r.html#cb29-1" tabindex="-1"></a>snake.df<span class="sc">$</span>length</span></code></pre></div>
+<pre><code>##  [1] 92.2 75.3 78.0 82.6 50.2 96.2 56.9 59.1 83.0 99.4 61.8 73.6 60.8 63.4 87.8
+## [16] 80.1 71.4 66.5 56.6 58.7</code></pre>
+</div>
+<div id="exporting-data-frames" class="section level2 hasAnchor" number="2.7">
+<h2><span class="header-section-number">2.7</span> Exporting data frames<a href="introduction-to-r.html#exporting-data-frames" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>As we alluded to earlier, in reality R’s main function is for analyzing and graphing data, and different programs such as excel or other database programs will be used when collecting and entering data. Thus, being able to import and export data from R is essential. Here, we will first introduce you to the <code>write.table()</code> function, which is the primary function used to export a data fame. The main parameters that you need to be aware of are listed below, but you can use R help <code>?write.table</code> to get a list of all options and more information. One of the most important arguments in this function is the <code>sep</code> argument, which specifies how each column in the data frame will be separated. As a default, I tend to prefer the <code>sep=","</code> option which allows you to open your data a comma separated file (.csv) which is possible in most editors that you will want to use. If you do not provide a file name (as we do below) for the argument <code>file</code> then the output is printed to the screen. After you create the table below try opening it in a text editor or Excel (or some other spreadsheet software). Be sure you have set your working director <code>setwd("filename")</code> so you know where the output will be stored on your machine.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="introduction-to-r.html#cb31-1" tabindex="-1"></a><span class="fu">write.table</span>(snake.df, <span class="at">sep=</span><span class="st">&quot;,&quot;</span>, <span class="at">row.names=</span><span class="cn">FALSE</span>, <span class="at">col.names=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div id="installing-and-loading-packages" class="section level3 hasAnchor" number="2.7.1">
+<h3><span class="header-section-number">2.7.1</span> Installing and loading packages<a href="introduction-to-r.html#installing-and-loading-packages" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>An important component and one of the main advantages of R is that users can write and provide packages. These packages are essentially a series of functions that have been compiled together and can be loaded into R to make these functions available. Without installing and loading these packages these functions are not available. Loading packages in R can be done in R from the command-line if you know the package that you wish to install. Two packages that we will need in later models are the lattice and grid packages. These can be installed using the input below, with <code>dependencies=TRUE</code> specifying that you wish all packages that are needed to be installed at the same time. You may get a pop up window asking if you want to install these in a local directory. If so you should answer yes. You will likely also be asked to specify a CRAN mirror (i.e., download location), so just choose Canada (ON).</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="introduction-to-r.html#cb32-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;lattice&quot;</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb32-2"><a href="introduction-to-r.html#cb32-2" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;gridBase&quot;</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>In addition to installing packages through the command line you can search for an install packages using the ‘Packages – Install Packages’ within RStudio. Once packages are installed, they must also be loaded locally before you can use the functions contained within the packages. You load packages with the <code>library("packagename")</code> command (replace <code>packagename</code> with the name of the package you are loading).</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="operators.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

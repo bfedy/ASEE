@@ -1,10 +1,13 @@
-book_filename: "series"
+book_filename: "ASEEbook23.Rmd"
 language:
   ui:
     chapter_name: "Chapter "
 rmd_files: [
   "index.Rmd",
-  "setup.Rmd",
-  "write.Rmd"]
+  "01-Introduction.Rmd",
+  "02-Operators.Rmd", 
+  "03-Data1.Rmd", 
+  "04-DataVis.Rmd", 
+  "05-DataExplore.Rmd"]
 delete_merged_file: true 
 output_dir: "docs"

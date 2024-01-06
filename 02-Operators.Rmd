@@ -1,0 +1,77 @@
+# Operators 
+
+## Manipulating R objects
+
+In the previous chapter, I summarized the main types of R objects and how these can be stored in the active memory. Most analyses and tasks that you will complete in R will require you to manipulate these objects and this can be done through a variety of methods. Most of these, however, will require the use of R operators, which are used to manipulate or subset all types of R objects. There are three basic categories of operators that you should be aware of and are summarized below.
+
+**ARITHMATIC**
+
+| **Operator** 	| **Description** 	|
+|--------------	|-----------------	|
+|       +      	| addition        	|
+|       -      	| subtraction     	|
+|       *      	| multiplication  	|
+|       /      	| division        	|
+
+**COMPARISON**
+
+| **Operator** 	| **Description**          	|
+|--------------	|--------------------------	|
+|       >      	| greater than             	|
+|       <      	| less than                	|
+|      >=      	| greater than or equal to 	|
+|      <=      	| less than or equal to    	|
+|      ==      	| equal to                 	|
+|      !=      	| not equal to             	|
+
+**LOGICAL**
+
+| **Operator** 	| **Description** 	|
+|--------------	|-----------------	|
+|     X & Y    	| and (X and Y)   	|
+|     X\|Y     	| or (X or Y)     	|
+|      ! X     	| not (not X)     	|
+
+
+The simplest R operators are basic arithmetic, which basically allows R to act as a calculator. A couple things to note in the examples below, 1) The results of an arithmetic expression can be stored in memory by assigning the result to an object (for simplicity we do not do this for many of the examples) and, 2) when applying operators to vectors or matrices the operation will be conducted on each element in the vector (not the case for data frames where you must specific a column).
+
+```{r eval=TRUE, echo=TRUE}
+2 + 2     # addition
+45*90     # multiplication
+sqrt(81)  # calculate the square root
+x <- 2 + 2; y <- 45*90; z <- sqrt(81)
+x; y; z
+x <- c(20:30)
+x
+x * 10
+```
+
+The output in each of the above examples above begins `## [1]`. The `##` was explained in the previous Chapter and exists at the beginning of output in a bookdown document so that it will not run if you copy and paste it into R. The `[1]` is used to index a value in a vector. For example in the vector `x` that we created above the first value is `20` and is indexed by `[1]` if we want the 3rd value in the vector we can retrieve it by using the indexing as follows: 
+
+```{r eval=TRUE, echo=TRUE}
+x[3]
+```
+
+Vector arithmetic is an important concept and will be essential when working with real data and you want to manipulate specific columns using an operator. Below we run through a series of examples where this is the case. Be sure to check the objects and output after each line of code. If you do not understand why you got the output you did please ask. It is essential that you understand these actions. They are the foundation. If you have only a vague understanding of what is happening at this point, it will make all subsequent assignments much more difficult. Simply copying from this manual without examining the output will teach you little about R. 
+
+Typically, we enter our data into a .csv file and import that data into R (more on this later). For example purposes, we will create a basic simulated dataset using code. Consider the following data frame of the widths and lengths of snakes:
+
+```{r eval=TRUE, echo=TRUE, hold=TRUE}
+options(digits = 3)  # set significant digits in R
+snake.df <- data.frame(species = rep("P.gloydi", 20), 
+                       sex = factor(rep(c("male", "female"),10)),
+                       mass = runif(n=20, min=0.5, max=1.5),
+                       length = runif(n=20, min=50, max=100))
+snake.df
+```
+
+Suppose you want to convert the weight of the snakes from kilograms to grams (i.e., multiply by 1000) or create a new variable body condition, which is the weight divided by the length. Both of these can be easily done using an arithmetic operator. Recall, that if you want to call a specific column you simply use the data frame name and the column name separated by a `$`. If this column exists it will be replaced and if it is does not it will be created.
+
+```{r eval=TRUE, echo=TRUE, hold=TRUE}
+# Replace mass column with mass in kg
+snake.df$mass <- snake.df$mass*1000
+snake.df$body.cond <- snake.df$mass/snake.df$length
+snake.df
+```
+
+A second important class of operators are the comparison operators, which are often used to subset your data in meaningful ways. For example, consider a situation that requires you subset the snake data by sex and you want only female snakes. Here you would use the `==` operator, combined with the square brackets `[ ]`. The square brackets were introduced above for indexing a vector. They can also be used to index matrices and dataframes (i.e., 2-dimensional objects...*and beyond*). <mark>which we know from earlier can be used to subset your data</mark>. In this case however, instead of using numbers to select columns, we will use an operator to select rows that are equal to “male”. You can also use other comparison operators such as greater than '>' or less than '<'. Finally, we combine a comparison with a logical operator. Remember that when subsetting with the [ ] the first value indicates rows and the value after the "," indicates columns. When you want all columns, leave the number after the “,” blank, and leave the number before the “,” blank when you want all rows.

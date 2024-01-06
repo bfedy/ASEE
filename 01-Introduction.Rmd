@@ -1,0 +1,171 @@
+# Introduction to R
+
+## What is R?
+
+R is a programming language and software environment for statistical computing and graphics created by Ross Ihaka and Robert GentlemanIhaka R. & Gentleman R. 1996. R: a language for data analysis and graphics. Journal of Computational and Graphical Statistics 5: 299-314. The development and distribution of R is carried out by a group of statisticians known as the R Development Core Team and is distributed under the terms of the GNU Public License. Thus, R can be freely downloaded from the Comprehensive R Archive Network (CRAN) [website](http://www.r-project.org). The fact that R is free and available across operating systems is one of the main benefits of learning and using R for statistical analysis. There are multiple other freely available programming languages and software what can be used for statistics and data science (e.g., [Python](https://www.python.org/)), but R is one of the most common for applications in academia and in ecology and environmental studies, specifically. Additionally, there are many commercial statistical packages that are comparable and can be used to similar ends; but, at a cost > $1,000 per license. 
+
+Installation of R software is straight forward for all major platforms and instructions are provided on the website. Most of the analyses and tasks that are conducted in R are done through the command-line interface and thus, for the non-programmer the learning curve for this software may be steeper than for most point and click statistical programs. There are, however, several advantages of using R and the command-line setup that make putting the effort into learning this program well worth your time:
+
+- **Cost:** It's free! No matter what lab, agency, or company you work with, R can go with you.
+
+- **Simplicity:** R is a relatively simple programming language, allowing you to accomplish a lot with minimal lines of code.
+
+- **Diverse and continued package development:** In the past, researchers have needed to learn multiple software packages to conduct their analyses and display their results. Because R is open source and relies on user contributed `packages`, a wide variety of general and specialized analyses and plotting functions can be conducted in R. New `packages` are developed and existing ones are updated each day. This reduces this need to learn multiple software packages.
+
+- **Integration:** R works nicely with other scripting languages and open source software used for a variety of tasks, including Geographic Information Systems (e.g., [GRASS](http://grass.osgeo.org), [QGIS](http://www.qgis.org)) and document production (e.g., [Markdown](https://www.markdownguide.org/) - more on this later). 
+
+- **Reproducibility:** If used properly, command-line scripting keeps detailed records of your analyses. This makes is easy to share, repeat, and modify your work. *This is an important point*. One of the most important components of good science is replicability. Most research requires many steps from organizing and checking the data to conducting the analysis. Using statistical software that allows you to point and click through your analysis does not usually leave any record of what has been done. Thus, it can be difficult to remember and precisely replicate the data manipulation and analyses. Using command-line scripting requires the analyst to type out a line of code for every action they want to perform. Use of a code hosting platform such as [GitHub](https://github.com/) can further facilitate transparency, reproducibility, version control, and collaboration. We will not cover the use of [GitHub](https://github.com/) explicitly in this course, but it is a potentially useful tool you may encounter as you progress through your research.
+
+- **Self-education:** There is a large, active, and (mostly) helpful community of people dedicated to education and training in R programming languages. With enough effort you can find online tutorials or examples for any statistical analysis in R, along with example code. This community is one that you will rely on throughout your R programming and statistical education.
+
+This manual will serve multiple purposes. It will be used to provide examples during lectures and code that you will be required to work through on you own. The introduction to R will be brief so that we can get into working with data as quickly as possible. However, there are many excellent resources to facilitate your R-based education. *Do not fall behind in your understanding of R*. Ask frequent questions of Dr. Fedy and your colleagues. Be sure you understand each line of code. We will use R for all course topics. It is essential that you understand the code in order to understand the data management and statistics that are the focus of the course. 
+
+This manual is not intended to turn you all into R programming ninjas and statisticians. The intention is to provide you with the tools required for self-education. R is a potentially relevant tool for anyone who uses numbers to understand the world - regardless of your area of interest. When programming in R, there are often multiple ways to solve the same problem. That is part of the fun and challenge of programming. Of course, the different options to completing an analysis increase with increasing complexity of the problem; for simple problems there are usually only a few ways to solve it, for complex problems there are often many ways to solve it. Throughout the course I will demonstrate the code and approaches that have worked for me, my students, and collaborators. However, I intentionally do not provide all the answers and you will need to problem-solve and self-educate in order to successfully complete all the assignments. 
+
+You will need to install two pieces of software on your computer: [R](https://www.r-project.org/) and [RStudio](https://www.r-project.org/). Both of these are free to download. When you open R, you will see the basic command-line console version of R. RStudio is an Integrated Development Environment (IDE) for R, that provides a few more bells and whistles and tends to ease the introduction to R. You do not *have to* use RStudio, but it is highly recommended.  
+
+
+## RStudio
+
+One of the most significant advantages of using the command-line structure in R is that, if done properly, you have detailed documentation for everything that you do. This allows you to easily change, manipulate, and share your code with others. This process is facilitated by writing any code you use into a script file, instead of entering it directly into R. [Rstudio](http://www.rstudio.com/ide/) can be customized in many ways, but is typically divided into four windows and that provide simultaneous views of important information. The most frequently used windows and tabs are: 
+<ol>
+    <li>**scripts:** Write your code here for a permanent record.</li> 
+    <li>**console:** Essentially R running within RStudio. Displays output and any errors.</li>
+    <li>**Environment/Plots:** Environment shows you the objects that are currently saved in your workspace and Plots displays any plots that you create.</li>
+    <li>**History/Files/Packages:** These tabs are less commonly referenced and are fairly self-explanatory.</li>
+</ol>    
+
+## Before you begin
+
+There are four important things that you should note about R and this manual that will help you as you work through the instructions and exercises:
+
+- Throughout this book R code is in the grey boxes, with results that you should see in R following this text prefaced by `##`. Text following a `#` are not read by R and are used to comment the code. I use `#` marks to provide information about a particular command or function.
+
+- When working in the R console, the up and down arrows can be used to retrieve past commands, saving you from re-typing it.
+
+- If you see a `+` prompt, it means R is waiting for more input. Often this means that you have forgotten a closing parenthesis or made some other syntax error. If you cannot figure out its meaning, hit the escape key and start the command fresh.
+
+- In R, tasks such as calculating means, conducting statistical analysis or generating plots are completed through the use of functions. A function in mathematics is something that relates an input to an output. It has three basic components an input, a relationship, an output. The function defines the relationship. The arguments are the variables or inputs required for the function to produce the desired output. For example, a function to calculate the mean height of everyone in the class would require 1 argument: the height of each person. The function calculates the number of people (n) based on the number of observations and outputs the mean by summing all individual heights and dividing by n. We will go through many examples of functions throughout the course. Functions in R accept arguments, which are used to complete the task (produce output) and use the following syntax: `> functionname(argument 1, argument 2, ...)`
+
+- The arguments are always surrounded by (round) parentheses and separated by commas. Some functions (e.g., `data()`) have no required arguments, but you still need the parentheses.
+
+- If you type a function name without the parentheses, you will see the code that is the basis for that function including the required arguments.
+
+- Before you begin any analysis it is important that you tell R the home directory that you will be working in by using the command `setwd(“path to folder”)`. It is important that you include the quotation marks (“”) around the pathname. It is also important that you have write access to the drive that you are using for your working directory. Please keep this in mind if you are using multiple computers. You can set your working directory using the drop down menus in RStudio, by typing out the path manually, or by using the command `file.choose()`.
+
+## Setting a working directory
+
+The first steps for setting a working director typically happen outside of R or RStudio. The first step is to create a new folder on your computer where you want to store all of the work associated with this class or with a particular assignment. Once the folder is created, the second step is to put a file into the folder you created. It does not matter what type of file you put in this folder. Typically, I use a simple blank .txt or the data file (typically .csv) file for examples in class. Once this is complete navigate back to R and type in the following command at the prompt:
+
+```{r eval=FALSE}
+file.choose()
+```
+
+R will then open your computers file management and navigation system. For Mac OS this is Finder, in Windows machines, the Explorer window will open. Within that window, navigate to the working folder you just created and the file you put in it.  Then select ("choose") that file. R will respond by putting the entire path name into your R console window.
+```
+[1] "/Users/bfedy/Documents/PROJECTS/Rwork/Anything filename.txt"
+```
+
+Select everything in the path except for the file name (e.g., the .txt file) and copy and paste it into your setwd command.
+
+```{r eval=FALSE}
+setwd("/Users/bfedy/Documents/PROJECTS/Rwork/")
+```
+
+Once this is completed R will put everything it generates and look for any files you pass to it in the "Rwork" file that I created above. Please note: the path names will be different on every computer that you use, so you will need to reset the working director every time you change computers.
+
+## Getting help in R
+
+The list of functions available within R is much too great to provide even an adequate summary. There are, however, a wide variety of online resources available that we expect you to draw on throughout this course. Searching “R” and “Type of analysis” in a search engine will often produce code and sometimes tutorials for the analyses you are looking to undertake. To be more specific, you can also include "cran" as a keyword. As you work through this manual and your assignments I encourage you to start a document where you note commands that you find useful with a brief description. This will help save you from learning the same command multiple times. You are learning a new language, please take notes and do not expect yourself to remember everything. You might want to check out some [cheat sheets](http://r-dir.com/reference/crib-sheets.html||http://r-dir.com/reference/crib-sheets.html) compiled by R as examples. There are also a variety of ways to get help within the R software. If you type a `?` followed by the command or `help(commandname)` will pull up a help file document with the follow structure:
+
+**Description:** Brief description. 
+
+**Usage:** For a function, gives the name with all its arguments and the possible options (with the corresponding default values); for an operator gives the typical use. 
+
+**Arguments:** For a function, details each of its arguments. 
+
+**Details:** Detailed description. 
+
+**Value:** If applicable, the type of object returned by the function or the operator. 
+
+**See Also:** Other help pages close or similar to the present one. 
+
+**Examples:** Some working examples of the function or operator.
+
+Other methods for obtaining help when you do not know the exact name of the command you are looking for is to use `??` or `help.search` with a key word. This will give a list of commands with topics that match your key word. 
+
+Expect to spend a good amount of time searching for help on the internet while you are programming - particularly at the beginning. It is common to spend as much time (or more) searching the internet as you spend writing code when first starting out. There are many excellent websites and free resources for help and guidance through your R and statistical journey. I cannot list them all here; however, two books that I go back to regularly for R programming help are: 
+<ol>
+<li>[R for Data Science](https://r4ds.hadley.nz/)\li
+<li>[R Graphics Cookbook](https://r-graphics.org/)\li
+</ol>
+
+## Defining R objects
+
+A fundamental concept of R is that when R is running, data and results are stored in the active memory in the form of objects, which are all assigned a name by the user. The user can then manipulate these objects through the use of *operators* or *functions*. *Operators* perform tasks including arimetic, logical, and conditional actions. *Functions* are the work horses of R and are self-contained modules of code that accomplish a specific task. Functions are typically provided data (i.e., values, vectors, dataframes), process that data according to the rules defined in the function, and return a result. Functions can be user-generated, but the majority of functions that you use will be contained within R `packages`. Much more information will be presented on both these topics throughout the book. Objects can be stored in a variety of ways and it is critical to understand how objects are created, their formats, and what they mean as a first step in learning R. The most basic form of an object is a scalar (i.e., single value), which can be creating using the “assign” `<-` operator. The assign operator is simply a less than sign followed by a minus sign. The following examples demonstrate the basics.
+
+```{r eval=TRUE, echo=TRUE}
+n <- 15
+n
+n <- "Applied Statistics"
+n
+N <- 18
+```
+
+Two things of particular note in the example above, 1) R is case sensitive with `n` being different than `N`, and 2) if an object exists and is assigned a new name, the previous value is erased without any warning. Thus, it is important to pay attention to the variables you create and those which are already stored in your active memory. You can get a list of the names of variables in memory with the `ls()` command or for the variables with some details on the objects use `ls.str()`. In RStudio, you can also see all the objects you have created in the 'Environment' tab. To remove objects from the active memory you can use the `rm('object')` command. Look at the example below and note that we use `rm(list=ls())` to list and remove all objects in the active memory. It is good practice to start all of your new scripts with the `rm(list=ls()` command. That way you know the script is not dependent on any objects previously stored in your Environment (i.e., working memory). When you run the code below, you will see the corresponding values show up in R console. If you want to save those values for later use, you will need to assign them an object name.
+
+```{r eval=TRUE, echo=TRUE}
+Y <- c(2,2,3,5,6,7,10,11,11,12)  # create a vector of these numbers
+Y[4]  # select the fourth value
+Y[1:5]  # select the first five values
+Y[5:10]  # select the last five values
+```
+
+To select or identify values within two dimensional data such as matrices and data frames you will need two numbers (separated by a comma) in the square brackets. The first number specifies the row or range of rows, and the second number specifies the column or range of columns (Dr. Fedy finds it helpful to think of RC Cola to remember the order: rows, then columns. You may not have heard of RC Cola, but you get the point, think of something meaningful to you). For data frames you may also want to extract the column headers of names of columns, which you can replace if you wish to change the name of one or more columns. Below are some examples executed using base R. There are multiple packages that make the selection of data and values more intuitive (much more on those later). 
+
+```{r eval=TRUE, echo=TRUE, hold=TRUE}
+# Set up a 2 dimensional data frame
+options(digits = 3)  # set significant digits in R
+snake.df <- data.frame(species = rep("P.gloydi", 20), 
+                       sex = factor(rep(c("male", "female"),10)),
+                       mass = runif(n=20, min=0.5, max=1.5),
+                       length = runif(n=20, min=50, max=100))
+snake.df
+```
+
+Be sure that you understand what is happening in each of the lines of code above. This would be a good time to use the help functions in R to help you understand.
+
+```{r eval=TRUE, echo=TRUE, hold=FALSE}
+# The output from the following code will show up in your R console
+names(snake.df)  # extract names of columns
+snake.df[ , 1]  # extract the first column (note: the space are not necessary)
+snake.df[1, ]  # extract the first row
+snake.df[ , 1:3]  # extract the first 3 columns
+snake.df[1:4,1:3]  # extract the first 3 columns and 4 rows
+```
+
+It is also possible using base R to call individual columns of a data frame using the names of the data frame and the column separated by a `$`.
+
+```{r eval=TRUE, echo=TRUE, hold=FALSE}
+snake.df$sex
+snake.df$length
+```
+
+## Exporting data frames
+
+As we alluded to earlier, in reality R's main function is for analyzing and graphing data, and different programs such as excel or other database programs will be used when collecting and entering data. Thus, being able to import and export data from R is essential. Here, we will first introduce you to the `write.table()` function, which is the primary function used to export a data fame. The main parameters that you need to be aware of are listed below, but you can use R help `?write.table` to get a list of all options and more information. One of the most important arguments in this function is the `sep` argument, which specifies how each column in the data frame will be separated. As a default, I tend to prefer the `sep=","` option which allows you to open your data a comma separated file (.csv) which is possible in most editors that you will want to use. If you do not provide a file name (as we do below) for the argument `file` then the output is printed to the screen. After you create the table below try opening it in a text editor or Excel (or some other spreadsheet software). Be sure you have set your working director `setwd("filename")` so you know where the output will be stored on your machine.
+
+```{r eval=FALSE, echo=TRUE, hold=FALSE}
+write.table(snake.df, sep=",", row.names=FALSE, col.names=TRUE)
+```
+
+### Installing and loading packages
+
+An important component and one of the main advantages of R is that users can write and provide packages. These packages are essentially a series of functions that have been compiled together and can be loaded into R to make these functions available. Without installing and loading these packages these functions are not available. Loading packages in R can be done in R from the command-line if you know the package that you wish to install. Two packages that we will need in later models are the lattice and grid packages. These can be installed using the input below, with `dependencies=TRUE` specifying that you wish all packages that are needed to be installed at the same time. You may get a pop up window asking if you want to install these in a local directory. If so you should answer yes. You will likely also be asked to specify a CRAN mirror (i.e., download location), so just choose Canada (ON).
+
+```{r eval=FALSE, echo=TRUE, hold=FALSE}
+install.packages("lattice", dependencies = TRUE)
+install.packages("gridBase", dependencies = TRUE)
+```
+
+In addition to installing packages through the command line you can search for an install packages using the 'Packages -- Install Packages' within RStudio. Once packages are installed, they must also be loaded locally before you can use the functions contained within the packages. You load packages with the `library("packagename")` command (replace `packagename` with the name of the package you are loading).

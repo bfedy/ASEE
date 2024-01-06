@@ -1,0 +1,19 @@
+# Operators and Programming
+
+## Manipulating R objects
+
+In the previous chapter, I summarized the main types of R objects and how these can be stored in the active memory. Most analyses and tasks that you will complete in R will require you to manipulate these objects and this can be done through a variety of methods. Most of these, however, will require the use of R operators, which are used to manipulate or subset all types of R objects. There are three basic categories of operators that you should be aware of and are summarized below
+
+**Arithmatic**
+*Operator*    *Description*
++           addition
+
+
+
+The simplest R operators are basic arithmetic, which basically allows R to act as a calculator. A couple things to note in the examples below, 1) The results of an arithmetic expression can be stored in memory by assigning the result to an object (for simplicity we do not do this for many of the examples) and, 2) when applying operators to vectors or matrices the operation will be conducted on each element in the vector (not the case for data frames where you must specific a column).
+
+<<echo=TRUE>>=
+
+Vector arithmetic is an important concept and will be essential when working with real data and you want to manipulate specific columns using an operator. Below we run through a series of examples where this is the case. Be sure to check the objects and output after each line of code. If you do not understand why you got the output you did please ask. It is essential that you understand these actions. They are the foundation. If you have only a vague understanding of what is happening at this point, it will make all subsequent assignments much more difficult. Simply copying from this manual without examining the output will teach you little about R. 
+
+Consider the following data frame of the widths and lengths of snakes:
