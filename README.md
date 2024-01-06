@@ -1,5 +1,2 @@
-# bookdown-tutorial
-Mini tutorial for bookdown 
-
-
-afdafadjl
+# Applied Statistics in Environment and Ecology
+Dr. Brad Fedy
