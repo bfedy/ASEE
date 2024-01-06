@@ -315,52 +315,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb49-5"><a href="operators.html#cb49-5" tabindex="-1"></a>                       <span class="at">length =</span> <span class="fu">runif</span>(<span class="at">n=</span><span class="dv">20</span>, <span class="at">min=</span><span class="dv">50</span>, <span class="at">max=</span><span class="dv">100</span>))</span>
 <span id="cb49-6"><a href="operators.html#cb49-6" tabindex="-1"></a>snake.df</span></code></pre></div>
 <pre><code>##     species    sex  mass length
-## 1  P.gloydi   male 1.041   85.4
-## 2  P.gloydi female 1.498   96.3
-## 3  P.gloydi   male 1.146   59.1
-## 4  P.gloydi female 1.104   93.4
-## 5  P.gloydi   male 0.596   68.5
-## 6  P.gloydi female 1.043   72.3
-## 7  P.gloydi   male 0.860   51.9
-## 8  P.gloydi female 0.796   76.8
-## 9  P.gloydi   male 0.624   61.0
-## 10 P.gloydi female 0.906   93.7
-## 11 P.gloydi   male 1.500   54.0
-## 12 P.gloydi female 1.164   76.0
-## 13 P.gloydi   male 1.270   52.6
-## 14 P.gloydi female 0.990   93.7
-## 15 P.gloydi   male 1.396   60.6
-## 16 P.gloydi female 1.485   53.8
-## 17 P.gloydi   male 0.544   51.3
-## 18 P.gloydi female 0.730   75.9
-## 19 P.gloydi   male 0.861   51.9
-## 20 P.gloydi female 1.419   72.1</code></pre>
+## 1  P.gloydi   male 1.033   82.8
+## 2  P.gloydi female 1.188   97.4
+## 3  P.gloydi   male 1.333   62.9
+## 4  P.gloydi female 0.830   93.5
+## 5  P.gloydi   male 0.848   88.1
+## 6  P.gloydi female 1.378   54.5
+## 7  P.gloydi   male 1.100   95.9
+## 8  P.gloydi female 1.082   62.3
+## 9  P.gloydi   male 0.566   85.1
+## 10 P.gloydi female 1.408   81.6
+## 11 P.gloydi   male 1.337   72.4
+## 12 P.gloydi female 0.731   84.0
+## 13 P.gloydi   male 0.867   57.4
+## 14 P.gloydi female 1.315   88.7
+## 15 P.gloydi   male 1.004   84.1
+## 16 P.gloydi female 0.510   80.0
+## 17 P.gloydi   male 1.453   90.8
+## 18 P.gloydi female 1.167   65.9
+## 19 P.gloydi   male 0.940   52.7
+## 20 P.gloydi female 0.768   56.0</code></pre>
 <p>Suppose you want to convert the weight of the snakes from kilograms to grams (i.e., multiply by 1000) or create a new variable body condition, which is the weight divided by the length. Both of these can be easily done using an arithmetic operator. Recall, that if you want to call a specific column you simply use the data frame name and the column name separated by a <code>$</code>. If this column exists it will be replaced and if it is does not it will be created.</p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="operators.html#cb51-1" tabindex="-1"></a><span class="co"># Replace mass column with mass in kg</span></span>
 <span id="cb51-2"><a href="operators.html#cb51-2" tabindex="-1"></a>snake.df<span class="sc">$</span>mass <span class="ot">&lt;-</span> snake.df<span class="sc">$</span>mass<span class="sc">*</span><span class="dv">1000</span></span>
 <span id="cb51-3"><a href="operators.html#cb51-3" tabindex="-1"></a>snake.df<span class="sc">$</span>body.cond <span class="ot">&lt;-</span> snake.df<span class="sc">$</span>mass<span class="sc">/</span>snake.df<span class="sc">$</span>length</span>
 <span id="cb51-4"><a href="operators.html#cb51-4" tabindex="-1"></a>snake.df</span></code></pre></div>
 <pre><code>##     species    sex mass length body.cond
-## 1  P.gloydi   male 1041   85.4     12.18
-## 2  P.gloydi female 1498   96.3     15.57
-## 3  P.gloydi   male 1146   59.1     19.37
-## 4  P.gloydi female 1104   93.4     11.83
-## 5  P.gloydi   male  596   68.5      8.70
-## 6  P.gloydi female 1043   72.3     14.42
-## 7  P.gloydi   male  860   51.9     16.59
-## 8  P.gloydi female  796   76.8     10.37
-## 9  P.gloydi   male  624   61.0     10.24
-## 10 P.gloydi female  906   93.7      9.67
-## 11 P.gloydi   male 1500   54.0     27.78
-## 12 P.gloydi female 1164   76.0     15.33
-## 13 P.gloydi   male 1270   52.6     24.13
-## 14 P.gloydi female  990   93.7     10.56
-## 15 P.gloydi   male 1396   60.6     23.04
-## 16 P.gloydi female 1485   53.8     27.62
-## 17 P.gloydi   male  544   51.3     10.61
-## 18 P.gloydi female  730   75.9      9.62
-## 19 P.gloydi   male  861   51.9     16.58
-## 20 P.gloydi female 1419   72.1     19.69</code></pre>
+## 1  P.gloydi   male 1033   82.8     12.48
+## 2  P.gloydi female 1188   97.4     12.20
+## 3  P.gloydi   male 1333   62.9     21.18
+## 4  P.gloydi female  830   93.5      8.88
+## 5  P.gloydi   male  848   88.1      9.62
+## 6  P.gloydi female 1378   54.5     25.28
+## 7  P.gloydi   male 1100   95.9     11.47
+## 8  P.gloydi female 1082   62.3     17.38
+## 9  P.gloydi   male  566   85.1      6.65
+## 10 P.gloydi female 1408   81.6     17.25
+## 11 P.gloydi   male 1337   72.4     18.48
+## 12 P.gloydi female  731   84.0      8.70
+## 13 P.gloydi   male  867   57.4     15.12
+## 14 P.gloydi female 1315   88.7     14.83
+## 15 P.gloydi   male 1004   84.1     11.94
+## 16 P.gloydi female  510   80.0      6.37
+## 17 P.gloydi   male 1453   90.8     15.99
+## 18 P.gloydi female 1167   65.9     17.72
+## 19 P.gloydi   male  940   52.7     17.83
+## 20 P.gloydi female  768   56.0     13.70</code></pre>
 <p>A second important class of operators are the comparison operators, which are often used to subset your data in meaningful ways. For example, consider a situation that requires you subset the snake data by sex and you want only female snakes. Here you would use the <code>==</code> operator, combined with the square brackets <code>[ ]</code>. The square brackets were introduced above for indexing a vector. They can also be used to index matrices and dataframes (i.e., 2-dimensional objects…<em>and beyond</em>). <mark>which we know from earlier can be used to subset your data</mark>. In this case however, instead of using numbers to select columns, we will use an operator to select rows that are equal to “male”. You can also use other comparison operators such as greater than ‘&gt;’ or less than ‘&lt;’. Finally, we combine a comparison with a logical operator. Remember that when subsetting with the [ ] the first value indicates rows and the value after the “,” indicates columns. When you want all columns, leave the number after the “,” blank, and leave the number before the “,” blank when you want all rows.</p>
 
 </div>
