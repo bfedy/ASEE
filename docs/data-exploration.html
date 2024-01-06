@@ -231,7 +231,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb84-16"><a href="data-exploration.html#cb84-16" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;cowplot&quot;</span>, <span class="at">quietly=</span><span class="cn">TRUE</span>)</span>
 <span id="cb84-17"><a href="data-exploration.html#cb84-17" tabindex="-1"></a></span>
 <span id="cb84-18"><a href="data-exploration.html#cb84-18" tabindex="-1"></a>cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(boxplot, dotplot)</span></code></pre></div>
-<p><img src="ASEEbook23_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p><img src="ASEE_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
 <p>In the previous chapter we created multipanel plots using the <code>facet_grid</code> function. Here we used the cowplot to create a multipanel plot that displays the results from the two separate plots. Below we plot the mean peak male count and a number of landscape and climatic factors that are potentially having an effect on the number of males in a single plot. Before creating this plot, we create a subset matrix that can be used with the <code>facet_wrap function</code>. Once we create the new susbet matrix of data that only contains the mean_count and climate variables of interest, we will use code formatted based on the ‘tidyverse’, which uses pipes (<code>%&gt;%</code>), to format the dataset prior to plotting. The ‘tidyverse’ is a popular data science group of packages and coding style used to ‘tidy’ messy data to facilitate analysis and visualization. I use ‘tidyverse’ occasionally, but I am not a diehard convert. If you want to delve deeper into the ‘tidyverse’ I recommend the excellent book, <a href="https://r4ds.hadley.nz/">R for Data Science</a> which delves deep into the tidyverse universe and covers many important topics in data science. I take a pragmatic approach througout this book and the course. I do not really care what packages you use, as long as it works.</p>
 <div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="data-exploration.html#cb85-1" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;tidyverse&quot;</span>, <span class="at">quietly=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="data-exploration.html#cb86-1" tabindex="-1"></a><span class="co"># create a matrix by binding only the columns we are interested in</span></span>
@@ -250,7 +250,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb86-14"><a href="data-exploration.html#cb86-14" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Value of the variable&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Order of the data&quot;</span>) <span class="sc">+</span>    </span>
 <span id="cb86-15"><a href="data-exploration.html#cb86-15" tabindex="-1"></a>    <span class="fu">theme_bw</span>() <span class="sc">+</span>   </span>
 <span id="cb86-16"><a href="data-exploration.html#cb86-16" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>variable, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>)</span></code></pre></div>
-<p><img src="ASEEbook23_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<p><img src="ASEE_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
 </div>
 <div id="homoscedasticity-homegeneity-of-variance" class="section level2 hasAnchor" number="6.2">
 <h2><span class="header-section-number">6.2</span> Homoscedasticity (homegeneity of variance)<a href="data-exploration.html#homoscedasticity-homegeneity-of-variance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -260,7 +260,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb87-3"><a href="data-exploration.html#cb87-3" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Management Area&quot;</span>, <span class="at">y=</span><span class="st">&quot;Mean peak males&quot;</span>)<span class="sc">+</span></span>
 <span id="cb87-4"><a href="data-exploration.html#cb87-4" tabindex="-1"></a>    <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
 <span id="cb87-5"><a href="data-exploration.html#cb87-5" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>nest_type)</span></code></pre></div>
-<p><img src="ASEEbook23_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<p><img src="ASEE_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
 <p>Based on the plots above, it appears that we are violating the assumption of homogeneity of variance with some management areas having much lower variation in mean peak counts than others. We will discuss how to deal with this type of situation later in the course. But, these results suggest we may need to refine our research questions or account for these differences in our model development. Homoscedacity assumption determines how many variances are to be estimated: either one overall variance of the response variable, or several variances for different values of the explanatory variables. In the latter case, both the mean and the variance of the response variable change with the explanatory variables. We will get deeper into this when we discuss General(ized) Linear Models in later chapters particularly when we are discussing model fit.</p>
 </div>
 <div id="distribution-of-the-response-variable" class="section level2 hasAnchor" number="6.3">
@@ -276,14 +276,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb88-8"><a href="data-exploration.html#cb88-8" tabindex="-1"></a>                <span class="fu">theme_bw</span>()                            </span>
 <span id="cb88-9"><a href="data-exploration.html#cb88-9" tabindex="-1"></a></span>
 <span id="cb88-10"><a href="data-exploration.html#cb88-10" tabindex="-1"></a>cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(hist_mean, hist_log, <span class="at">nrow=</span><span class="dv">2</span>)</span></code></pre></div>
-<p><img src="ASEEbook23_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<p><img src="ASEE_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
 <p>Again the lattice package can also be useful for plotting multi-panel plots with multiple variables. Here we use the grouping factor (nest_type) to look for normality within each nest group at the same time.</p>
 <div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="data-exploration.html#cb89-1" tabindex="-1"></a><span class="fu">ggplot</span>(leks_sub, <span class="fu">aes</span>(<span class="at">x=</span>mean_count))<span class="sc">+</span></span>
 <span id="cb89-2"><a href="data-exploration.html#cb89-2" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">30</span>)<span class="sc">+</span></span>
 <span id="cb89-3"><a href="data-exploration.html#cb89-3" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Mean number of males&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frequency&quot;</span>)<span class="sc">+</span></span>
 <span id="cb89-4"><a href="data-exploration.html#cb89-4" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>nest_type)<span class="sc">+</span></span>
 <span id="cb89-5"><a href="data-exploration.html#cb89-5" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span></code></pre></div>
-<p><img src="ASEEbook23_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<p><img src="ASEE_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
 </div>
 <div id="collinearity-among-x-variables" class="section level2 hasAnchor" number="6.4">
 <h2><span class="header-section-number">6.4</span> Collinearity among x variables<a href="data-exploration.html#collinearity-among-x-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -294,7 +294,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##   method from   
 ##   +.gg   ggplot2</code></pre>
 <div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="data-exploration.html#cb92-1" tabindex="-1"></a><span class="fu">ggscatmat</span>(ex_data, <span class="at">columns =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)) <span class="co">#columns function selects specific comparisons</span></span></code></pre></div>
-<p><img src="ASEEbook23_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+<p><img src="ASEE_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
 
 </div>
 </div>
