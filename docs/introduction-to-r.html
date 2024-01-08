@@ -23,7 +23,7 @@
 <meta name="author" content="Dr. Brad Fedy" />
 
 
-<meta name="date" content="2024-01-07" />
+<meta name="date" content="2024-01-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -301,26 +301,26 @@ Expect to spend a good amount of time searching for help on the internet while y
 <span id="cb15-6"><a href="introduction-to-r.html#cb15-6" tabindex="-1"></a>                       <span class="at">length =</span> <span class="fu">runif</span>(<span class="at">n=</span><span class="dv">20</span>, <span class="at">min=</span><span class="dv">50</span>, <span class="at">max=</span><span class="dv">100</span>))</span>
 <span id="cb15-7"><a href="introduction-to-r.html#cb15-7" tabindex="-1"></a>snake.df</span></code></pre></div>
 <pre><code>##     species    sex  mass length
-## 1  P.gloydi   male 1.202   92.2
-## 2  P.gloydi female 1.194   50.1
-## 3  P.gloydi   male 0.720   76.5
-## 4  P.gloydi female 0.563   50.5
-## 5  P.gloydi   male 0.841   89.4
-## 6  P.gloydi female 0.841   52.9
-## 7  P.gloydi   male 1.092   69.5
-## 8  P.gloydi female 0.830   92.3
-## 9  P.gloydi   male 0.754   93.6
-## 10 P.gloydi female 0.990   64.2
-## 11 P.gloydi   male 0.917   94.4
-## 12 P.gloydi female 1.455   75.0
-## 13 P.gloydi   male 1.332   79.6
-## 14 P.gloydi female 1.189   64.3
-## 15 P.gloydi   male 0.592   53.3
-## 16 P.gloydi female 1.262   59.2
-## 17 P.gloydi   male 0.554   51.6
-## 18 P.gloydi female 0.854   90.0
-## 19 P.gloydi   male 1.026   89.4
-## 20 P.gloydi female 0.799   89.0</code></pre>
+## 1  P.gloydi   male 0.920   61.8
+## 2  P.gloydi female 0.589   52.8
+## 3  P.gloydi   male 1.245   67.8
+## 4  P.gloydi female 0.910   55.3
+## 5  P.gloydi   male 1.476   78.2
+## 6  P.gloydi female 0.796   80.9
+## 7  P.gloydi   male 0.536   70.3
+## 8  P.gloydi female 1.462   56.0
+## 9  P.gloydi   male 0.760   62.3
+## 10 P.gloydi female 0.661   85.2
+## 11 P.gloydi   male 1.380   73.0
+## 12 P.gloydi female 0.544   92.4
+## 13 P.gloydi   male 1.284   57.7
+## 14 P.gloydi female 0.574   89.2
+## 15 P.gloydi   male 1.091   96.6
+## 16 P.gloydi female 1.392   76.6
+## 17 P.gloydi   male 0.579   79.0
+## 18 P.gloydi female 0.806   56.4
+## 19 P.gloydi   male 1.305   73.4
+## 20 P.gloydi female 0.512   70.1</code></pre>
 <p>Be sure that you understand what is happening in each of the lines of code above. This would be a good time to use the help functions in R to help you understand.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="introduction-to-r.html#cb17-1" tabindex="-1"></a><span class="co"># The output from the following code will show up in your R console</span></span>
 <span id="cb17-2"><a href="introduction-to-r.html#cb17-2" tabindex="-1"></a><span class="fu">names</span>(snake.df)  <span class="co"># extract names of columns</span></span></code></pre></div>
@@ -332,43 +332,43 @@ Expect to spend a good amount of time searching for help on the internet while y
 ## [19] &quot;P.gloydi&quot; &quot;P.gloydi&quot;</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="introduction-to-r.html#cb21-1" tabindex="-1"></a>snake.df[<span class="dv">1</span>, ]  <span class="co"># extract the first row</span></span></code></pre></div>
 <pre><code>##    species  sex mass length
-## 1 P.gloydi male  1.2   92.2</code></pre>
+## 1 P.gloydi male 0.92   61.8</code></pre>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="introduction-to-r.html#cb23-1" tabindex="-1"></a>snake.df[ , <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]  <span class="co"># extract the first 3 columns</span></span></code></pre></div>
 <pre><code>##     species    sex  mass
-## 1  P.gloydi   male 1.202
-## 2  P.gloydi female 1.194
-## 3  P.gloydi   male 0.720
-## 4  P.gloydi female 0.563
-## 5  P.gloydi   male 0.841
-## 6  P.gloydi female 0.841
-## 7  P.gloydi   male 1.092
-## 8  P.gloydi female 0.830
-## 9  P.gloydi   male 0.754
-## 10 P.gloydi female 0.990
-## 11 P.gloydi   male 0.917
-## 12 P.gloydi female 1.455
-## 13 P.gloydi   male 1.332
-## 14 P.gloydi female 1.189
-## 15 P.gloydi   male 0.592
-## 16 P.gloydi female 1.262
-## 17 P.gloydi   male 0.554
-## 18 P.gloydi female 0.854
-## 19 P.gloydi   male 1.026
-## 20 P.gloydi female 0.799</code></pre>
+## 1  P.gloydi   male 0.920
+## 2  P.gloydi female 0.589
+## 3  P.gloydi   male 1.245
+## 4  P.gloydi female 0.910
+## 5  P.gloydi   male 1.476
+## 6  P.gloydi female 0.796
+## 7  P.gloydi   male 0.536
+## 8  P.gloydi female 1.462
+## 9  P.gloydi   male 0.760
+## 10 P.gloydi female 0.661
+## 11 P.gloydi   male 1.380
+## 12 P.gloydi female 0.544
+## 13 P.gloydi   male 1.284
+## 14 P.gloydi female 0.574
+## 15 P.gloydi   male 1.091
+## 16 P.gloydi female 1.392
+## 17 P.gloydi   male 0.579
+## 18 P.gloydi female 0.806
+## 19 P.gloydi   male 1.305
+## 20 P.gloydi female 0.512</code></pre>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="introduction-to-r.html#cb25-1" tabindex="-1"></a>snake.df[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]  <span class="co"># extract the first 3 columns and 4 rows</span></span></code></pre></div>
 <pre><code>##    species    sex  mass
-## 1 P.gloydi   male 1.202
-## 2 P.gloydi female 1.194
-## 3 P.gloydi   male 0.720
-## 4 P.gloydi female 0.563</code></pre>
+## 1 P.gloydi   male 0.920
+## 2 P.gloydi female 0.589
+## 3 P.gloydi   male 1.245
+## 4 P.gloydi female 0.910</code></pre>
 <p>It is also possible using base R to call individual columns of a data frame using the names of the data frame and the column separated by a <code>$</code>.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="introduction-to-r.html#cb27-1" tabindex="-1"></a>snake.df<span class="sc">$</span>sex</span></code></pre></div>
 <pre><code>##  [1] male   female male   female male   female male   female male   female
 ## [11] male   female male   female male   female male   female male   female
 ## Levels: female male</code></pre>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="introduction-to-r.html#cb29-1" tabindex="-1"></a>snake.df<span class="sc">$</span>length</span></code></pre></div>
-<pre><code>##  [1] 92.2 50.1 76.5 50.5 89.4 52.9 69.5 92.3 93.6 64.2 94.4 75.0 79.6 64.3 53.3
-## [16] 59.2 51.6 90.0 89.4 89.0</code></pre>
+<pre><code>##  [1] 61.8 52.8 67.8 55.3 78.2 80.9 70.3 56.0 62.3 85.2 73.0 92.4 57.7 89.2 96.6
+## [16] 76.6 79.0 56.4 73.4 70.1</code></pre>
 </div>
 <div id="exporting-data-frames" class="section level2 hasAnchor" number="2.7">
 <h2><span class="header-section-number">2.7</span> Exporting data frames<a href="introduction-to-r.html#exporting-data-frames" class="anchor-section" aria-label="Anchor link to header"></a></h2>
