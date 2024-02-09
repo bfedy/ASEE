@@ -24,3 +24,8 @@ outliers
 homoscedasticity-homegeneity-of-variance
 distribution-of-the-response-variable
 collinearity-among-x-variables
+correlation-and-linear-regression
+correlation
+regression
+interpreting-output
+model-validation

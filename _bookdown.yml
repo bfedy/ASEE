@@ -8,6 +8,7 @@ rmd_files: [
   "02-Operators.Rmd", 
   "03-Data1.Rmd", 
   "04-DataVis.Rmd", 
-  "05-DataExplore.Rmd"]
+  "05-DataExplore.Rmd",
+  "06-LinearRegression.Rmd"]
 delete_merged_file: true 
 output_dir: "docs"

@@ -23,7 +23,7 @@
 <meta name="author" content="Dr. Brad Fedy" />
 
 
-<meta name="date" content="2024-01-08" />
+<meta name="date" content="2024-02-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -179,6 +179,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.3" data-path="data-exploration.html"><a href="data-exploration.html#distribution-of-the-response-variable"><i class="fa fa-check"></i><b>6.3</b> Distribution of the response variable</a></li>
 <li class="chapter" data-level="6.4" data-path="data-exploration.html"><a href="data-exploration.html#collinearity-among-x-variables"><i class="fa fa-check"></i><b>6.4</b> Collinearity among x variables</a></li>
 </ul></li>
+<li class="chapter" data-level="7" data-path="correlation-and-linear-regression.html"><a href="correlation-and-linear-regression.html"><i class="fa fa-check"></i><b>7</b> Correlation and Linear Regression</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="correlation-and-linear-regression.html"><a href="correlation-and-linear-regression.html#correlation"><i class="fa fa-check"></i><b>7.1</b> Correlation</a></li>
+<li class="chapter" data-level="7.2" data-path="correlation-and-linear-regression.html"><a href="correlation-and-linear-regression.html#regression"><i class="fa fa-check"></i><b>7.2</b> Regression</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="correlation-and-linear-regression.html"><a href="correlation-and-linear-regression.html#interpreting-output"><i class="fa fa-check"></i><b>7.2.1</b> Interpreting Output</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="correlation-and-linear-regression.html"><a href="correlation-and-linear-regression.html#model-validation"><i class="fa fa-check"></i><b>7.3</b> Model Validation</a></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -210,7 +219,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p><strong>Reproducibility:</strong> If used properly, command-line scripting keeps detailed records of your analyses. This makes is easy to share, repeat, and modify your work. <em>This is an important point</em>. One of the most important components of good science is replicability. Most research requires many steps from organizing and checking the data to conducting the analysis. Using statistical software that allows you to point and click through your analysis does not usually leave any record of what has been done. Thus, it can be difficult to remember and precisely replicate the data manipulation and analyses. Using command-line scripting requires the analyst to type out a line of code for every action they want to perform. Use of a code hosting platform such as <a href="https://github.com/">GitHub</a> can further facilitate transparency, reproducibility, version control, and collaboration. We will not cover the use of <a href="https://github.com/">GitHub</a> explicitly in this course, but it is a potentially useful tool you may encounter as you progress through your research.</p></li>
 <li><p><strong>Self-education:</strong> There is a large, active, and (mostly) helpful community of people dedicated to education and training in R programming languages. With enough effort you can find online tutorials or examples for any statistical analysis in R, along with example code. This community is one that you will rely on throughout your R programming and statistical education.</p></li>
 </ul>
-<p>This manual will serve multiple purposes. It will be used to provide examples during lectures and code that you will be required to work through on you own. The introduction to R will be brief so that we can get into working with data as quickly as possible. However, there are many excellent resources to facilitate your R-based education. <em>Do not fall behind in your understanding of R</em>. Ask frequent questions of Dr. Fedy and your colleagues. Be sure you understand each line of code. We will use R for all course topics. It is essential that you understand the code in order to understand the data management and statistics that are the focus of the course.</p>
+<p>This manual will serve multiple purposes. It will be used to provide examples during lectures and code that you will be required to work through on your own. The introduction to R will be brief so that we can get into working with data as quickly as possible. However, there are many excellent resources to facilitate your R-based education. <em>Do not fall behind in your understanding of R</em>. Ask frequent questions of Dr. Fedy and your colleagues. Be sure you understand each line of code. We will use R for all course topics. It is essential that you understand the code in order to understand the data management and statistics that are the focus of the course.</p>
 <p>This manual is not intended to turn you all into R programming ninjas and statisticians. The intention is to provide you with the tools required for self-education. R is a potentially relevant tool for anyone who uses numbers to understand the world - regardless of your area of interest. When programming in R, there are often multiple ways to solve the same problem. That is part of the fun and challenge of programming. Of course, the different options to completing an analysis increase with increasing complexity of the problem; for simple problems there are usually only a few ways to solve it, for complex problems there are often many ways to solve it. Throughout the course I will demonstrate the code and approaches that have worked for me, my students, and collaborators. However, I intentionally do not provide all the answers and you will need to problem-solve and self-educate in order to successfully complete all the assignments.</p>
 <p>You will need to install two pieces of software on your computer: <a href="https://www.r-project.org/">R</a> and <a href="https://www.r-project.org/">RStudio</a>. Both of these are free to download. When you open R, you will see the basic command-line console version of R. RStudio is an Integrated Development Environment (IDE) for R, that provides a few more bells and whistles and tends to ease the introduction to R. You do not <em>have to</em> use RStudio, but it is highly recommended.</p>
 </div>
@@ -301,26 +310,26 @@ Expect to spend a good amount of time searching for help on the internet while y
 <span id="cb15-6"><a href="introduction-to-r.html#cb15-6" tabindex="-1"></a>                       <span class="at">length =</span> <span class="fu">runif</span>(<span class="at">n=</span><span class="dv">20</span>, <span class="at">min=</span><span class="dv">50</span>, <span class="at">max=</span><span class="dv">100</span>))</span>
 <span id="cb15-7"><a href="introduction-to-r.html#cb15-7" tabindex="-1"></a>snake.df</span></code></pre></div>
 <pre><code>##     species    sex  mass length
-## 1  P.gloydi   male 0.920   61.8
-## 2  P.gloydi female 0.589   52.8
-## 3  P.gloydi   male 1.245   67.8
-## 4  P.gloydi female 0.910   55.3
-## 5  P.gloydi   male 1.476   78.2
-## 6  P.gloydi female 0.796   80.9
-## 7  P.gloydi   male 0.536   70.3
-## 8  P.gloydi female 1.462   56.0
-## 9  P.gloydi   male 0.760   62.3
-## 10 P.gloydi female 0.661   85.2
-## 11 P.gloydi   male 1.380   73.0
-## 12 P.gloydi female 0.544   92.4
-## 13 P.gloydi   male 1.284   57.7
-## 14 P.gloydi female 0.574   89.2
-## 15 P.gloydi   male 1.091   96.6
-## 16 P.gloydi female 1.392   76.6
-## 17 P.gloydi   male 0.579   79.0
-## 18 P.gloydi female 0.806   56.4
-## 19 P.gloydi   male 1.305   73.4
-## 20 P.gloydi female 0.512   70.1</code></pre>
+## 1  P.gloydi   male 1.307   67.8
+## 2  P.gloydi female 1.010   96.0
+## 3  P.gloydi   male 0.618   99.5
+## 4  P.gloydi female 1.325   92.9
+## 5  P.gloydi   male 1.121   87.2
+## 6  P.gloydi female 1.171   60.3
+## 7  P.gloydi   male 1.197   58.2
+## 8  P.gloydi female 0.930   99.2
+## 9  P.gloydi   male 1.418   60.9
+## 10 P.gloydi female 0.645   85.1
+## 11 P.gloydi   male 0.975   56.8
+## 12 P.gloydi female 0.626   94.7
+## 13 P.gloydi   male 1.254   99.7
+## 14 P.gloydi female 1.256   89.4
+## 15 P.gloydi   male 1.029   79.1
+## 16 P.gloydi female 0.967   75.9
+## 17 P.gloydi   male 1.367   60.4
+## 18 P.gloydi female 0.927   58.0
+## 19 P.gloydi   male 0.541   56.8
+## 20 P.gloydi female 0.754   85.0</code></pre>
 <p>Be sure that you understand what is happening in each of the lines of code above. This would be a good time to use the help functions in R to help you understand.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="introduction-to-r.html#cb17-1" tabindex="-1"></a><span class="co"># The output from the following code will show up in your R console</span></span>
 <span id="cb17-2"><a href="introduction-to-r.html#cb17-2" tabindex="-1"></a><span class="fu">names</span>(snake.df)  <span class="co"># extract names of columns</span></span></code></pre></div>
@@ -332,43 +341,43 @@ Expect to spend a good amount of time searching for help on the internet while y
 ## [19] &quot;P.gloydi&quot; &quot;P.gloydi&quot;</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="introduction-to-r.html#cb21-1" tabindex="-1"></a>snake.df[<span class="dv">1</span>, ]  <span class="co"># extract the first row</span></span></code></pre></div>
 <pre><code>##    species  sex mass length
-## 1 P.gloydi male 0.92   61.8</code></pre>
+## 1 P.gloydi male 1.31   67.8</code></pre>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="introduction-to-r.html#cb23-1" tabindex="-1"></a>snake.df[ , <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]  <span class="co"># extract the first 3 columns</span></span></code></pre></div>
 <pre><code>##     species    sex  mass
-## 1  P.gloydi   male 0.920
-## 2  P.gloydi female 0.589
-## 3  P.gloydi   male 1.245
-## 4  P.gloydi female 0.910
-## 5  P.gloydi   male 1.476
-## 6  P.gloydi female 0.796
-## 7  P.gloydi   male 0.536
-## 8  P.gloydi female 1.462
-## 9  P.gloydi   male 0.760
-## 10 P.gloydi female 0.661
-## 11 P.gloydi   male 1.380
-## 12 P.gloydi female 0.544
-## 13 P.gloydi   male 1.284
-## 14 P.gloydi female 0.574
-## 15 P.gloydi   male 1.091
-## 16 P.gloydi female 1.392
-## 17 P.gloydi   male 0.579
-## 18 P.gloydi female 0.806
-## 19 P.gloydi   male 1.305
-## 20 P.gloydi female 0.512</code></pre>
+## 1  P.gloydi   male 1.307
+## 2  P.gloydi female 1.010
+## 3  P.gloydi   male 0.618
+## 4  P.gloydi female 1.325
+## 5  P.gloydi   male 1.121
+## 6  P.gloydi female 1.171
+## 7  P.gloydi   male 1.197
+## 8  P.gloydi female 0.930
+## 9  P.gloydi   male 1.418
+## 10 P.gloydi female 0.645
+## 11 P.gloydi   male 0.975
+## 12 P.gloydi female 0.626
+## 13 P.gloydi   male 1.254
+## 14 P.gloydi female 1.256
+## 15 P.gloydi   male 1.029
+## 16 P.gloydi female 0.967
+## 17 P.gloydi   male 1.367
+## 18 P.gloydi female 0.927
+## 19 P.gloydi   male 0.541
+## 20 P.gloydi female 0.754</code></pre>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="introduction-to-r.html#cb25-1" tabindex="-1"></a>snake.df[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]  <span class="co"># extract the first 3 columns and 4 rows</span></span></code></pre></div>
 <pre><code>##    species    sex  mass
-## 1 P.gloydi   male 0.920
-## 2 P.gloydi female 0.589
-## 3 P.gloydi   male 1.245
-## 4 P.gloydi female 0.910</code></pre>
+## 1 P.gloydi   male 1.307
+## 2 P.gloydi female 1.010
+## 3 P.gloydi   male 0.618
+## 4 P.gloydi female 1.325</code></pre>
 <p>It is also possible using base R to call individual columns of a data frame using the names of the data frame and the column separated by a <code>$</code>.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="introduction-to-r.html#cb27-1" tabindex="-1"></a>snake.df<span class="sc">$</span>sex</span></code></pre></div>
 <pre><code>##  [1] male   female male   female male   female male   female male   female
 ## [11] male   female male   female male   female male   female male   female
 ## Levels: female male</code></pre>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="introduction-to-r.html#cb29-1" tabindex="-1"></a>snake.df<span class="sc">$</span>length</span></code></pre></div>
-<pre><code>##  [1] 61.8 52.8 67.8 55.3 78.2 80.9 70.3 56.0 62.3 85.2 73.0 92.4 57.7 89.2 96.6
-## [16] 76.6 79.0 56.4 73.4 70.1</code></pre>
+<pre><code>##  [1] 67.8 96.0 99.5 92.9 87.2 60.3 58.2 99.2 60.9 85.1 56.8 94.7 99.7 89.4 79.1
+## [16] 75.9 60.4 58.0 56.8 85.0</code></pre>
 </div>
 <div id="exporting-data-frames" class="section level2 hasAnchor" number="2.7">
 <h2><span class="header-section-number">2.7</span> Exporting data frames<a href="introduction-to-r.html#exporting-data-frames" class="anchor-section" aria-label="Anchor link to header"></a></h2>
