@@ -26,8 +26,8 @@ distribution-of-the-response-variable
 collinearity-among-x-variables
 correlation-and-linear-regression
 correlation
+correlation-coefficient
+non-parametric-correlations
 regression
 interpreting-output
 model-validation
-correlation-coefficient
-non-parametric-correlations
