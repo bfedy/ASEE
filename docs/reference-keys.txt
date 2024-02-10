@@ -29,3 +29,5 @@ correlation
 regression
 interpreting-output
 model-validation
+correlation-coefficient
+non-parametric-correlations
