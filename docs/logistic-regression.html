@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 Logistic Regression | Applied Statistics in Environment and Ecology</title>
+  <meta name="description" content="A book to support content in ERS 669." />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 8 Logistic Regression | Applied Statistics in Environment and Ecology" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="A book to support content in ERS 669." />
+  <meta name="github-repo" content="openscapes/series" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 Logistic Regression | Applied Statistics in Environment and Ecology" />
+  
+  <meta name="twitter:description" content="A book to support content in ERS 669." />
+  
+
+<meta name="author" content="Dr. Brad Fedy" />
+
+
+<meta name="date" content="2024-03-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="correlation-and-linear-regression.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="lib/css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="lib/css/style.css" type="text/css" />
+<link rel="stylesheet" href="lib/css/lesson.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Welcome</a></li>
+<li class="chapter" data-level="2" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#what-is-r"><i class="fa fa-check"></i><b>2.1</b> What is R?</a></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#rstudio"><i class="fa fa-check"></i><b>2.2</b> RStudio</a></li>
+<li class="chapter" data-level="2.3" data-path="introduction-to-r.html"><a href="introduction-to-r.html#before-you-begin"><i class="fa fa-check"></i><b>2.3</b> Before you begin</a></li>
+<li class="chapter" data-level="2.4" data-path="introduction-to-r.html"><a href="introduction-to-r.html#setting-a-working-directory"><i class="fa fa-check"></i><b>2.4</b> Setting a working directory</a></li>
+<li class="chapter" data-level="2.5" data-path="introduction-to-r.html"><a href="introduction-to-r.html#getting-help-in-r"><i class="fa fa-check"></i><b>2.5</b> Getting help in R</a></li>
+<li class="chapter" data-level="2.6" data-path="introduction-to-r.html"><a href="introduction-to-r.html#defining-r-objects"><i class="fa fa-check"></i><b>2.6</b> Defining R objects</a></li>
+<li class="chapter" data-level="2.7" data-path="introduction-to-r.html"><a href="introduction-to-r.html#exporting-data-frames"><i class="fa fa-check"></i><b>2.7</b> Exporting data frames</a>
+<ul>
+<li class="chapter" data-level="2.7.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#installing-and-loading-packages"><i class="fa fa-check"></i><b>2.7.1</b> Installing and loading packages</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="operators.html"><a href="operators.html"><i class="fa fa-check"></i><b>3</b> Operators</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="operators.html"><a href="operators.html#manipulating-r-objects"><i class="fa fa-check"></i><b>3.1</b> Manipulating R objects</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>4</b> Data</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="data.html"><a href="data.html#writing-scripts"><i class="fa fa-check"></i><b>4.1</b> Writing scripts</a></li>
+<li class="chapter" data-level="4.2" data-path="data.html"><a href="data.html#importing-viewing-and-editing-data"><i class="fa fa-check"></i><b>4.2</b> Importing, viewing, and editing data</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="data.html"><a href="data.html#summarizing-and-manipulating-data"><i class="fa fa-check"></i><b>4.2.1</b> Summarizing and manipulating data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="data-visualization.html"><a href="data-visualization.html"><i class="fa fa-check"></i><b>5</b> Data Visualization</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="data-visualization.html"><a href="data-visualization.html#plotting-data"><i class="fa fa-check"></i><b>5.1</b> Plotting data</a></li>
+<li class="chapter" data-level="5.2" data-path="data-visualization.html"><a href="data-visualization.html#manipulating-plots"><i class="fa fa-check"></i><b>5.2</b> Manipulating plots</a></li>
+<li class="chapter" data-level="5.3" data-path="data-visualization.html"><a href="data-visualization.html#adding-low-level-plotting-functions"><i class="fa fa-check"></i><b>5.3</b> Adding low-level plotting functions</a></li>
+<li class="chapter" data-level="5.4" data-path="data-visualization.html"><a href="data-visualization.html#facet-plots"><i class="fa fa-check"></i><b>5.4</b> Facet plots</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="data-exploration.html"><a href="data-exploration.html"><i class="fa fa-check"></i><b>6</b> Data Exploration</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="data-exploration.html"><a href="data-exploration.html#outliers"><i class="fa fa-check"></i><b>6.1</b> Outliers</a></li>
+<li class="chapter" data-level="6.2" data-path="data-exploration.html"><a href="data-exploration.html#homoscedasticity-homegeneity-of-variance"><i class="fa fa-check"></i><b>6.2</b> Homoscedasticity (homegeneity of variance)</a></li>
+<li class="chapter" data-level="6.3" data-path="data-exploration.html"><a href="data-exploration.html#distribution-of-the-response-variable"><i class="fa fa-check"></i><b>6.3</b> Distribution of the response variable</a></li>
+<li class="chapter" data-level="6.4" data-path="data-exploration.html"><a href="data-exploration.html#collinearity-among-x-variables"><i class="fa fa-check"></i><b>6.4</b> Collinearity among x variables</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="correlation-and-linear-regression.html"><a href="correlation-and-linear-regression.html"><i class="fa fa-check"></i><b>7</b> Correlation and Linear Regression</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="correlation-and-linear-regression.html"><a href="correlation-and-linear-regression.html#correlation"><i class="fa fa-check"></i><b>7.1</b> Correlation</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="correlation-and-linear-regression.html"><a href="correlation-and-linear-regression.html#correlation-coefficient"><i class="fa fa-check"></i><b>7.1.1</b> Correlation coefficient</a></li>
+<li class="chapter" data-level="7.1.2" data-path="correlation-and-linear-regression.html"><a href="correlation-and-linear-regression.html#non-parametric-correlations"><i class="fa fa-check"></i><b>7.1.2</b> Non-parametric correlations</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="correlation-and-linear-regression.html"><a href="correlation-and-linear-regression.html#regression"><i class="fa fa-check"></i><b>7.2</b> Regression</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="correlation-and-linear-regression.html"><a href="correlation-and-linear-regression.html#interpreting-output"><i class="fa fa-check"></i><b>7.2.1</b> Interpreting Output</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="correlation-and-linear-regression.html"><a href="correlation-and-linear-regression.html#model-validation"><i class="fa fa-check"></i><b>7.3</b> Model Validation</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>8</b> Logistic Regression</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="logistic-regression.html"><a href="logistic-regression.html#binary-response-variable"><i class="fa fa-check"></i><b>8.1</b> Binary Response Variable</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="logistic-regression.html"><a href="logistic-regression.html#logit-link-function"><i class="fa fa-check"></i><b>8.1.1</b> Logit Link Function</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="logistic-regression.html"><a href="logistic-regression.html#ecological-applications"><i class="fa fa-check"></i><b>8.2</b> Ecological Applications</a></li>
+<li class="chapter" data-level="8.3" data-path="logistic-regression.html"><a href="logistic-regression.html#loggerhead-shrike-example"><i class="fa fa-check"></i><b>8.3</b> Loggerhead Shrike Example</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="logistic-regression.html"><a href="logistic-regression.html#standardize-variables"><i class="fa fa-check"></i><b>8.3.1</b> Standardize variables</a></li>
+<li class="chapter" data-level="8.3.2" data-path="logistic-regression.html"><a href="logistic-regression.html#correlations"><i class="fa fa-check"></i><b>8.3.2</b> Correlations</a></li>
+<li class="chapter" data-level="8.3.3" data-path="logistic-regression.html"><a href="logistic-regression.html#model-fitting"><i class="fa fa-check"></i><b>8.3.3</b> Model Fitting</a></li>
+<li class="chapter" data-level="8.3.4" data-path="logistic-regression.html"><a href="logistic-regression.html#plot-coefficients"><i class="fa fa-check"></i><b>8.3.4</b> Plot Coefficients</a></li>
+<li class="chapter" data-level="8.3.5" data-path="logistic-regression.html"><a href="logistic-regression.html#plot-model-predictions"><i class="fa fa-check"></i><b>8.3.5</b> Plot Model Predictions</a></li>
+<li class="chapter" data-level="8.3.6" data-path="logistic-regression.html"><a href="logistic-regression.html#model-assessment"><i class="fa fa-check"></i><b>8.3.6</b> Model Assessment</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Applied Statistics in Environment and Ecology</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="logistic-regression" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">Chapter 8</span> Logistic Regression<a href="logistic-regression.html#logistic-regression" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="binary-response-variable" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> Binary Response Variable<a href="logistic-regression.html#binary-response-variable" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>As with the previous chapter, much of the material presented here has been adapted from Inchausti. However, I have added a large amount of information that makes the content more relevant to the course content and student’s research projects. Logistic regression is used when the response variable takes on only two values. In these cases the binomial distribution is the only possible probability distribution. It was developed to calculate the probability of obtaining a “success”. In most cases in ecology and environment the definition of “success” is somewhat arbitrary and can take on many different ecological definitions. Originally success was defined as the ‘desired’ outcome of a binary event. However, we try to ‘desire’ any particular outcome. In logistic regression the response variable are coded as either 0 or 1. In other words, the event you are trying to predict either occurred or it did not occur.</p>
+<p>As with other GLMs, the objective of a logistic regression is to understand the relationship between the explanatory (<span class="math inline">\(x\)</span>) variables and the mean of the response variable. However, as explained in lecture, when the response variable is not normally distributed, this relationship requires the link function (<span class="math inline">\(g\)</span>). The link function is applied to the response variable in order to ‘linearize’ the relationship. The general role of the link function is represented by the following equation:</p>
+<p><span class="math display">\[g(E(Y)) = X\beta\]</span></p>
+<p>Generally, this equation means that the product of the link function, <span class="math inline">\(g\)</span> and the expected value of <span class="math inline">\(Y\)</span> <span class="math inline">\(E(Y))\)</span> is explained by the explanatory covariates <span class="math inline">\(X\)</span> and the estimated coefficients <span class="math inline">\(\beta\)</span>. The logit link function is used for logistic regression.</p>
+<div id="logit-link-function" class="section level3 hasAnchor" number="8.1.1">
+<h3><span class="header-section-number">8.1.1</span> Logit Link Function<a href="logistic-regression.html#logit-link-function" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Typically, the link function is the most challenging aspect of GLMs for new students to understand. In order to understand the logit link function and how it applies to logistic regression, we need to first understand the fairly intuitive concept of the odds ratio. Given that our outcome variable is a 1 or 0, we are assuming the events are independent of each other. We frequently relax this assumption in some applications of logistic regression in ecology, but we will ignore that complexity for now and focus on events that are truly independent of each other. That means if the probability of an event (often indicated by Greek letter <span class="math inline">\(\pi\)</span>) occurring is 0.75 we know the probability of the even not occurring is 0.25 or (1 - <span class="math inline">\(\pi\)</span>) = 0.25. Therefore (and this is important) we can represent the relative likelihood of two events (1 or 0) as the <em>ratio of their probabilities</em>:</p>
+<p><span class="math display">\[\frac{\pi}{(1-\pi)} = \frac{0.75}{0.25} = 3:1\]</span></p>
+<p>This is the <em>odds ratio</em>. We interpret this to mean that the occurrence of the event (1) is three times more likely than the other condition (e.g., non-occurrence or 0). Usually, statistics text books and examples use coin flips. The odds ratio of a fair coin flip is 0.5 or 1:1. The odds ratio maps the probability <span class="math inline">\(\pi\)</span> of an event onto the positive real line [0, $$]. The logit link function is the log of an odds ratio:</p>
+<p><span class="math display">\[logit(\pi) = log\frac{\pi}{(1-\pi)}\]</span></p>
+<p>This function maps the odds ratio onto the real line (i.e., a line with a fixed scale such that every real number corresponds to a unique point on the line). This, in effect, ‘linearizes’ the relationship between our explanatory <span class="math inline">\(x\)</span> variables and our binary response variable. Therefore, the logistic regression establishes a linear relation between the mean of the response variable <span class="math inline">\(E(Y)\)</span> and the explanatory variables as logit(<span class="math inline">\(\pi\)</span>) = <span class="math inline">\(X\beta\)</span>. The response variable [1, 0] is not transformed in anyway. It is now related to the explanatory variables using the logit link function. Once the parameters <span class="math inline">\(\beta\)</span> are estimated, the equation includes the logit link on the left hand side of the equation and the relationship between <span class="math inline">\(\pi\)</span> and <span class="math inline">\(X\)</span> is then linear on the scale of the link function.</p>
+<p>In order to compare the observed outcome data (1, 0) with model predictions, one more step is required. The link function must be inverted to obtain the predictive relationship between each side of the equation. This is necessary because the logit function maps a probability onto the real line [0, <span class="math inline">\(\infty\)</span>], but the inverse maps any value of <span class="math inline">\(X\)</span> onto the the unit interval [0,1] of interest to predict the <span class="math inline">\(\pi\)</span> parameter of the binomial distribution (along with mean and variance) as a function of the explanatory variables. The inverse logit function is:</p>
+<p><span class="math display">\[logit^{-1}(\pi) = \frac{exp(X\beta)}{1+exp(X\beta)}\]</span></p>
+<p>This inverse logit function takes the values of the explanatory variables <span class="math inline">\(X\)</span> and the associated estimated <span class="math inline">\(\beta\)</span> parameters and predicts the probability of observing a ‘success’ (<em>i.e.</em>, 1) for every value of the explanatory variables.</p>
+<p>From a practical standpoint, the link function allows us to produce continuous predictions across each value of <span class="math inline">\(X\)</span> to understand how those variable influence the probability of a “success” or positive outcome (<em>i.e.</em>, 1)</p>
+</div>
+</div>
+<div id="ecological-applications" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> Ecological Applications<a href="logistic-regression.html#ecological-applications" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>One of the most common application of logistic regression in ecology is to predict a species presence. In order to build these types of models it is critical that we have data (<em>i.e.</em>, explanatory variables) that characterize where the species is present [1] and where the species is absent [0]. If we only have presence data, then a logistic regression is not appropriate because, functionally, all we have are 1s in our response variable. We know the presence of animals and plants is almost always non-random and can be influenced by many potential covariates including both biotic and abiotic explanatory variables. Often times these explanatory data are collected in the field by research technicians; however, it is also common to use spatial data (<em>e.g.</em>, GIS data) to summarize relevant ecological covariates.</p>
+</div>
+<div id="loggerhead-shrike-example" class="section level2 hasAnchor" number="8.3">
+<h2><span class="header-section-number">8.3</span> Loggerhead Shrike Example<a href="logistic-regression.html#loggerhead-shrike-example" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Details on the study (<em>e.g.</em>, questions, methods) will be provided in lecture. Here we will work with the data and fit a logistic regression.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="logistic-regression.html#cb1-1" tabindex="-1"></a><span class="co">#Load Packages---</span></span>
+<span id="cb1-2"><a href="logistic-regression.html#cb1-2" tabindex="-1"></a>list.of.packages <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb1-3"><a href="logistic-regression.html#cb1-3" tabindex="-1"></a>  <span class="st">&quot;ggplot2&quot;</span>,        <span class="co"># for graphing</span></span>
+<span id="cb1-4"><a href="logistic-regression.html#cb1-4" tabindex="-1"></a>  <span class="st">&quot;ggeffects&quot;</span>,      <span class="co"># model effects plots             </span></span>
+<span id="cb1-5"><a href="logistic-regression.html#cb1-5" tabindex="-1"></a>  <span class="st">&quot;GGally&quot;</span>,         <span class="co"># ggpairs</span></span>
+<span id="cb1-6"><a href="logistic-regression.html#cb1-6" tabindex="-1"></a>  <span class="st">&quot;broom&quot;</span>,          <span class="co"># for plotting coefficients</span></span>
+<span id="cb1-7"><a href="logistic-regression.html#cb1-7" tabindex="-1"></a>  <span class="st">&quot;DHARMa&quot;</span>,         <span class="co"># Residual analysis</span></span>
+<span id="cb1-8"><a href="logistic-regression.html#cb1-8" tabindex="-1"></a>  <span class="st">&quot;qqplotr&quot;</span>,        <span class="co"># residual plots</span></span>
+<span id="cb1-9"><a href="logistic-regression.html#cb1-9" tabindex="-1"></a>  <span class="st">&quot;cowplot&quot;</span>)        <span class="co"># plot_grid</span></span>
+<span id="cb1-10"><a href="logistic-regression.html#cb1-10" tabindex="-1"></a><span class="co"># Check you have them in your library</span></span>
+<span id="cb1-11"><a href="logistic-regression.html#cb1-11" tabindex="-1"></a>new.packages <span class="ot">&lt;-</span> list.of.packages[<span class="sc">!</span>(list.of.packages <span class="sc">%in%</span> <span class="fu">installed.packages</span>()[,<span class="st">&quot;Package&quot;</span>])]</span>
+<span id="cb1-12"><a href="logistic-regression.html#cb1-12" tabindex="-1"></a><span class="co"># install them if you don&#39;t have them and then load.</span></span>
+<span id="cb1-13"><a href="logistic-regression.html#cb1-13" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">length</span>(new.packages)) <span class="fu">install.packages</span>(new.packages,<span class="at">repos =</span> <span class="st">&quot;http://cran.us.r-project.org&quot;</span>)</span>
+<span id="cb1-14"><a href="logistic-regression.html#cb1-14" tabindex="-1"></a><span class="fu">lapply</span>(list.of.packages, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>Next we load the data. The data can be downloaded from the UW LEARN site.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="logistic-regression.html#cb2-1" tabindex="-1"></a>LOSHdata<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;DATA/LOSHdataFinal.csv&quot;</span>,<span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">as.is=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-2"><a href="logistic-regression.html#cb2-2" tabindex="-1"></a><span class="co"># case needs to be a factor for ggpredict to work</span></span>
+<span id="cb2-3"><a href="logistic-regression.html#cb2-3" tabindex="-1"></a>LOSHdata<span class="sc">$</span>case <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(LOSHdata<span class="sc">$</span>case)</span>
+<span id="cb2-4"><a href="logistic-regression.html#cb2-4" tabindex="-1"></a><span class="fu">summary</span> (LOSHdata) <span class="co"># examine the data - not printed here</span></span></code></pre></div>
+<div id="standardize-variables" class="section level3 hasAnchor" number="8.3.1">
+<h3><span class="header-section-number">8.3.1</span> Standardize variables<a href="logistic-regression.html#standardize-variables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Recall from previous lectures the importance of standardizing variables prior to modelling. Here we use a custom user-defined function for standardization for clarity and to present an example of a simple function. However, this can also be achieved with the <code>dplyr</code> package using <code>mutate</code> and <code>scale</code> functions.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="logistic-regression.html#cb3-1" tabindex="-1"></a><span class="do">##standardizing the variables - putting them on the same scale</span></span>
+<span id="cb3-2"><a href="logistic-regression.html#cb3-2" tabindex="-1"></a>standfunc<span class="ot">&lt;-</span><span class="cf">function</span>(x){(x<span class="sc">-</span><span class="fu">mean</span>(x,<span class="at">na.rm=</span>T))<span class="sc">/</span><span class="fu">sd</span>(x,<span class="at">na.rm=</span>T)} <span class="co"># create a function to standardize the values (center the mean on 0)</span></span>
+<span id="cb3-3"><a href="logistic-regression.html#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="logistic-regression.html#cb3-4" tabindex="-1"></a><span class="fu">colnames</span>(LOSHdata)</span>
+<span id="cb3-5"><a href="logistic-regression.html#cb3-5" tabindex="-1"></a>LOSHdata<span class="sc">$</span>StSageHgtSD<span class="ot">&lt;-</span><span class="fu">standfunc</span>(LOSHdata<span class="sc">$</span>SageHgtSD)</span>
+<span id="cb3-6"><a href="logistic-regression.html#cb3-6" tabindex="-1"></a>LOSHdata<span class="sc">$</span>StBare<span class="ot">&lt;-</span><span class="fu">standfunc</span>(LOSHdata<span class="sc">$</span>Bare)</span>
+<span id="cb3-7"><a href="logistic-regression.html#cb3-7" tabindex="-1"></a>LOSHdata<span class="sc">$</span>StHerb<span class="ot">&lt;-</span><span class="fu">standfunc</span>(LOSHdata<span class="sc">$</span>Herb)</span>
+<span id="cb3-8"><a href="logistic-regression.html#cb3-8" tabindex="-1"></a>LOSHdata<span class="sc">$</span>StSage<span class="ot">&lt;-</span><span class="fu">standfunc</span>(LOSHdata<span class="sc">$</span>Sage)</span>
+<span id="cb3-9"><a href="logistic-regression.html#cb3-9" tabindex="-1"></a>LOSHdata<span class="sc">$</span>StShrub<span class="ot">&lt;-</span><span class="fu">standfunc</span>(LOSHdata<span class="sc">$</span>Shrub)</span>
+<span id="cb3-10"><a href="logistic-regression.html#cb3-10" tabindex="-1"></a>LOSHdata<span class="sc">$</span>StRough200m<span class="ot">&lt;-</span><span class="fu">standfunc</span>(LOSHdata<span class="sc">$</span>Rough200m)</span>
+<span id="cb3-11"><a href="logistic-regression.html#cb3-11" tabindex="-1"></a>LOSHdata<span class="sc">$</span>StFenceDist<span class="ot">&lt;-</span><span class="fu">standfunc</span>(LOSHdata<span class="sc">$</span>FenceDist)</span>
+<span id="cb3-12"><a href="logistic-regression.html#cb3-12" tabindex="-1"></a>LOSHdata<span class="sc">$</span>StPowerDist<span class="ot">&lt;-</span><span class="fu">standfunc</span>(LOSHdata<span class="sc">$</span>PowerDist)</span></code></pre></div>
+</div>
+<div id="correlations" class="section level3 hasAnchor" number="8.3.2">
+<h3><span class="header-section-number">8.3.2</span> Correlations<a href="logistic-regression.html#correlations" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Examine correlations in potential explanatory variables.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="logistic-regression.html#cb4-1" tabindex="-1"></a><span class="fu">ggpairs</span>(<span class="at">data =</span> LOSHdata,</span>
+<span id="cb4-2"><a href="logistic-regression.html#cb4-2" tabindex="-1"></a>        <span class="at">columns =</span> <span class="dv">10</span><span class="sc">:</span><span class="dv">16</span>,</span>
+<span id="cb4-3"><a href="logistic-regression.html#cb4-3" tabindex="-1"></a>        <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">color=</span><span class="fu">factor</span>(case), <span class="at">shape=</span><span class="fu">factor</span>(case)),</span>
+<span id="cb4-4"><a href="logistic-regression.html#cb4-4" tabindex="-1"></a>        <span class="at">upper =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="fu">wrap</span>(<span class="st">&quot;cor&quot;</span>, <span class="at">size=</span><span class="fl">2.5</span>))) <span class="sc">+</span> </span>
+<span id="cb4-5"><a href="logistic-regression.html#cb4-5" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb4-6"><a href="logistic-regression.html#cb4-6" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">colour=</span><span class="st">&quot;black&quot;</span>, <span class="at">fill=</span><span class="st">&quot;white&quot;</span>),</span>
+<span id="cb4-7"><a href="logistic-regression.html#cb4-7" tabindex="-1"></a>        <span class="at">strip.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">6</span>), </span>
+<span id="cb4-8"><a href="logistic-regression.html#cb4-8" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">6</span>, <span class="at">angle=</span><span class="dv">30</span>, <span class="at">hjust=</span><span class="fl">0.5</span>))</span></code></pre></div>
+<p><img src="ASEE_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>As a reminder, when potential explanatory variables are highly correlated, they cannot be included in the same model. Therefore, if two variables are highly correlated you have to choose one of them to retain in the final model statement. We went through multiple approaches for making this decision in class. As you can see in the correlation plot above, we have a number of highly correlated variables. These correlations are not particularly surprising given what we know about the sagebrush ecosystem. For example, there is high positive correlation (<em>r</em> = 0.97) between sagebrush cover and shrub cover which was expected given that sagebrush (Artemisia <em>sp</em>) was the dominant shrub species in the study site. Additionally, we see a strong negative correlation (<em>r</em> = -0.81) between bare ground and herbaceous cover.</p>
+</div>
+<div id="model-fitting" class="section level3 hasAnchor" number="8.3.3">
+<h3><span class="header-section-number">8.3.3</span> Model Fitting<a href="logistic-regression.html#model-fitting" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The syntax for fitting a logistic regression in R is very similar to the syntax we have seen so far and uses the <code>glm</code> function. This function is in the <code>stats</code> package which is loaded by default every time you initiate R. Of the seven candidate variables remaining we excluded Bare and Shrub due to high correlations. We chose to drop those variables because they are less relevant to ecological questions of interest and management activities within sagebrush ecosystems. When using the <code>glm</code> function you must specify the probability distribution used to model the response variable. For logistic regression, this is typically <code>family = binomial</code> which has the default logit link function. Therefore, our model including all remaining covariates is written in R as:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="logistic-regression.html#cb5-1" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(case <span class="sc">~</span> StSageHgtSD <span class="sc">+</span> StHerb <span class="sc">+</span> StSage <span class="sc">+</span> StRough200m <span class="sc">+</span> StFenceDist, <span class="at">family =</span> binomial, <span class="at">data =</span> LOSHdata)</span>
+<span id="cb5-2"><a href="logistic-regression.html#cb5-2" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = case ~ StSageHgtSD + StHerb + StSage + StRough200m + 
+##     StFenceDist, family = binomial, data = LOSHdata)
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -3.43059    0.33505 -10.239   &lt;2e-16 ***
+## StSageHgtSD -0.60211    0.36249  -1.661   0.0967 .  
+## StHerb      -0.78141    0.41515  -1.882   0.0598 .  
+## StSage       0.18376    0.29938   0.614   0.5394    
+## StRough200m  0.07797    0.26617   0.293   0.7696    
+## StFenceDist -0.75893    0.35220  -2.155   0.0312 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 160.81  on 419  degrees of freedom
+## Residual deviance: 147.45  on 414  degrees of freedom
+## AIC: 159.45
+## 
+## Number of Fisher Scoring iterations: 7</code></pre>
+<p>The model output is very similar to that of the general linear model explored earlier in the course. The output includes the model intercept, the partial slopes for each variable included in the model, the standard error associated with each estimate, the Wald statistic (= <span class="math inline">\(\beta\)</span> estimate/SE(estimate)), and the statistical significance indicating whether the coefficient estimate differs ‘significantly’ from zero. The <code>Null deviance</code> is the estimated deviance of an intercept-only model and the <code>Residual deviance</code> is the remaining deviance after including the five explanatory variables.</p>
+<p>The greater the reduction from the null to the residual deviance, the greater the proportion of deviance explained by the model. We can calculate McFadden’s analogue of R^2 which indicates the reduction from null to the residual deviance as:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="logistic-regression.html#cb7-1" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> (m1<span class="sc">$</span>deviance <span class="sc">/</span> m1<span class="sc">$</span>null.deviance)</span></code></pre></div>
+<pre><code>## [1] 0.08309699</code></pre>
+<p>The AIC value is used to compare models developed with the same data.</p>
+<p>Since we standardized the variables so they have a mean of zero, we can extract some information from the intercept. The intercept of -3.43 is the value of logit(<span class="math inline">\(\pi\)</span>) for a “typical” site with average values of all the explanatory variables. We can transform this value into an odds ratio by ‘exponentiating’ (is that a word?) the intercept value exp(-3.43) = 0.03. This value is much smaller than one, indicating LOSH nests are much more likely to be absent then present in a typical site. There are some assumptions that we have made in our model, which may not be true. We will discuss these assumptions and their potential impact in class. The main assumptions are associated with ‘true’ vs. ‘psuedo’ absences and sample size in our unused sites.</p>
+<p>Scaling variables prior to modelling has the added benefit of facilitating direct comparison of variables measured across different scales. We can compare the magnitude of the <span class="math inline">\(\beta\)</span> coefficient estimates directly. We can compare the relative ‘strength’ of an effect with simple division. Two of the most influential variables are herbaceous cover and distance to a fence. We can see the estimates are close to each other, but the herbaceous cover estimate is slightly higher. Dividing one into the other (-0.7814/-0.7589 = 1.03) tells us the relative effect of herbaceous cover is only 3% stronger than the relative effect of distance to fence.</p>
+<p>Recall that the <span class="math inline">\(\beta\)</span> coefficient for standardized variable indicates the changes in logit(<span class="math inline">\(\pi\)</span>) with a change in one standard deviation of an explanatory variable. In order to interpret this on actual scale of our data, we need to calculate the standard deviation of the explanatory variables of interest. As an example, we will focus on distance to fence. However, there is an important consideration when interpreting the coefficients on distance variables. In habitat selection studies, such as this one, a positive coefficient estimate typically denotes a preference for a particular habitat component. In other words, an increasing value in the <span class="math inline">\(x\)</span> (<em>e.g.</em> a particular habitat component) indicates an increasing probability of use or selection and the opposite is true in that a negative coefficient estimate indicates avoidance of a particular habitat type. However, distances are unique. If you are using the Euclidean distance to a feature, a negative coefficient estimate indicates a <em>preference</em> for that habitat type. In other word, the probability of occurrence (or selection, or use) decreases (negative coefficient) with increasing distance from the feature. Therefore, the negative coefficient estimated for distance to fence indicates selection for proximity to fences, which is consistent with what we know about the ecology of the species.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="logistic-regression.html#cb9-1" tabindex="-1"></a><span class="fu">sd</span>(LOSHdata<span class="sc">$</span>FenceDist)</span></code></pre></div>
+<pre><code>## [1] 382.5265</code></pre>
+<p>If we increase the distance from a fence by 382m, logit(<span class="math inline">\(\pi\)</span>) will decrease by 0.756. Exponentiating the partial slope produces an odds ratio that is easier to interpret.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="logistic-regression.html#cb11-1" tabindex="-1"></a><span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.75893</span>)</span></code></pre></div>
+<pre><code>## [1] 0.4681671</code></pre>
+<p>We interpret this to mean that the probability of presence is 0.468 less likely than absence with an increase of 382m to the nearest fence. It is important to remember that all binary GLMs predict a linear relation in the scale of the logit link function, which become logistic when the function is inverted to compare model predictions with the data. The non-linearity of the inverted link function mean the slopes can no longer be interpreted as the change in the mean of the response variable per unit change of the explanatory variable. This is because the central range of the logistic curve is steeper than the tails (which are flatter). Therefore any unit change of an explanatory variable in the midpoint values will result in a larger change in the probability of presence than when the change occurs at the tail ends of the range. There is a rule-of-thumb to interpret the values in logistic regression in terms of probabilities (not logits or odds ratios). For example, distance to fence coefficient estimate -0.75893/4 = -0.19 means that a change of one standard deviation (382m) would produce a 19% reduction in the probability of presence. This estimate represents the midpoint values and therefore changes elsewhere in the range would likely entail smaller changes in the probability of presence.</p>
+</div>
+<div id="plot-coefficients" class="section level3 hasAnchor" number="8.3.4">
+<h3><span class="header-section-number">8.3.4</span> Plot Coefficients<a href="logistic-regression.html#plot-coefficients" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>It is always useful to plot the coefficient estimates and their associated likelihood confidence intervals. This type of figure is one of the key results that you should present in any manuscript presenting this type of model. There are, of course, many ways to do this. Inchausti provides an excellent example using <code>broom</code> package.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="logistic-regression.html#cb13-1" tabindex="-1"></a><span class="fu">require</span>(broom)</span>
+<span id="cb13-2"><a href="logistic-regression.html#cb13-2" tabindex="-1"></a><span class="fu">tidy</span>(m1, <span class="at">conf.int=</span>T)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 7
+##   term        estimate std.error statistic  p.value conf.low conf.high
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)  -3.43       0.335   -10.2   1.33e-24   -4.18    -2.85  
+## 2 StSageHgtSD  -0.602      0.362    -1.66  9.67e- 2   -1.33     0.0937
+## 3 StHerb       -0.781      0.415    -1.88  5.98e- 2   -1.67    -0.0512
+## 4 StSage        0.184      0.299     0.614 5.39e- 1   -0.408    0.770 
+## 5 StRough200m   0.0780     0.266     0.293 7.70e- 1   -0.493    0.565 
+## 6 StFenceDist  -0.759      0.352    -2.15  3.12e- 2   -1.53    -0.139</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="logistic-regression.html#cb15-1" tabindex="-1"></a>param.m1 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(m1, <span class="at">conf.int=</span>T)  <span class="co"># save tibble</span></span>
+<span id="cb15-2"><a href="logistic-regression.html#cb15-2" tabindex="-1"></a><span class="co"># plot coefficient estimates and confidence intervals</span></span>
+<span id="cb15-3"><a href="logistic-regression.html#cb15-3" tabindex="-1"></a><span class="fu">ggplot</span>(param.m1, <span class="fu">aes</span>(<span class="at">x=</span>term, <span class="at">y=</span>estimate)) <span class="sc">+</span> </span>
+<span id="cb15-4"><a href="logistic-regression.html#cb15-4" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb15-5"><a href="logistic-regression.html#cb15-5" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">col=</span><span class="st">&quot;black&quot;</span>, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb15-6"><a href="logistic-regression.html#cb15-6" tabindex="-1"></a>  <span class="fu">geom_linerange</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high)) <span class="sc">+</span> </span>
+<span id="cb15-7"><a href="logistic-regression.html#cb15-7" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> </span>
+<span id="cb15-8"><a href="logistic-regression.html#cb15-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Parameter&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb15-9"><a href="logistic-regression.html#cb15-9" tabindex="-1"></a>  <span class="fu">theme</span> (<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>), </span>
+<span id="cb15-10"><a href="logistic-regression.html#cb15-10" tabindex="-1"></a>         <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>), </span>
+<span id="cb15-11"><a href="logistic-regression.html#cb15-11" tabindex="-1"></a>         <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
+<p><img src="ASEE_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="plot-model-predictions" class="section level3 hasAnchor" number="8.3.5">
+<h3><span class="header-section-number">8.3.5</span> Plot Model Predictions<a href="logistic-regression.html#plot-model-predictions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>One of the most informative way to present your model results is using figures presenting the predicted probabilities. This can be accomplished using the <code>ggpredict</code> function from the <code>ggeffects</code> package. These plots are often referred to as “conditional plots” or “marginal effects plots”. Essentially, the plots represent the predicted values over the range of a covariate while holding all other covariates in the model at their means. The <code>ggpredict</code> command uses the inverse of the logit link function to generate the curves using the parameter estimates. To create the plots we need to generate the predicted values for each covariate that we want to plot. For this example we will plot two the variables above that have confidence intervals that do not overlap zero.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="logistic-regression.html#cb16-1" tabindex="-1"></a><span class="co"># Generate predicted values</span></span>
+<span id="cb16-2"><a href="logistic-regression.html#cb16-2" tabindex="-1"></a>pred.m1.StHerb<span class="ot">=</span><span class="fu">ggpredict</span>(m1, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">&quot;StHerb [all]&quot;</span>))</span>
+<span id="cb16-3"><a href="logistic-regression.html#cb16-3" tabindex="-1"></a>pred.m1.StFenceDist<span class="ot">=</span><span class="fu">ggpredict</span>(m1, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">&quot;StFenceDist [all]&quot;</span>))</span>
+<span id="cb16-4"><a href="logistic-regression.html#cb16-4" tabindex="-1"></a><span class="co"># Plot predictions</span></span>
+<span id="cb16-5"><a href="logistic-regression.html#cb16-5" tabindex="-1"></a>plot.m1.StHerb<span class="ot">=</span><span class="fu">plot</span>(pred.m1.StHerb, <span class="at">colors=</span><span class="st">&quot;greyscale&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb16-6"><a href="logistic-regression.html#cb16-6" tabindex="-1"></a>  <span class="fu">labs</span> (<span class="at">x=</span><span class="st">&quot;Percent Herbaceous cover (std)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Probability of presence&quot;</span>) <span class="sc">+</span></span>
+<span id="cb16-7"><a href="logistic-regression.html#cb16-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title=</span><span class="fu">element_blank</span>(), </span>
+<span id="cb16-8"><a href="logistic-regression.html#cb16-8" tabindex="-1"></a>        <span class="at">axis.title.y=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb16-9"><a href="logistic-regression.html#cb16-9" tabindex="-1"></a>        <span class="at">axis.title.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>),</span>
+<span id="cb16-10"><a href="logistic-regression.html#cb16-10" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>))</span>
+<span id="cb16-11"><a href="logistic-regression.html#cb16-11" tabindex="-1"></a>plot.m1.StFenceDist<span class="ot">=</span><span class="fu">plot</span>(pred.m1.StFenceDist, <span class="at">colors=</span><span class="st">&quot;greyscale&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb16-12"><a href="logistic-regression.html#cb16-12" tabindex="-1"></a>  <span class="fu">labs</span> (<span class="at">x=</span><span class="st">&quot;Distance to Fence (std)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Probability of presence&quot;</span>) <span class="sc">+</span></span>
+<span id="cb16-13"><a href="logistic-regression.html#cb16-13" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title=</span><span class="fu">element_blank</span>(), </span>
+<span id="cb16-14"><a href="logistic-regression.html#cb16-14" tabindex="-1"></a>        <span class="at">axis.title.y=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb16-15"><a href="logistic-regression.html#cb16-15" tabindex="-1"></a>        <span class="at">axis.title.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>),</span>
+<span id="cb16-16"><a href="logistic-regression.html#cb16-16" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>))</span>
+<span id="cb16-17"><a href="logistic-regression.html#cb16-17" tabindex="-1"></a><span class="fu">plot_grid</span>(plot.m1.StHerb, plot.m1.StFenceDist, <span class="at">ncol=</span><span class="dv">1</span>, </span>
+<span id="cb16-18"><a href="logistic-regression.html#cb16-18" tabindex="-1"></a>          <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&#39;A&#39;</span>, <span class="st">&#39;B&#39;</span>),</span>
+<span id="cb16-19"><a href="logistic-regression.html#cb16-19" tabindex="-1"></a>          <span class="at">align=</span><span class="st">&quot;v&quot;</span>, <span class="at">label_x=</span><span class="fl">0.95</span>)</span></code></pre></div>
+<p><img src="ASEE_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<div id="model-assessment" class="section level3 hasAnchor" number="8.3.6">
+<h3><span class="header-section-number">8.3.6</span> Model Assessment<a href="logistic-regression.html#model-assessment" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Model assessment through inspection of the model residuals is not as straight forward when a link function is involved. With a general linear model we could investigate model fit with <code>plot(modelname)</code>. Try that with this model and take a look at the figures produced by entering <code>plot(m1)</code> into your R console. The figures look strange. In order to assess model fit in a logistic regression several other steps are required and make use of randomized quantile residuals. These values are estimated using simulated data from the fitted model to generate a cumulative density function of the response variable. Many more details and specific equations are presented in Chapter 8 of the Inchausti book. For our purposes, we can leave the math to those experts with maths degrees and focus on the general steps. We will use the package <code>DHARMa</code> to generate randomized quantile residuals for our GLMs. The process involves three steps. First, simulate new dat sets from the fitted GLM. These simulations then allow for the estimate of the cumulative distribution function of each observed value of the response variable for the simulated data set. Finally, the package calculates the randomized quantile residual of each observed value of the response variable. These data are then used to produce residual plots analogous to those we used in the last chapter in the Model Validation section.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="logistic-regression.html#cb17-1" tabindex="-1"></a>resid.m1 <span class="ot">&lt;-</span> broom<span class="sc">::</span><span class="fu">augment</span>(m1) <span class="co"># store residuals</span></span>
+<span id="cb17-2"><a href="logistic-regression.html#cb17-2" tabindex="-1"></a><span class="co"># generate randomized quantiles</span></span>
+<span id="cb17-3"><a href="logistic-regression.html#cb17-3" tabindex="-1"></a>res.m1 <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> m1, <span class="at">n =</span> <span class="fl">1e3</span>, <span class="at">integerResponse =</span> T, <span class="at">refit =</span> F, <span class="at">plot =</span> F)</span>
+<span id="cb17-4"><a href="logistic-regression.html#cb17-4" tabindex="-1"></a><span class="co"># replace default deviance residuals with simulated</span></span>
+<span id="cb17-5"><a href="logistic-regression.html#cb17-5" tabindex="-1"></a>resid.m1<span class="sc">$</span>.std.resid <span class="ot">=</span> <span class="fu">residuals</span>(res.m1, <span class="at">quantileFunction =</span> qnorm)</span>
+<span id="cb17-6"><a href="logistic-regression.html#cb17-6" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="logistic-regression.html#cb17-7" tabindex="-1"></a><span class="co"># generate plots for residual fit.</span></span>
+<span id="cb17-8"><a href="logistic-regression.html#cb17-8" tabindex="-1"></a>qq.m1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>resid.m1, <span class="fu">aes</span>(<span class="at">sample =</span> .std.resid)) <span class="sc">+</span> </span>
+<span id="cb17-9"><a href="logistic-regression.html#cb17-9" tabindex="-1"></a>  <span class="fu">geom_qq</span>(<span class="at">distribution =</span> qnorm, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb17-10"><a href="logistic-regression.html#cb17-10" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb17-11"><a href="logistic-regression.html#cb17-11" tabindex="-1"></a>  <span class="fu">stat_qq_line</span>() <span class="sc">+</span> </span>
+<span id="cb17-12"><a href="logistic-regression.html#cb17-12" tabindex="-1"></a>  <span class="fu">stat_qq_band</span>(<span class="at">alpha=</span><span class="fl">0.3</span>) <span class="sc">+</span> </span>
+<span id="cb17-13"><a href="logistic-regression.html#cb17-13" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Theoretical Quantiles&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Sample Quantiles&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb17-14"><a href="logistic-regression.html#cb17-14" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>), </span>
+<span id="cb17-15"><a href="logistic-regression.html#cb17-15" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>))</span>
+<span id="cb17-16"><a href="logistic-regression.html#cb17-16" tabindex="-1"></a>res.fit.m1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>resid.m1, <span class="fu">aes</span>(<span class="at">x =</span>.fitted, <span class="at">y=</span>.std.resid)) <span class="sc">+</span> </span>
+<span id="cb17-17"><a href="logistic-regression.html#cb17-17" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">col=</span><span class="st">&quot;black&quot;</span>, <span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb17-18"><a href="logistic-regression.html#cb17-18" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>, <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb17-19"><a href="logistic-regression.html#cb17-19" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb17-20"><a href="logistic-regression.html#cb17-20" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Fitted&quot;</span>, <span class="at">y=</span><span class="st">&quot;Residuals&quot;</span>) <span class="sc">+</span></span>
+<span id="cb17-21"><a href="logistic-regression.html#cb17-21" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>),</span>
+<span id="cb17-22"><a href="logistic-regression.html#cb17-22" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>))</span>
+<span id="cb17-23"><a href="logistic-regression.html#cb17-23" tabindex="-1"></a>res.Herb.m1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>resid.m1, <span class="fu">aes</span>(<span class="at">x=</span>StHerb, <span class="at">y=</span>.std.resid)) <span class="sc">+</span></span>
+<span id="cb17-24"><a href="logistic-regression.html#cb17-24" tabindex="-1"></a>                       <span class="fu">geom_point</span>(<span class="at">col=</span><span class="st">&quot;black&quot;</span>, <span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb17-25"><a href="logistic-regression.html#cb17-25" tabindex="-1"></a>                       <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype=</span><span class="dv">2</span>, <span class="at">linewidth=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb17-26"><a href="logistic-regression.html#cb17-26" tabindex="-1"></a>                       <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb17-27"><a href="logistic-regression.html#cb17-27" tabindex="-1"></a>                       <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Herb (std)&quot;</span>, <span class="at">y=</span><span class="st">&quot;Residuals&quot;</span>) <span class="sc">+</span></span>
+<span id="cb17-28"><a href="logistic-regression.html#cb17-28" tabindex="-1"></a>                       <span class="fu">theme</span>(<span class="at">axis.title.y=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb17-29"><a href="logistic-regression.html#cb17-29" tabindex="-1"></a>                             <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>),</span>
+<span id="cb17-30"><a href="logistic-regression.html#cb17-30" tabindex="-1"></a>                             <span class="at">axis.title.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>))</span>
+<span id="cb17-31"><a href="logistic-regression.html#cb17-31" tabindex="-1"></a>res.FenceDist.m1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>resid.m1, <span class="fu">aes</span>(<span class="at">x=</span>StFenceDist, <span class="at">y=</span>.std.resid)) <span class="sc">+</span></span>
+<span id="cb17-32"><a href="logistic-regression.html#cb17-32" tabindex="-1"></a>                       <span class="fu">geom_point</span>(<span class="at">col=</span><span class="st">&quot;black&quot;</span>, <span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb17-33"><a href="logistic-regression.html#cb17-33" tabindex="-1"></a>                       <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype=</span><span class="dv">2</span>, <span class="at">linewidth=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb17-34"><a href="logistic-regression.html#cb17-34" tabindex="-1"></a>                       <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb17-35"><a href="logistic-regression.html#cb17-35" tabindex="-1"></a>                       <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Herb (std)&quot;</span>, <span class="at">y=</span><span class="st">&quot;Residuals&quot;</span>) <span class="sc">+</span></span>
+<span id="cb17-36"><a href="logistic-regression.html#cb17-36" tabindex="-1"></a>                       <span class="fu">theme</span>(<span class="at">axis.title.y=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb17-37"><a href="logistic-regression.html#cb17-37" tabindex="-1"></a>                             <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>),</span>
+<span id="cb17-38"><a href="logistic-regression.html#cb17-38" tabindex="-1"></a>                             <span class="at">axis.title.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>))</span>
+<span id="cb17-39"><a href="logistic-regression.html#cb17-39" tabindex="-1"></a>Cook.m1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>resid.m1, <span class="fu">aes</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(resid.m1), <span class="at">y=</span>.cooksd))<span class="sc">+</span></span>
+<span id="cb17-40"><a href="logistic-regression.html#cb17-40" tabindex="-1"></a>  <span class="fu">geom_linerange</span>(<span class="fu">aes</span>(<span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax=</span>.cooksd))<span class="sc">+</span></span>
+<span id="cb17-41"><a href="logistic-regression.html#cb17-41" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb17-42"><a href="logistic-regression.html#cb17-42" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Order of data&quot;</span>, <span class="at">y=</span><span class="st">&quot;Cook&#39;s distance&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb17-43"><a href="logistic-regression.html#cb17-43" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>), </span>
+<span id="cb17-44"><a href="logistic-regression.html#cb17-44" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>))</span>
+<span id="cb17-45"><a href="logistic-regression.html#cb17-45" tabindex="-1"></a><span class="fu">plot_grid</span>(qq.m1, res.fit.m1, res.Herb.m1, res.FenceDist.m1, Cook.m1, <span class="at">ncol=</span><span class="dv">2</span>,</span>
+<span id="cb17-46"><a href="logistic-regression.html#cb17-46" tabindex="-1"></a>          <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;E&quot;</span>),</span>
+<span id="cb17-47"><a href="logistic-regression.html#cb17-47" tabindex="-1"></a>          <span class="at">align =</span> <span class="st">&quot;hv&quot;</span>, <span class="at">label_x =</span> <span class="fl">0.85</span>, <span class="at">label_y =</span> <span class="fl">0.95</span>) </span></code></pre></div>
+<p><img src="ASEE_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="correlation-and-linear-regression.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
