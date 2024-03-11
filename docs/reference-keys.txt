@@ -34,10 +34,6 @@ model-validation
 logistic-regression
 binary-response-variable
 logit-link-function
-non-parametric-correlations-1
-regression-1
-interpreting-output-1
-model-validation-1
 ecological-applications
 loggerhead-shrike-example
 standardize-variables

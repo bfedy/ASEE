@@ -23,7 +23,7 @@
 <meta name="author" content="Dr. Brad Fedy" />
 
 
-<meta name="date" content="2024-02-10" />
+<meta name="date" content="2024-03-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -192,6 +192,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="correlation-and-linear-regression.html"><a href="correlation-and-linear-regression.html#model-validation"><i class="fa fa-check"></i><b>7.3</b> Model Validation</a></li>
 </ul></li>
+<li class="chapter" data-level="8" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>8</b> Logistic Regression</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="logistic-regression.html"><a href="logistic-regression.html#binary-response-variable"><i class="fa fa-check"></i><b>8.1</b> Binary Response Variable</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="logistic-regression.html"><a href="logistic-regression.html#logit-link-function"><i class="fa fa-check"></i><b>8.1.1</b> Logit Link Function</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="logistic-regression.html"><a href="logistic-regression.html#ecological-applications"><i class="fa fa-check"></i><b>8.2</b> Ecological Applications</a></li>
+<li class="chapter" data-level="8.3" data-path="logistic-regression.html"><a href="logistic-regression.html#loggerhead-shrike-example"><i class="fa fa-check"></i><b>8.3</b> Loggerhead Shrike Example</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="logistic-regression.html"><a href="logistic-regression.html#standardize-variables"><i class="fa fa-check"></i><b>8.3.1</b> Standardize variables</a></li>
+<li class="chapter" data-level="8.3.2" data-path="logistic-regression.html"><a href="logistic-regression.html#correlations"><i class="fa fa-check"></i><b>8.3.2</b> Correlations</a></li>
+<li class="chapter" data-level="8.3.3" data-path="logistic-regression.html"><a href="logistic-regression.html#model-fitting"><i class="fa fa-check"></i><b>8.3.3</b> Model Fitting</a></li>
+<li class="chapter" data-level="8.3.4" data-path="logistic-regression.html"><a href="logistic-regression.html#plot-coefficients"><i class="fa fa-check"></i><b>8.3.4</b> Plot Coefficients</a></li>
+<li class="chapter" data-level="8.3.5" data-path="logistic-regression.html"><a href="logistic-regression.html#plot-model-predictions"><i class="fa fa-check"></i><b>8.3.5</b> Plot Model Predictions</a></li>
+<li class="chapter" data-level="8.3.6" data-path="logistic-regression.html"><a href="logistic-regression.html#model-assessment"><i class="fa fa-check"></i><b>8.3.6</b> Model Assessment</a></li>
+</ul></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -314,26 +331,26 @@ Expect to spend a good amount of time searching for help on the internet while y
 <span id="cb15-6"><a href="introduction-to-r.html#cb15-6" tabindex="-1"></a>                       <span class="at">length =</span> <span class="fu">runif</span>(<span class="at">n=</span><span class="dv">20</span>, <span class="at">min=</span><span class="dv">50</span>, <span class="at">max=</span><span class="dv">100</span>))</span>
 <span id="cb15-7"><a href="introduction-to-r.html#cb15-7" tabindex="-1"></a>snake.df</span></code></pre></div>
 <pre><code>##     species    sex  mass length
-## 1  P.gloydi   male 1.262   69.4
-## 2  P.gloydi female 0.903   69.1
-## 3  P.gloydi   male 1.446   71.3
-## 4  P.gloydi female 0.767   51.7
-## 5  P.gloydi   male 0.908   70.8
-## 6  P.gloydi female 1.113   68.4
-## 7  P.gloydi   male 0.736   94.4
-## 8  P.gloydi female 0.508   72.0
-## 9  P.gloydi   male 1.276   94.2
-## 10 P.gloydi female 1.491   94.4
-## 11 P.gloydi   male 1.213   55.4
-## 12 P.gloydi female 0.814   73.1
-## 13 P.gloydi   male 0.791   52.5
-## 14 P.gloydi female 0.858  100.0
-## 15 P.gloydi   male 0.943   67.2
-## 16 P.gloydi female 0.666   86.6
-## 17 P.gloydi   male 1.155   63.4
-## 18 P.gloydi female 0.804   79.7
-## 19 P.gloydi   male 0.628   98.5
-## 20 P.gloydi female 1.251   52.9</code></pre>
+## 1  P.gloydi   male 1.412   58.2
+## 2  P.gloydi female 1.344   74.8
+## 3  P.gloydi   male 0.925   58.2
+## 4  P.gloydi female 1.196   54.4
+## 5  P.gloydi   male 0.545   64.2
+## 6  P.gloydi female 0.574   67.4
+## 7  P.gloydi   male 1.096   70.2
+## 8  P.gloydi female 1.271   83.5
+## 9  P.gloydi   male 1.425   89.0
+## 10 P.gloydi female 1.322   79.3
+## 11 P.gloydi   male 0.885   60.4
+## 12 P.gloydi female 1.357   89.8
+## 13 P.gloydi   male 0.741   81.9
+## 14 P.gloydi female 0.829   96.4
+## 15 P.gloydi   male 0.704   66.5
+## 16 P.gloydi female 1.325   75.4
+## 17 P.gloydi   male 0.951   78.5
+## 18 P.gloydi female 0.915   88.7
+## 19 P.gloydi   male 0.661   82.6
+## 20 P.gloydi female 1.148   69.9</code></pre>
 <p>Be sure that you understand what is happening in each of the lines of code above. This would be a good time to use the help functions in R to help you understand.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="introduction-to-r.html#cb17-1" tabindex="-1"></a><span class="co"># The output from the following code will show up in your R console</span></span>
 <span id="cb17-2"><a href="introduction-to-r.html#cb17-2" tabindex="-1"></a><span class="fu">names</span>(snake.df)  <span class="co"># extract names of columns</span></span></code></pre></div>
@@ -345,43 +362,43 @@ Expect to spend a good amount of time searching for help on the internet while y
 ## [19] &quot;P.gloydi&quot; &quot;P.gloydi&quot;</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="introduction-to-r.html#cb21-1" tabindex="-1"></a>snake.df[<span class="dv">1</span>, ]  <span class="co"># extract the first row</span></span></code></pre></div>
 <pre><code>##    species  sex mass length
-## 1 P.gloydi male 1.26   69.4</code></pre>
+## 1 P.gloydi male 1.41   58.2</code></pre>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="introduction-to-r.html#cb23-1" tabindex="-1"></a>snake.df[ , <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]  <span class="co"># extract the first 3 columns</span></span></code></pre></div>
 <pre><code>##     species    sex  mass
-## 1  P.gloydi   male 1.262
-## 2  P.gloydi female 0.903
-## 3  P.gloydi   male 1.446
-## 4  P.gloydi female 0.767
-## 5  P.gloydi   male 0.908
-## 6  P.gloydi female 1.113
-## 7  P.gloydi   male 0.736
-## 8  P.gloydi female 0.508
-## 9  P.gloydi   male 1.276
-## 10 P.gloydi female 1.491
-## 11 P.gloydi   male 1.213
-## 12 P.gloydi female 0.814
-## 13 P.gloydi   male 0.791
-## 14 P.gloydi female 0.858
-## 15 P.gloydi   male 0.943
-## 16 P.gloydi female 0.666
-## 17 P.gloydi   male 1.155
-## 18 P.gloydi female 0.804
-## 19 P.gloydi   male 0.628
-## 20 P.gloydi female 1.251</code></pre>
+## 1  P.gloydi   male 1.412
+## 2  P.gloydi female 1.344
+## 3  P.gloydi   male 0.925
+## 4  P.gloydi female 1.196
+## 5  P.gloydi   male 0.545
+## 6  P.gloydi female 0.574
+## 7  P.gloydi   male 1.096
+## 8  P.gloydi female 1.271
+## 9  P.gloydi   male 1.425
+## 10 P.gloydi female 1.322
+## 11 P.gloydi   male 0.885
+## 12 P.gloydi female 1.357
+## 13 P.gloydi   male 0.741
+## 14 P.gloydi female 0.829
+## 15 P.gloydi   male 0.704
+## 16 P.gloydi female 1.325
+## 17 P.gloydi   male 0.951
+## 18 P.gloydi female 0.915
+## 19 P.gloydi   male 0.661
+## 20 P.gloydi female 1.148</code></pre>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="introduction-to-r.html#cb25-1" tabindex="-1"></a>snake.df[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]  <span class="co"># extract the first 3 columns and 4 rows</span></span></code></pre></div>
 <pre><code>##    species    sex  mass
-## 1 P.gloydi   male 1.262
-## 2 P.gloydi female 0.903
-## 3 P.gloydi   male 1.446
-## 4 P.gloydi female 0.767</code></pre>
+## 1 P.gloydi   male 1.412
+## 2 P.gloydi female 1.344
+## 3 P.gloydi   male 0.925
+## 4 P.gloydi female 1.196</code></pre>
 <p>It is also possible using base R to call individual columns of a data frame using the names of the data frame and the column separated by a <code>$</code>.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="introduction-to-r.html#cb27-1" tabindex="-1"></a>snake.df<span class="sc">$</span>sex</span></code></pre></div>
 <pre><code>##  [1] male   female male   female male   female male   female male   female
 ## [11] male   female male   female male   female male   female male   female
 ## Levels: female male</code></pre>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="introduction-to-r.html#cb29-1" tabindex="-1"></a>snake.df<span class="sc">$</span>length</span></code></pre></div>
-<pre><code>##  [1]  69.4  69.1  71.3  51.7  70.8  68.4  94.4  72.0  94.2  94.4  55.4  73.1
-## [13]  52.5 100.0  67.2  86.6  63.4  79.7  98.5  52.9</code></pre>
+<pre><code>##  [1] 58.2 74.8 58.2 54.4 64.2 67.4 70.2 83.5 89.0 79.3 60.4 89.8 81.9 96.4 66.5
+## [16] 75.4 78.5 88.7 82.6 69.9</code></pre>
 </div>
 <div id="exporting-data-frames" class="section level2 hasAnchor" number="2.7">
 <h2><span class="header-section-number">2.7</span> Exporting data frames<a href="introduction-to-r.html#exporting-data-frames" class="anchor-section" aria-label="Anchor link to header"></a></h2>
