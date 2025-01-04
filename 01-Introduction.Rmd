@@ -169,3 +169,18 @@ install.packages("gridBase", dependencies = TRUE)
 ```
 
 In addition to installing packages through the command line you can search for an install packages using the 'Packages -- Install Packages' within RStudio. Once packages are installed, they must also be loaded locally before you can use the functions contained within the packages. You load packages with the `library("packagename")` command (replace `packagename` with the name of the package you are loading).
+
+When you have a number of packages to load, I copy, paste and revise, the following code. It is a very efficient script to have at the beginning of your code. The original code was provided to me by Dr. Chris Beirne who has written an excellent book on Camera Trap Data Management and Analysis in R.
+
+```{r eval=FALSE, echo=TRUE, hold=FALSE}
+# Load packages
+#-----------------------------------------------------------------------------.
+list.of.packages <- c("lattice", 
+                      "gridBase")
+# Check to see packages are missing
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+
+# Install the missing packages and load
+if(length(new.packages)) install.packages(new.packages)
+lapply(list.of.packages, require, character.only = TRUE)
+```

@@ -76,7 +76,7 @@ To get you started, we have provided a comma separated values file, which includ
 knitr::include_graphics("images/lek_locs_map.jpg")
 ```
 
-We have summarized the time-series of the leks described and mapped above, by calculating a variety of statistics on the time series form 1982-2013 (<mark>“140123wysg_leks.csv”</mark>).  Before beginning, get associated with this data by opening it in a text editor and excel. A description of data comprised for each column is listed below.
+We have summarized the time-series of the leks described and mapped above, by calculating a variety of statistics on the time series form 1982-2013 (“241223wysg_leks.csv”).  These data are based on empirical data, but all of the locations and counts have had substantial error introduced so they are not "true" data. This was done due to the sensitivity of the data. Before beginning, get associated with this data by opening it in a text editor and excel. A description of data comprised for each column is listed below.
 
 
 | **Name**    | **Description** 	    |
@@ -101,7 +101,7 @@ Once you are familiar with the data table, open Rstudio and setup a script file 
 
 ```{r eval=TRUE, echo=TRUE}
 # set your working directory
-leks <- read.table("DATA/140123wysg_leks.csv", sep=",", header=TRUE,quote="",comment.char="", 
+leks <- read.table("DATA/241223wysg_leks.csv", sep=",", header=TRUE,quote="",comment.char="", 
 stringsAsFactors=FALSE)  # read in the data
 head(leks)  # look at the first few observations
 ```
@@ -113,7 +113,7 @@ dim(leks)  # provide dimensions of the data frame
 summary(leks)
 ```
 
-It is useful to check the format of your data. <mark>We previously discussed some of the potential issues of storing columns as factors</mark>. Check to see if any columns are stored as factors. If needed re-import the data so that no columns are factors.  
+It is useful to check the format of your data. We previously discussed some of the potential issues of storing columns as factors. Check to see if any columns are stored as factors. If needed re-import the data so that no columns are factors.  
 
 ### Summarizing and manipulating data
 

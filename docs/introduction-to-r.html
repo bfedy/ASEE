@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 2 Introduction to R | Applied Statistics in Environment and Ecology</title>
   <meta name="description" content="A book to support content in ERS 669." />
-  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 2 Introduction to R | Applied Statistics in Environment and Ecology" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Dr. Brad Fedy" />
 
 
-<meta name="date" content="2024-03-11" />
+<meta name="date" content="2025-01-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,7 +56,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -66,7 +66,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -331,26 +331,26 @@ Expect to spend a good amount of time searching for help on the internet while y
 <span id="cb15-6"><a href="introduction-to-r.html#cb15-6" tabindex="-1"></a>                       <span class="at">length =</span> <span class="fu">runif</span>(<span class="at">n=</span><span class="dv">20</span>, <span class="at">min=</span><span class="dv">50</span>, <span class="at">max=</span><span class="dv">100</span>))</span>
 <span id="cb15-7"><a href="introduction-to-r.html#cb15-7" tabindex="-1"></a>snake.df</span></code></pre></div>
 <pre><code>##     species    sex  mass length
-## 1  P.gloydi   male 1.412   58.2
-## 2  P.gloydi female 1.344   74.8
-## 3  P.gloydi   male 0.925   58.2
-## 4  P.gloydi female 1.196   54.4
-## 5  P.gloydi   male 0.545   64.2
-## 6  P.gloydi female 0.574   67.4
-## 7  P.gloydi   male 1.096   70.2
-## 8  P.gloydi female 1.271   83.5
-## 9  P.gloydi   male 1.425   89.0
-## 10 P.gloydi female 1.322   79.3
-## 11 P.gloydi   male 0.885   60.4
-## 12 P.gloydi female 1.357   89.8
-## 13 P.gloydi   male 0.741   81.9
-## 14 P.gloydi female 0.829   96.4
-## 15 P.gloydi   male 0.704   66.5
-## 16 P.gloydi female 1.325   75.4
-## 17 P.gloydi   male 0.951   78.5
-## 18 P.gloydi female 0.915   88.7
-## 19 P.gloydi   male 0.661   82.6
-## 20 P.gloydi female 1.148   69.9</code></pre>
+## 1  P.gloydi   male 1.476   52.7
+## 2  P.gloydi female 1.068   96.3
+## 3  P.gloydi   male 0.897   85.0
+## 4  P.gloydi female 1.263   85.8
+## 5  P.gloydi   male 0.887   66.4
+## 6  P.gloydi female 1.204   66.7
+## 7  P.gloydi   male 1.209   86.3
+## 8  P.gloydi female 0.903   81.8
+## 9  P.gloydi   male 0.841   66.3
+## 10 P.gloydi female 1.449   93.7
+## 11 P.gloydi   male 0.840   54.5
+## 12 P.gloydi female 0.541   68.9
+## 13 P.gloydi   male 0.837   82.2
+## 14 P.gloydi female 0.610   89.5
+## 15 P.gloydi   male 1.333   65.2
+## 16 P.gloydi female 0.798   68.7
+## 17 P.gloydi   male 1.335   85.4
+## 18 P.gloydi female 0.509   75.0
+## 19 P.gloydi   male 1.380   82.1
+## 20 P.gloydi female 0.862   60.1</code></pre>
 <p>Be sure that you understand what is happening in each of the lines of code above. This would be a good time to use the help functions in R to help you understand.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="introduction-to-r.html#cb17-1" tabindex="-1"></a><span class="co"># The output from the following code will show up in your R console</span></span>
 <span id="cb17-2"><a href="introduction-to-r.html#cb17-2" tabindex="-1"></a><span class="fu">names</span>(snake.df)  <span class="co"># extract names of columns</span></span></code></pre></div>
@@ -362,43 +362,43 @@ Expect to spend a good amount of time searching for help on the internet while y
 ## [19] &quot;P.gloydi&quot; &quot;P.gloydi&quot;</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="introduction-to-r.html#cb21-1" tabindex="-1"></a>snake.df[<span class="dv">1</span>, ]  <span class="co"># extract the first row</span></span></code></pre></div>
 <pre><code>##    species  sex mass length
-## 1 P.gloydi male 1.41   58.2</code></pre>
+## 1 P.gloydi male 1.48   52.7</code></pre>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="introduction-to-r.html#cb23-1" tabindex="-1"></a>snake.df[ , <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]  <span class="co"># extract the first 3 columns</span></span></code></pre></div>
 <pre><code>##     species    sex  mass
-## 1  P.gloydi   male 1.412
-## 2  P.gloydi female 1.344
-## 3  P.gloydi   male 0.925
-## 4  P.gloydi female 1.196
-## 5  P.gloydi   male 0.545
-## 6  P.gloydi female 0.574
-## 7  P.gloydi   male 1.096
-## 8  P.gloydi female 1.271
-## 9  P.gloydi   male 1.425
-## 10 P.gloydi female 1.322
-## 11 P.gloydi   male 0.885
-## 12 P.gloydi female 1.357
-## 13 P.gloydi   male 0.741
-## 14 P.gloydi female 0.829
-## 15 P.gloydi   male 0.704
-## 16 P.gloydi female 1.325
-## 17 P.gloydi   male 0.951
-## 18 P.gloydi female 0.915
-## 19 P.gloydi   male 0.661
-## 20 P.gloydi female 1.148</code></pre>
+## 1  P.gloydi   male 1.476
+## 2  P.gloydi female 1.068
+## 3  P.gloydi   male 0.897
+## 4  P.gloydi female 1.263
+## 5  P.gloydi   male 0.887
+## 6  P.gloydi female 1.204
+## 7  P.gloydi   male 1.209
+## 8  P.gloydi female 0.903
+## 9  P.gloydi   male 0.841
+## 10 P.gloydi female 1.449
+## 11 P.gloydi   male 0.840
+## 12 P.gloydi female 0.541
+## 13 P.gloydi   male 0.837
+## 14 P.gloydi female 0.610
+## 15 P.gloydi   male 1.333
+## 16 P.gloydi female 0.798
+## 17 P.gloydi   male 1.335
+## 18 P.gloydi female 0.509
+## 19 P.gloydi   male 1.380
+## 20 P.gloydi female 0.862</code></pre>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="introduction-to-r.html#cb25-1" tabindex="-1"></a>snake.df[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]  <span class="co"># extract the first 3 columns and 4 rows</span></span></code></pre></div>
 <pre><code>##    species    sex  mass
-## 1 P.gloydi   male 1.412
-## 2 P.gloydi female 1.344
-## 3 P.gloydi   male 0.925
-## 4 P.gloydi female 1.196</code></pre>
+## 1 P.gloydi   male 1.476
+## 2 P.gloydi female 1.068
+## 3 P.gloydi   male 0.897
+## 4 P.gloydi female 1.263</code></pre>
 <p>It is also possible using base R to call individual columns of a data frame using the names of the data frame and the column separated by a <code>$</code>.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="introduction-to-r.html#cb27-1" tabindex="-1"></a>snake.df<span class="sc">$</span>sex</span></code></pre></div>
 <pre><code>##  [1] male   female male   female male   female male   female male   female
 ## [11] male   female male   female male   female male   female male   female
 ## Levels: female male</code></pre>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="introduction-to-r.html#cb29-1" tabindex="-1"></a>snake.df<span class="sc">$</span>length</span></code></pre></div>
-<pre><code>##  [1] 58.2 74.8 58.2 54.4 64.2 67.4 70.2 83.5 89.0 79.3 60.4 89.8 81.9 96.4 66.5
-## [16] 75.4 78.5 88.7 82.6 69.9</code></pre>
+<pre><code>##  [1] 52.7 96.3 85.0 85.8 66.4 66.7 86.3 81.8 66.3 93.7 54.5 68.9 82.2 89.5 65.2
+## [16] 68.7 85.4 75.0 82.1 60.1</code></pre>
 </div>
 <div id="exporting-data-frames" class="section level2 hasAnchor" number="2.7">
 <h2><span class="header-section-number">2.7</span> Exporting data frames<a href="introduction-to-r.html#exporting-data-frames" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -410,6 +410,17 @@ Expect to spend a good amount of time searching for help on the internet while y
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="introduction-to-r.html#cb32-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;lattice&quot;</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb32-2"><a href="introduction-to-r.html#cb32-2" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;gridBase&quot;</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>In addition to installing packages through the command line you can search for an install packages using the ‘Packages – Install Packages’ within RStudio. Once packages are installed, they must also be loaded locally before you can use the functions contained within the packages. You load packages with the <code>library("packagename")</code> command (replace <code>packagename</code> with the name of the package you are loading).</p>
+<p>When you have a number of packages to load, I copy, paste and revise, the following code. It is a very efficient script to have at the beginning of your code. The original code was provided to me by Dr. Chris Beirne who has written an excellent book on Camera Trap Data Management and Analysis in R.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="introduction-to-r.html#cb33-1" tabindex="-1"></a><span class="co"># Load packages</span></span>
+<span id="cb33-2"><a href="introduction-to-r.html#cb33-2" tabindex="-1"></a><span class="co">#-----------------------------------------------------------------------------.</span></span>
+<span id="cb33-3"><a href="introduction-to-r.html#cb33-3" tabindex="-1"></a>list.of.packages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;lattice&quot;</span>, </span>
+<span id="cb33-4"><a href="introduction-to-r.html#cb33-4" tabindex="-1"></a>                      <span class="st">&quot;gridBase&quot;</span>)</span>
+<span id="cb33-5"><a href="introduction-to-r.html#cb33-5" tabindex="-1"></a><span class="co"># Check to see packages are missing</span></span>
+<span id="cb33-6"><a href="introduction-to-r.html#cb33-6" tabindex="-1"></a>new.packages <span class="ot">&lt;-</span> list.of.packages[<span class="sc">!</span>(list.of.packages <span class="sc">%in%</span> <span class="fu">installed.packages</span>()[,<span class="st">&quot;Package&quot;</span>])]</span>
+<span id="cb33-7"><a href="introduction-to-r.html#cb33-7" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="introduction-to-r.html#cb33-8" tabindex="-1"></a><span class="co"># Install the missing packages and load</span></span>
+<span id="cb33-9"><a href="introduction-to-r.html#cb33-9" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">length</span>(new.packages)) <span class="fu">install.packages</span>(new.packages)</span>
+<span id="cb33-10"><a href="introduction-to-r.html#cb33-10" tabindex="-1"></a><span class="fu">lapply</span>(list.of.packages, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 
 </div>
 </div>

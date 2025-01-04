@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 4 Data | Applied Statistics in Environment and Ecology</title>
   <meta name="description" content="A book to support content in ERS 669." />
-  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 4 Data | Applied Statistics in Environment and Ecology" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Dr. Brad Fedy" />
 
 
-<meta name="date" content="2024-03-11" />
+<meta name="date" content="2025-01-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,7 +56,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -66,7 +66,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -244,45 +244,45 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Data outputs</li>
 </ul>
 <p>Here is an example of the Header text I try to include in all my scripts. Obviously, not all this information is available at the beginning of an analysis, but I encourage you to update your header as you go.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="data.html#cb53-1" tabindex="-1"></a><span class="co">#=============================================================================#</span></span>
-<span id="cb53-2"><a href="data.html#cb53-2" tabindex="-1"></a><span class="co"># HEADER ---------------------------------------------------------------------</span></span>
-<span id="cb53-3"><a href="data.html#cb53-3" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb53-4"><a href="data.html#cb53-4" tabindex="-1"></a><span class="co">#  Author: Brad Fedy</span></span>
-<span id="cb53-5"><a href="data.html#cb53-5" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb53-6"><a href="data.html#cb53-6" tabindex="-1"></a><span class="co">#  R.Version(): Version 4.3.1</span></span>
-<span id="cb53-7"><a href="data.html#cb53-7" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb53-8"><a href="data.html#cb53-8" tabindex="-1"></a><span class="co">#  Project: </span></span>
-<span id="cb53-9"><a href="data.html#cb53-9" tabindex="-1"></a><span class="co">#  Grassland birds habitat selection</span></span>
-<span id="cb53-10"><a href="data.html#cb53-10" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb53-11"><a href="data.html#cb53-11" tabindex="-1"></a><span class="co">#  Required libraries: </span></span>
-<span id="cb53-12"><a href="data.html#cb53-12" tabindex="-1"></a><span class="co">#  Mumin, data.table</span></span>
-<span id="cb53-13"><a href="data.html#cb53-13" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb53-14"><a href="data.html#cb53-14" tabindex="-1"></a><span class="co">#  Required input files: </span></span>
-<span id="cb53-15"><a href="data.html#cb53-15" tabindex="-1"></a><span class="co">#  1. Bird location data e.g., &quot;species.routes.SPPI.csv&quot;</span></span>
-<span id="cb53-16"><a href="data.html#cb53-16" tabindex="-1"></a><span class="co">#  2. Covariate values at each scale creaeted in step _3.. Example naming:</span></span>
-<span id="cb53-17"><a href="data.html#cb53-17" tabindex="-1"></a><span class="co">#     &quot;SPPI.covariates.`scale&#39;.csv&quot;</span></span>
-<span id="cb53-18"><a href="data.html#cb53-18" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb53-19"><a href="data.html#cb53-19" tabindex="-1"></a><span class="co">#  Steps:</span></span>
-<span id="cb53-20"><a href="data.html#cb53-20" tabindex="-1"></a><span class="co">#  1. PREPARE DATA FOR MODELLING</span></span>
-<span id="cb53-21"><a href="data.html#cb53-21" tabindex="-1"></a><span class="co">#  2. RUN UNIVARIATE MODELS</span></span>
-<span id="cb53-22"><a href="data.html#cb53-22" tabindex="-1"></a><span class="co">#  3. CORRELATIONS AMONG TOP COVARIATES</span></span>
-<span id="cb53-23"><a href="data.html#cb53-23" tabindex="-1"></a><span class="co">#  4. UNIVARIATE MODELS FOR ALL CORRELATED PAIRS</span></span>
-<span id="cb53-24"><a href="data.html#cb53-24" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb53-25"><a href="data.html#cb53-25" tabindex="-1"></a><span class="co">#  Output files: </span></span>
-<span id="cb53-26"><a href="data.html#cb53-26" tabindex="-1"></a><span class="co">#  1. Table of univariate results across all scales for each variable. </span></span>
-<span id="cb53-27"><a href="data.html#cb53-27" tabindex="-1"></a><span class="co">#     e.g., &quot;SPPI.model.result.&quot;,env[[s]],&quot;.csv&quot;</span></span>
-<span id="cb53-28"><a href="data.html#cb53-28" tabindex="-1"></a><span class="co">#  2.  Table of univariate results of each highly correlated pair</span></span>
-<span id="cb53-29"><a href="data.html#cb53-29" tabindex="-1"></a><span class="co">#     e.g., &quot;SPPI.cor.var.models.&quot;,x,&quot;.csv&quot; where `x&#39; is a number 1 to n pairs</span></span>
-<span id="cb53-30"><a href="data.html#cb53-30" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb53-31"><a href="data.html#cb53-31" tabindex="-1"></a><span class="co">#  Date: 2023/05/13</span></span>
-<span id="cb53-32"><a href="data.html#cb53-32" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb53-33"><a href="data.html#cb53-33" tabindex="-1"></a><span class="co">#  NOTES: </span></span>
-<span id="cb53-34"><a href="data.html#cb53-34" tabindex="-1"></a><span class="co">#=============================================================================#</span></span>
-<span id="cb53-35"><a href="data.html#cb53-35" tabindex="-1"></a></span>
-<span id="cb53-36"><a href="data.html#cb53-36" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span>
-<span id="cb53-37"><a href="data.html#cb53-37" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;/Users/bfedy/grassland.birds/DATA/Bird.Data&quot;</span>)</span>
-<span id="cb53-38"><a href="data.html#cb53-38" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;MuMIn&quot;</span>)</span>
-<span id="cb53-39"><a href="data.html#cb53-39" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;data.table&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="data.html#cb54-1" tabindex="-1"></a><span class="co">#=============================================================================#</span></span>
+<span id="cb54-2"><a href="data.html#cb54-2" tabindex="-1"></a><span class="co"># HEADER ---------------------------------------------------------------------</span></span>
+<span id="cb54-3"><a href="data.html#cb54-3" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb54-4"><a href="data.html#cb54-4" tabindex="-1"></a><span class="co">#  Author: Brad Fedy</span></span>
+<span id="cb54-5"><a href="data.html#cb54-5" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb54-6"><a href="data.html#cb54-6" tabindex="-1"></a><span class="co">#  R.Version(): Version 4.3.1</span></span>
+<span id="cb54-7"><a href="data.html#cb54-7" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb54-8"><a href="data.html#cb54-8" tabindex="-1"></a><span class="co">#  Project: </span></span>
+<span id="cb54-9"><a href="data.html#cb54-9" tabindex="-1"></a><span class="co">#  Grassland birds habitat selection</span></span>
+<span id="cb54-10"><a href="data.html#cb54-10" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb54-11"><a href="data.html#cb54-11" tabindex="-1"></a><span class="co">#  Required libraries: </span></span>
+<span id="cb54-12"><a href="data.html#cb54-12" tabindex="-1"></a><span class="co">#  Mumin, data.table</span></span>
+<span id="cb54-13"><a href="data.html#cb54-13" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb54-14"><a href="data.html#cb54-14" tabindex="-1"></a><span class="co">#  Required input files: </span></span>
+<span id="cb54-15"><a href="data.html#cb54-15" tabindex="-1"></a><span class="co">#  1. Bird location data e.g., &quot;species.routes.SPPI.csv&quot;</span></span>
+<span id="cb54-16"><a href="data.html#cb54-16" tabindex="-1"></a><span class="co">#  2. Covariate values at each scale creaeted in step _3.. Example naming:</span></span>
+<span id="cb54-17"><a href="data.html#cb54-17" tabindex="-1"></a><span class="co">#     &quot;SPPI.covariates.`scale&#39;.csv&quot;</span></span>
+<span id="cb54-18"><a href="data.html#cb54-18" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb54-19"><a href="data.html#cb54-19" tabindex="-1"></a><span class="co">#  Steps:</span></span>
+<span id="cb54-20"><a href="data.html#cb54-20" tabindex="-1"></a><span class="co">#  1. PREPARE DATA FOR MODELLING</span></span>
+<span id="cb54-21"><a href="data.html#cb54-21" tabindex="-1"></a><span class="co">#  2. RUN UNIVARIATE MODELS</span></span>
+<span id="cb54-22"><a href="data.html#cb54-22" tabindex="-1"></a><span class="co">#  3. CORRELATIONS AMONG TOP COVARIATES</span></span>
+<span id="cb54-23"><a href="data.html#cb54-23" tabindex="-1"></a><span class="co">#  4. UNIVARIATE MODELS FOR ALL CORRELATED PAIRS</span></span>
+<span id="cb54-24"><a href="data.html#cb54-24" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb54-25"><a href="data.html#cb54-25" tabindex="-1"></a><span class="co">#  Output files: </span></span>
+<span id="cb54-26"><a href="data.html#cb54-26" tabindex="-1"></a><span class="co">#  1. Table of univariate results across all scales for each variable. </span></span>
+<span id="cb54-27"><a href="data.html#cb54-27" tabindex="-1"></a><span class="co">#     e.g., &quot;SPPI.model.result.&quot;,env[[s]],&quot;.csv&quot;</span></span>
+<span id="cb54-28"><a href="data.html#cb54-28" tabindex="-1"></a><span class="co">#  2.  Table of univariate results of each highly correlated pair</span></span>
+<span id="cb54-29"><a href="data.html#cb54-29" tabindex="-1"></a><span class="co">#     e.g., &quot;SPPI.cor.var.models.&quot;,x,&quot;.csv&quot; where `x&#39; is a number 1 to n pairs</span></span>
+<span id="cb54-30"><a href="data.html#cb54-30" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb54-31"><a href="data.html#cb54-31" tabindex="-1"></a><span class="co">#  Date: 2023/05/13</span></span>
+<span id="cb54-32"><a href="data.html#cb54-32" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb54-33"><a href="data.html#cb54-33" tabindex="-1"></a><span class="co">#  NOTES: </span></span>
+<span id="cb54-34"><a href="data.html#cb54-34" tabindex="-1"></a><span class="co">#=============================================================================#</span></span>
+<span id="cb54-35"><a href="data.html#cb54-35" tabindex="-1"></a></span>
+<span id="cb54-36"><a href="data.html#cb54-36" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span>
+<span id="cb54-37"><a href="data.html#cb54-37" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;/Users/bfedy/grassland.birds/DATA/Bird.Data&quot;</span>)</span>
+<span id="cb54-38"><a href="data.html#cb54-38" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;MuMIn&quot;</span>)</span>
+<span id="cb54-39"><a href="data.html#cb54-39" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;data.table&quot;</span>)</span></code></pre></div>
 <p>The formatting of your scripts can be a matter of personal preference. There are a number of style guides available. Hadley Wickham has one associated with his <a href="http://adv-r.had.co.nz/Style.html">Advanced R book</a> and Google’s R Style Guide can be found in multiple locations on the internet. Basically, try to make it readable, easily understood, and do not be shy with your use of <code># comments</code> throughout. You will be grateful later. Really…. more comments are almost always better.</p>
 </div>
 <div id="importing-viewing-and-editing-data" class="section level2 hasAnchor" number="4.2">
@@ -291,7 +291,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Greater Sage-Grouse (<em>Centrocercus urophasianus</em>; hearafter sage-grouse) are ground nesting bird, distributed across the intermountain west with a range that crosses 11 states and 2 Canadian provinces. They are listed under the Canadian Species At Risk Act and of conservation concern throughout their distribution in the United States. Their distribution is roughly consonant with the distribution of sagebrush (Artemisia sp.) habitat. The major negative impacts to sage-grouse are habitat loss, invasive species, and energy development across their range. Sage-grouse have a lek mating system in which males congregate at breeding sites (i.e., leks) each spring to compete for mating opportunities using elaborate ‘strutting’ displays to attract females. There have been large efforts across their range to collect detailed ecological and population data - typically focused on lek sites. Approximately 35% of the remaining sage-grouse occur in Wyoming. Long term monitoring data exists for many of the active leks across Wyoming which are visited 1-3 times per lek season by biologists who count the number of males displaying at a lek. By convention, the highest number of males recorded across all visits is used as the lek size for a given year. These counts are considered a good index of overall population size and are used to assess trends in population numbers. This ongoing effort was started in 1948 and has resulted in a large dataset with thousands of leks where males have been counted and recorded each year. We will use some of these data to demonstrate approaches that can be used to visualize and analyze a real ecological dataset. Given issues with data ownership and distribution, the data you will be working with are based on real data, but I have adjusted the data by introducing random variation into the counts and spatial lek locations. So the actual data you are working with have similar distributions and challenges associated with the real data, but but are not accurate in terms of lek locations and lek counts. Th</p>
 <p>To get you started, we have provided a comma separated values file, which includes summary information on 718 leks from the southern half of the Wyoming. In the figure below you can see distribution of these leks in relation to their range (light grey) across this region.</p>
 <p><img src="images/Lek_locs_map.jpg" width="70%" style="display: block; margin: auto;" /></p>
-<p>We have summarized the time-series of the leks described and mapped above, by calculating a variety of statistics on the time series form 1982-2013 (<mark>“140123wysg_leks.csv”</mark>). Before beginning, get associated with this data by opening it in a text editor and excel. A description of data comprised for each column is listed below.</p>
+<p>We have summarized the time-series of the leks described and mapped above, by calculating a variety of statistics on the time series form 1982-2013 (“241223wysg_leks.csv”). These data are based on empirical data, but all of the locations and counts have had substantial error introduced so they are not “true” data. This was done due to the sensitivity of the data. Before beginning, get associated with this data by opening it in a text editor and excel. A description of data comprised for each column is listed below.</p>
 <table>
 <colgroup>
 <col width="43%" />
@@ -367,10 +367,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>Once you are familiar with the data table, open Rstudio and setup a script file (do not forget to save the script file) that you will use to enter your commands throughout all exercises. You can translate your commands from the script to the concole (i.e., run your commands), by highlighting the commands and hitting control-enter on the keyboard. Make sure you input header information before you begin entering commands! It is also important to set your working directory to the directory where your data is saved before attempting to import the data.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="data.html#cb54-1" tabindex="-1"></a><span class="co"># set your working directory</span></span>
-<span id="cb54-2"><a href="data.html#cb54-2" tabindex="-1"></a>leks <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;DATA/140123wysg_leks.csv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;,&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>,<span class="at">quote=</span><span class="st">&quot;&quot;</span>,<span class="at">comment.char=</span><span class="st">&quot;&quot;</span>, </span>
-<span id="cb54-3"><a href="data.html#cb54-3" tabindex="-1"></a><span class="at">stringsAsFactors=</span><span class="cn">FALSE</span>)  <span class="co"># read in the data</span></span>
-<span id="cb54-4"><a href="data.html#cb54-4" tabindex="-1"></a><span class="fu">head</span>(leks)  <span class="co"># look at the first few observations</span></span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="data.html#cb55-1" tabindex="-1"></a><span class="co"># set your working directory</span></span>
+<span id="cb55-2"><a href="data.html#cb55-2" tabindex="-1"></a>leks <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;DATA/241223wysg_leks.csv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;,&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>,<span class="at">quote=</span><span class="st">&quot;&quot;</span>,<span class="at">comment.char=</span><span class="st">&quot;&quot;</span>, </span>
+<span id="cb55-3"><a href="data.html#cb55-3" tabindex="-1"></a><span class="at">stringsAsFactors=</span><span class="cn">FALSE</span>)  <span class="co"># read in the data</span></span>
+<span id="cb55-4"><a href="data.html#cb55-4" tabindex="-1"></a><span class="fu">head</span>(leks)  <span class="co"># look at the first few observations</span></span></code></pre></div>
 <pre><code>##              lekid        x       y area per_miss per_zero mean_count sd_count
 ## 1    D-Alkali Draw -1117044 2253178    D     46.9     50.0     34.529     17.6
 ## 2  D-Antelope Draw -1154827 2281868    D     28.1     40.6     52.391     45.4
@@ -386,9 +386,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5         0        14   185886     25.6      16.1      17.0     0.487
 ## 6         0        73   171083     26.5      16.0      13.4     0.555</code></pre>
 <p>There are often issues when importing data. Typically these are caused by variables that contain character data. You can visually inspect your imported data using the <code>view()</code> function or by clicking the data table in your Environment in RStudio. It is useful to always use summary functions to ensure that everything imported as expected. Here we use two such functions.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="data.html#cb56-1" tabindex="-1"></a><span class="fu">dim</span>(leks)  <span class="co"># provide dimensions of the data frame</span></span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="data.html#cb57-1" tabindex="-1"></a><span class="fu">dim</span>(leks)  <span class="co"># provide dimensions of the data frame</span></span></code></pre></div>
 <pre><code>## [1] 718  15</code></pre>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="data.html#cb58-1" tabindex="-1"></a><span class="fu">summary</span>(leks)</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="data.html#cb59-1" tabindex="-1"></a><span class="fu">summary</span>(leks)</span></code></pre></div>
 <pre><code>##     lekid                 x                  y               area          
 ##  Length:718         Min.   :-1236354   Min.   :2043637   Length:718        
 ##  Class :character   1st Qu.:-1129942   1st Qu.:2122548   Class :character  
@@ -417,20 +417,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  Mean   :0.198  
 ##  3rd Qu.:0.262  
 ##  Max.   :0.695</code></pre>
-<p>It is useful to check the format of your data. <mark>We previously discussed some of the potential issues of storing columns as factors</mark>. Check to see if any columns are stored as factors. If needed re-import the data so that no columns are factors.</p>
+<p>It is useful to check the format of your data. We previously discussed some of the potential issues of storing columns as factors. Check to see if any columns are stored as factors. If needed re-import the data so that no columns are factors.</p>
 <div id="summarizing-and-manipulating-data" class="section level3 hasAnchor" number="4.2.1">
 <h3><span class="header-section-number">4.2.1</span> Summarizing and manipulating data<a href="data.html#summarizing-and-manipulating-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>One of the key components to any analysis is the ability to summarize and manipulate your data. There are almost as many ways to accomplish common data summary tasks as there are users. We provided some of these basic functions earlier. However, in many cases you will want to summarize a data set using a grouping variable. For example, suppose we wish to determine the mean number of males counted within each of the management areas. One way this can be done using base R is with the <code>tapply()</code> function which applies a function to each group within a vector. To use <code>tapply</code> you supply i) a numeric vector of a data frame to be summarized (<code>X</code>; i.e., your variable of interest), ii) a grouping factor (<code>INDEX</code>), and iii) a function (<code>FUN</code>) to summarize the numeric vector:</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="data.html#cb60-1" tabindex="-1"></a><span class="fu">tapply</span>(<span class="at">X=</span>leks<span class="sc">$</span>mean_count,<span class="at">INDEX=</span>leks<span class="sc">$</span>area,<span class="at">FUN=</span>mean)</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="data.html#cb61-1" tabindex="-1"></a><span class="fu">tapply</span>(<span class="at">X=</span>leks<span class="sc">$</span>mean_count,<span class="at">INDEX=</span>leks<span class="sc">$</span>area,<span class="at">FUN=</span>mean)</span></code></pre></div>
 <pre><code>##     D     E     F     G     H 
 ## 30.96 28.49  8.53 16.68 13.14</code></pre>
 <p>This example used <code>mean</code>; however, <code>tapply</code> can be used with any built in function (e.g., <code>sum()</code>, <code>sd()</code>, <code>length()</code>, <code>max()</code>, <code>min()</code>) or with a customized function of your own design. In addition to this flexibility, more than one grouping factor can be incorporated. For example, suppose we had some idea of a breakpoint between high and low quality nesting habitat for leks and we wanted to calculate a summary table describing the mean male counts for low and high suitability leks within each management area. To accomplish this we first need to create an additional variable, which groups the leks into ‘low’ or ‘high’ suitability groupings.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="data.html#cb62-1" tabindex="-1"></a>leks<span class="sc">$</span>nest_type<span class="ot">&lt;-</span><span class="st">&quot;low&quot;</span>  <span class="co"># create a nesting suitability variable </span></span>
-<span id="cb62-2"><a href="data.html#cb62-2" tabindex="-1"></a>leks[leks<span class="sc">$</span>mean_nest<span class="sc">&gt;</span><span class="fl">0.3</span>,<span class="st">&quot;nest_type&quot;</span>]<span class="ot">&lt;-</span><span class="st">&quot;high&quot;</span>  <span class="co"># change rows with values &gt; 0.3 to &#39;high&#39;</span></span>
-<span id="cb62-3"><a href="data.html#cb62-3" tabindex="-1"></a>leks_sort<span class="ot">&lt;-</span>leks[<span class="fu">order</span>(leks<span class="sc">$</span>nest_type),] <span class="co">#  sort data frame by nest_type</span></span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="data.html#cb63-1" tabindex="-1"></a>leks<span class="sc">$</span>nest_type<span class="ot">&lt;-</span><span class="st">&quot;low&quot;</span>  <span class="co"># create a nesting suitability variable </span></span>
+<span id="cb63-2"><a href="data.html#cb63-2" tabindex="-1"></a>leks[leks<span class="sc">$</span>mean_nest<span class="sc">&gt;</span><span class="fl">0.3</span>,<span class="st">&quot;nest_type&quot;</span>]<span class="ot">&lt;-</span><span class="st">&quot;high&quot;</span>  <span class="co"># change rows with values &gt; 0.3 to &#39;high&#39;</span></span>
+<span id="cb63-3"><a href="data.html#cb63-3" tabindex="-1"></a>leks_sort<span class="ot">&lt;-</span>leks[<span class="fu">order</span>(leks<span class="sc">$</span>nest_type),] <span class="co">#  sort data frame by nest_type</span></span></code></pre></div>
 <p>Above we also use the <code>order()</code> function to sort the data frame by our new variable. Note that when we sort the data frame we create a new data frame, so the original data remains unmodified. View the sorted data frame to ensure the new variable is correctly assigned. After creating this variable you can use the <code>tapply</code> function with both the management area (area) and the newly created nest_type variable:</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="data.html#cb63-1" tabindex="-1"></a>lek_summary<span class="ot">&lt;-</span><span class="fu">aggregate</span>(<span class="at">x=</span>leks_sort<span class="sc">$</span>mean_count,<span class="at">by=</span><span class="fu">list</span>(leks_sort<span class="sc">$</span>area,leks_sort<span class="sc">$</span>nest_type), <span class="at">FUN=</span>mean)</span>
-<span id="cb63-2"><a href="data.html#cb63-2" tabindex="-1"></a>lek_summary</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="data.html#cb64-1" tabindex="-1"></a>lek_summary<span class="ot">&lt;-</span><span class="fu">aggregate</span>(<span class="at">x=</span>leks_sort<span class="sc">$</span>mean_count,<span class="at">by=</span><span class="fu">list</span>(leks_sort<span class="sc">$</span>area,leks_sort<span class="sc">$</span>nest_type), <span class="at">FUN=</span>mean)</span>
+<span id="cb64-2"><a href="data.html#cb64-2" tabindex="-1"></a>lek_summary</span></code></pre></div>
 <pre><code>##    Group.1 Group.2     x
 ## 1        D    high 35.78
 ## 2        E    high 33.26
@@ -443,8 +443,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 9        G     low 14.63
 ## 10       H     low 13.60</code></pre>
 <p>The original data came in the form of a time series over multiple years. These summaries were created using the <code>apply()</code> function, which can be used to apply a function across rows (<code>MARGIN=1</code>) or down columns (<code>MARGIN=2</code>). To use these summaries, load the time series data using the <code>readtable</code> function.</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="data.html#cb65-1" tabindex="-1"></a>lek_ts<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">&quot;DATA/wysg_peak_males_ts_sub.csv&quot;</span>,<span class="at">sep=</span><span class="st">&quot;,&quot;</span>,<span class="at">header=</span><span class="cn">TRUE</span>)</span>
-<span id="cb65-2"><a href="data.html#cb65-2" tabindex="-1"></a><span class="fu">head</span>(lek_ts)</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="data.html#cb66-1" tabindex="-1"></a>lek_ts<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">&quot;DATA/wysg_peak_males_ts_sub.csv&quot;</span>,<span class="at">sep=</span><span class="st">&quot;,&quot;</span>,<span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb66-2"><a href="data.html#cb66-2" tabindex="-1"></a><span class="fu">head</span>(lek_ts)</span></code></pre></div>
 <pre><code>##              lekid X2008 X2009 X2010 X2011 X2012 X2013
 ## 1   B-Blue Mesa 24    16    13    16    13     9     5
 ## 2  B-Grass Creek 2     0    17     4     5    12     7
@@ -452,9 +452,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 4   B-Logging Road    24    42    31    10    12    12
 ## 5          C-Innes    34    29    19    14    15    12
 ## 6 C-Upton-Fairview    11    13    12    10    17     9</code></pre>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="data.html#cb67-1" tabindex="-1"></a><span class="co"># take mean across last 5 rows and add to new column</span></span>
-<span id="cb67-2"><a href="data.html#cb67-2" tabindex="-1"></a>lek_ts<span class="sc">$</span>mean_count<span class="ot">&lt;-</span><span class="fu">apply</span>(<span class="at">X=</span>lek_ts[,<span class="dv">2</span><span class="sc">:</span><span class="dv">7</span>],<span class="at">MARGIN=</span><span class="dv">1</span>,<span class="at">FUN=</span>mean) </span>
-<span id="cb67-3"><a href="data.html#cb67-3" tabindex="-1"></a><span class="fu">head</span>(lek_ts)</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="data.html#cb68-1" tabindex="-1"></a><span class="co"># take mean across last 5 rows and add to new column</span></span>
+<span id="cb68-2"><a href="data.html#cb68-2" tabindex="-1"></a>lek_ts<span class="sc">$</span>mean_count<span class="ot">&lt;-</span><span class="fu">apply</span>(<span class="at">X=</span>lek_ts[,<span class="dv">2</span><span class="sc">:</span><span class="dv">7</span>],<span class="at">MARGIN=</span><span class="dv">1</span>,<span class="at">FUN=</span>mean) </span>
+<span id="cb68-3"><a href="data.html#cb68-3" tabindex="-1"></a><span class="fu">head</span>(lek_ts)</span></code></pre></div>
 <pre><code>##              lekid X2008 X2009 X2010 X2011 X2012 X2013 mean_count
 ## 1   B-Blue Mesa 24    16    13    16    13     9     5       12.0
 ## 2  B-Grass Creek 2     0    17     4     5    12     7        7.5
