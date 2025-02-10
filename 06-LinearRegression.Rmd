@@ -12,9 +12,161 @@ Correlation is the most basic means of measuring the association between two var
 
 Often times data are not normally distributed or continuous. Luckily, a series of other statistics have been developed to measure the relationships among variable with different measurement scales. After Pearson's correlation coefficient, the next most common approach in ecology and environment is likely the Spearman's rank correlation. Spearman's correlates two variables measured on the ordinal scale. The raw data may have actually been measured on an ordinal scale or if data are continuous, but not normally distributed, the researcher may decide to convert the variable to the ordinal scale and assess correlation using a Spearman's rank correlation. This type of transformation from a non-normal continuous variable to a rank-ordered variable is a common approach in non-parametric statistics (*e.g.*, Wilcoxon, Mann-Whitney U-test) and we encounter it again when dealing with GLMs. An alternative to Spearman's that you may encounter is Kendall's tau, which is an alternative test of association between oridinal data. My experience suggests it is less common in the ecology and environment literature.
 
-Categorical data provide a different challenge and associations (*i.e.*, correlations) are commonly assessed using the Pearson Chi-squared test for independence. With this type of data we are testing an explicit hypothesis. The null hypothesis ($H_0$): no association between the two variables, is compared against the alternative hypothesis ($H_A$): there is an association between the two variables. The Chi-squared test results in a significance test which can reject the null hypothesis. Cramer's V is an alternative to the Chi-squared test. Cramer's V does not reject or fail to reject a hypothesis and is more similar to the Pearson's correlation coefficient in its interpretation producing a value between 0 (no association) and 1 (perfect association). Guidelines suggest that a Cramer's V of < 0.25  indicates a week association and > 0.75 is a moderate association.
+Categorical data provide a different challenge and associations (*i.e.*, correlations) are commonly assessed using the Pearson Chi-squared test for independence. With this type of data we are testing an explicit hypothesis. The null hypothesis ($H_0$): no association between the two variables, is compared against the alternative hypothesis ($H_A$): there is an association between the two variables. The Chi-squared test results in a significance test which can reject the null hypothesis. Cramer's V can be used as a follow-up to the Chi-squared test. Cramer's V does not reject or fail to reject a hypothesis and is more similar to the Pearson's correlation coefficient in its interpretation producing a value between 0 (no association) and 1 (perfect association). Guidelines suggest that a Cramer's V of < 0.25  indicates a week association and > 0.75 is a moderate association.
 
 All the above approaches assume that individual observations are drawn randomly from the population.
+
+### Non-parametic correlations in a GLM context
+
+We have explored how to address pairwise correlations and why this is an important pre-screening exploration before we start fitting models. Basically, in a GLM context, we should not have highly correlated predictor variables in the same model. We cover why this is true throughout the lectures. The same is true with categorical variables in a GLM context. If categorical variables are highly correlated, then we need to be cautious about their inclusion as predictor variables in the same model. The process for assessing correlations among categorical predictors is slightly more involved that with continuous or ordinal data, but should be done prior to model fitting, and includes 3 steps. These steps are outlined in detail in the code below and involve: 1. creation of a contingency table, 2. Chi-squared test of association, 3. Calculation of Cramer's V. These three steps should be done for each possible pairwise correlation of interest.
+
+Load the required packages. Remember, you must make sure they are installed. The `car` package is used for the VIF estimation (more on this below) and teh `vcd` package provides the `assocstats` function to calculate Cramer's V.
+
+```{r eval=TRUE, echo=TRUE, results=FALSE, message=FALSE}
+packages.needed <- c("car", "vcd")
+lapply(packages.needed, FUN = require, character.only = TRUE)
+```
+
+Next we load data that contains three categorical predictors with a continuous response variable. The downloaded from the UW LEARN site.
+
+```{r eval=TRUE, echo=TRUE, hold=FALSE}
+df1 = read.csv("DATA/cat_correlation_1.csv", header = TRUE)
+summary (df1)
+```
+ 
+This data set contains data on species diversity levels measured across 5 different habitat types, 2 levels of disturbance, and 3 different types of fertilizer treatments. For this example, we are assuming we did not have control over study design. For example, these data could have been provided by an agency or organization. In other words, the distribution of the different categories of fertilizer and disturbance do not necessarily represent a balanced design across habitats. Therefore, we need to look for potential correlations among all possible pairwise combinations of the predictor variables. The questions we are asking are: 
+Is there correlation between habitat type and disturbance?
+Is there correlation between habitat type and fertilizer?
+Is there correlation between disturbance and fertilizer?
+
+Before we can run a Chi-squared test for each possible pairwise comparison, we need to create a *contingency table*. The next step involves, running the Chi-squared test on the contingency table. We then follow this with the calculation of Cramer's V. 
+
+```{r eval=TRUE, echo=TRUE, hold=TRUE, results='hold'}
+## Habitat vs Disturbance
+cat("\n--- Habitat vs Disturbance ---\n")
+# contingency table
+tab_hd <- table(df1$habitat, df1$disturbance)
+# Chi-squared test
+chi_hd <- chisq.test(tab_hd)
+print(chi_hd)
+# Cramer's V
+assoc_hd <- assocstats(tab_hd)
+cat("Cramer's V:", assoc_hd$cramer, "\n")
+
+## Habitat vs Fertilizer:
+cat("\n--- Habitat vs Fertilizer ---\n")
+# contingency table
+tab_hf <- table(df1$habitat, df1$fertilizer)
+# Chi-squared test
+chi_hf <- chisq.test(tab_hf)
+print(chi_hf)
+# Cramer's V
+assoc_hf <- assocstats(tab_hf)
+cat("Cramer's V:", assoc_hf$cramer, "\n")
+
+## Disturbance vs Fertilizer:
+cat("\n--- Disturbance vs Fertilizer ---\n")
+# contingency table
+tab_df <- table(df1$disturbance, df1$fertilizer)
+# Chi-squared test
+chi_df <- chisq.test(tab_df)
+print(chi_df)
+# Cramer's V
+assoc_df <- assocstats(tab_df)
+cat("Cramer's V:", assoc_df$cramer, "\n")
+```
+
+The *pre-screening* of correlations among variables is complete and there does not appear to be any substantial correlations among the covariates. However, it is good practice to assess potential correlations after you have fit the model(s) using the __Variance Inflation Factor (VIF)__. This value is computed for each predictor in your regression models and tells you how much of the variance (or uncertainty) of each variable's coefficient estimate is "inflated" due to correlation with other predictors. A *high* VIF can lead to less precise estimates and unstable coefficients. This means that small changes in the data could lead to large changes in the estimated coefficients. A *high( VIF could also indicate that it is difficult to distinguish the individual effect of a predictor on the response variable due to shared information between predictors. This can be addressed by combining similar predictors, removing one of the correlated predictors (discussed in lecture), or reconsidering the model specification. The thresholds for VIF are guidelines and not absolute cutoffs. Generally, the following guidelines are used: 
+Low VIF (VIF $\approx$ 1): Predictor is independent of others.
+Moderate VIF (1-5): Some collinearity exists, but generally acceptable.
+High VIF (>5): Strong collinearity exists, which may inflate standard errors, make coefficeint estimates unstable, and the model should be re-evaluated.
+
+```{r eval=TRUE, echo=TRUE, results='hold'}
+# Fit a linear model and assess multicollinearity:
+model_1 <- lm(species_diversity ~ habitat + disturbance + fertilizer, data = df1)
+```
+```{r eval=TRUE, echo=FALSE}
+cat("\n--- Summary model_1 ---\n")
+summary(model_1)
+cat("\n--- VIF model_1 ---\n")
+print(vif(model_1))
+```
+
+The results of the above assessment indicate there are no concerns regarding high correlation among the potential predictor variables. You can follow the same example above with a different data set to see how the results differ. These data are also available on the LEARN site.
+
+```{r eval=TRUE, echo=TRUE, hold=FALSE}
+df2 = read.csv("DATA/cat_correlation_2.csv", header = TRUE)
+summary (df1)
+```
+
+```{r eval=TRUE, echo=FALSE, hold=TRUE, results='hold'}
+## Habitat vs Disturbance
+cat("\n--- Habitat vs Disturbance ---\n")
+# contingency table
+tab_hd <- table(df2$habitat, df2$disturbance)
+# Chi-squared test
+chi_hd <- chisq.test(tab_hd)
+print(chi_hd)
+# Cramer's V
+assoc_hd <- assocstats(tab_hd)
+cat("Cramer's V:", assoc_hd$cramer, "\n")
+
+## Habitat vs Fertilizer:
+cat("\n--- Habitat vs Fertilizer ---\n")
+# contingency table
+tab_hf <- table(df2$habitat, df2$fertilizer)
+# Chi-squared test
+chi_hf <- chisq.test(tab_hf)
+print(chi_hf)
+# Cramer's V
+assoc_hf <- assocstats(tab_hf)
+cat("Cramer's V:", assoc_hf$cramer, "\n")
+
+## Disturbance vs Fertilizer:
+cat("\n--- Disturbance vs Fertilizer ---\n")
+# contingency table
+tab_df <- table(df2$disturbance, df2$fertilizer)
+# Chi-squared test
+chi_df <- chisq.test(tab_df)
+print(chi_df)
+# Cramer's V
+assoc_df <- assocstats(tab_df)
+cat("Cramer's V:", assoc_df$cramer, "\n")
+```
+
+These results indicate a high level of correlation between our disturbance and fertilizer variables. Below we can see the consequences of including these two variables in the same model for our estimated VIF values.
+
+```{r eval=TRUE, echo=TRUE, results='hold'}
+# Fit a linear model and assess multicollinearity:
+model_2 <- lm(species_diversity ~ habitat + disturbance + fertilizer, data = df2)
+```
+```{r eval=TRUE, echo=FALSE}
+cat("\n--- Summary model_2 ---\n")
+summary(model_2)
+cat("\n--- VIF model_2 ---\n")
+print(vif(model_2))
+```
+
+The above results suggest a *moderate* VIF level. At this point, it is likely best to proceed with additional model evaluation steps. The following are steps that are advisable and covered in more detail in later chapters, but listed here for reference: 
+Based on your results—where the VIF for disturbance and fertilizer is a little over 2 (which indicates moderate but not alarming collinearity)—you can move forward with additional model evaluation steps. Here are several recommended next steps:
+
+1. **Residual Diagnostics:**  
+   - **Residual Plots:** Check residual-versus-fitted values to ensure that there are no obvious patterns (which might indicate nonlinearity or heteroscedasticity).  
+   - **Normality of Residuals:** For models where normality is assumed (like linear regression in the above example), a Q–Q plot can help assess if residuals are approximately normally distributed.  
+   - **Influence and Leverage:** Calculate diagnostic measures (e.g., Cook’s distance) to see if any individual observations have an outsized influence on your model estimates.
+
+2. **Goodness-of-Fit and Model Comparison:**  
+   - **Information Criteria:** Use metrics such as AIC (Akaike Information Criterion) to compare alternative model specifications (e.g., models with or without interaction terms, or with different sets of predictors).  
+   - **Cross-Validation:** If prediction is a goal, consider using cross-validation or a hold-out sample to assess the predictive performance of your model.
+
+3. **Model Specification:**  
+   - **Interactions:** Given the ecological context, it may be worthwhile to explore whether interactions (for example, between disturbance and fertilizer) add important explanatory power to your model.  
+
+
+4. **Substantive Interpretation and Sensitivity Analysis:**  
+   - **Coefficient Interpretations:** Check that the estimated effects of your predictors make sense from an ecological perspective.  
+   - **Sensitivity Checks:** If you’re concerned about even moderate collinearity, you might explore models where you combine or drop one of the correlated variables to see if the substantive conclusions change.
+
 
 ## Regression 
 The simplest linear models we can develop are linear regression models. These models are similar to the concept of correlation introduced in the previous section in that we are only examining two variables. However, linear regression differs from correlation in several important ways. Conceptually, the biggest difference, is that in a linear regression you are proposing a *directional* relationship. When we looked at correlations, we were simply interested in whether there was a relationship between two variables, but we did not propose a cause and effect relationship. In other words, in correlation, it does not matter what variable is on the $y$ axis and what variable was on the $x$ axis. The variables are interchangeable between axes. This is not true of a linear regression. For a linear regression, we must specify which of the variables we are trying to predict (i.e., which variable is the *dependent* variable. This variable is the $y$ variable. The predictor (i.e., *independent* variable) is the $x$ variable. Our selection of dependent $y$ and independent $x$ variables is informed by our question and the hypotheses that we want to test. Essentially, the $y$ is what you want to predict - your response variable of interest - and your $x$ is something that influences that response. We will go through many examples throughout the book. 
