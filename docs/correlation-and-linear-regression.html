@@ -23,7 +23,7 @@
 <meta name="author" content="Dr. Brad Fedy" />
 
 
-<meta name="date" content="2025-01-04" />
+<meta name="date" content="2025-02-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -185,6 +185,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="7.1.1" data-path="correlation-and-linear-regression.html"><a href="correlation-and-linear-regression.html#correlation-coefficient"><i class="fa fa-check"></i><b>7.1.1</b> Correlation coefficient</a></li>
 <li class="chapter" data-level="7.1.2" data-path="correlation-and-linear-regression.html"><a href="correlation-and-linear-regression.html#non-parametric-correlations"><i class="fa fa-check"></i><b>7.1.2</b> Non-parametric correlations</a></li>
+<li class="chapter" data-level="7.1.3" data-path="correlation-and-linear-regression.html"><a href="correlation-and-linear-regression.html#non-parametic-correlations-in-a-glm-context"><i class="fa fa-check"></i><b>7.1.3</b> Non-parametic correlations in a GLM context</a></li>
 </ul></li>
 <li class="chapter" data-level="7.2" data-path="correlation-and-linear-regression.html"><a href="correlation-and-linear-regression.html#regression"><i class="fa fa-check"></i><b>7.2</b> Regression</a>
 <ul>
@@ -238,8 +239,230 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="non-parametric-correlations" class="section level3 hasAnchor" number="7.1.2">
 <h3><span class="header-section-number">7.1.2</span> Non-parametric correlations<a href="correlation-and-linear-regression.html#non-parametric-correlations" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Often times data are not normally distributed or continuous. Luckily, a series of other statistics have been developed to measure the relationships among variable with different measurement scales. After Pearson’s correlation coefficient, the next most common approach in ecology and environment is likely the Spearman’s rank correlation. Spearman’s correlates two variables measured on the ordinal scale. The raw data may have actually been measured on an ordinal scale or if data are continuous, but not normally distributed, the researcher may decide to convert the variable to the ordinal scale and assess correlation using a Spearman’s rank correlation. This type of transformation from a non-normal continuous variable to a rank-ordered variable is a common approach in non-parametric statistics (<em>e.g.</em>, Wilcoxon, Mann-Whitney U-test) and we encounter it again when dealing with GLMs. An alternative to Spearman’s that you may encounter is Kendall’s tau, which is an alternative test of association between oridinal data. My experience suggests it is less common in the ecology and environment literature.</p>
-<p>Categorical data provide a different challenge and associations (<em>i.e.</em>, correlations) are commonly assessed using the Pearson Chi-squared test for independence. With this type of data we are testing an explicit hypothesis. The null hypothesis (<span class="math inline">\(H_0\)</span>): no association between the two variables, is compared against the alternative hypothesis (<span class="math inline">\(H_A\)</span>): there is an association between the two variables. The Chi-squared test results in a significance test which can reject the null hypothesis. Cramer’s V is an alternative to the Chi-squared test. Cramer’s V does not reject or fail to reject a hypothesis and is more similar to the Pearson’s correlation coefficient in its interpretation producing a value between 0 (no association) and 1 (perfect association). Guidelines suggest that a Cramer’s V of &lt; 0.25 indicates a week association and &gt; 0.75 is a moderate association.</p>
+<p>Categorical data provide a different challenge and associations (<em>i.e.</em>, correlations) are commonly assessed using the Pearson Chi-squared test for independence. With this type of data we are testing an explicit hypothesis. The null hypothesis (<span class="math inline">\(H_0\)</span>): no association between the two variables, is compared against the alternative hypothesis (<span class="math inline">\(H_A\)</span>): there is an association between the two variables. The Chi-squared test results in a significance test which can reject the null hypothesis. Cramer’s V can be used as a follow-up to the Chi-squared test. Cramer’s V does not reject or fail to reject a hypothesis and is more similar to the Pearson’s correlation coefficient in its interpretation producing a value between 0 (no association) and 1 (perfect association). Guidelines suggest that a Cramer’s V of &lt; 0.25 indicates a week association and &gt; 0.75 is a moderate association.</p>
 <p>All the above approaches assume that individual observations are drawn randomly from the population.</p>
+</div>
+<div id="non-parametic-correlations-in-a-glm-context" class="section level3 hasAnchor" number="7.1.3">
+<h3><span class="header-section-number">7.1.3</span> Non-parametic correlations in a GLM context<a href="correlation-and-linear-regression.html#non-parametic-correlations-in-a-glm-context" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We have explored how to address pairwise correlations and why this is an important pre-screening exploration before we start fitting models. Basically, in a GLM context, we should not have highly correlated predictor variables in the same model. We cover why this is true throughout the lectures. The same is true with categorical variables in a GLM context. If categorical variables are highly correlated, then we need to be cautious about their inclusion as predictor variables in the same model. The process for assessing correlations among categorical predictors is slightly more involved that with continuous or ordinal data, but should be done prior to model fitting, and includes 3 steps. These steps are outlined in detail in the code below and involve: 1. creation of a contingency table, 2. Chi-squared test of association, 3. Calculation of Cramer’s V. These three steps should be done for each possible pairwise correlation of interest.</p>
+<p>Load the required packages. Remember, you must make sure they are installed. The <code>car</code> package is used for the VIF estimation (more on this below) and teh <code>vcd</code> package provides the <code>assocstats</code> function to calculate Cramer’s V.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="correlation-and-linear-regression.html#cb1-1" tabindex="-1"></a>packages.needed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;car&quot;</span>, <span class="st">&quot;vcd&quot;</span>)</span>
+<span id="cb1-2"><a href="correlation-and-linear-regression.html#cb1-2" tabindex="-1"></a><span class="fu">lapply</span>(packages.needed, <span class="at">FUN =</span> require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>Next we load data that contains three categorical predictors with a continuous response variable. The downloaded from the UW LEARN site.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="correlation-and-linear-regression.html#cb2-1" tabindex="-1"></a>df1 <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">&quot;DATA/cat_correlation_1.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-2"><a href="correlation-and-linear-regression.html#cb2-2" tabindex="-1"></a><span class="fu">summary</span> (df1)</span></code></pre></div>
+<pre><code>##    habitat          disturbance         fertilizer        species_diversity
+##  Length:300         Length:300         Length:300         Min.   : 0.3983  
+##  Class :character   Class :character   Class :character   1st Qu.: 7.1079  
+##  Mode  :character   Mode  :character   Mode  :character   Median : 9.6998  
+##                                                           Mean   : 9.5893  
+##                                                           3rd Qu.:11.9146  
+##                                                           Max.   :18.6236</code></pre>
+<p>This data set contains data on species diversity levels measured across 5 different habitat types, 2 levels of disturbance, and 3 different types of fertilizer treatments. For this example, we are assuming we did not have control over study design. For example, these data could have been provided by an agency or organization. In other words, the distribution of the different categories of fertilizer and disturbance do not necessarily represent a balanced design across habitats. Therefore, we need to look for potential correlations among all possible pairwise combinations of the predictor variables. The questions we are asking are:
+Is there correlation between habitat type and disturbance?
+Is there correlation between habitat type and fertilizer?
+Is there correlation between disturbance and fertilizer?</p>
+<p>Before we can run a Chi-squared test for each possible pairwise comparison, we need to create a <em>contingency table</em>. The next step involves, running the Chi-squared test on the contingency table. We then follow this with the calculation of Cramer’s V.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="correlation-and-linear-regression.html#cb4-1" tabindex="-1"></a><span class="do">## Habitat vs Disturbance</span></span>
+<span id="cb4-2"><a href="correlation-and-linear-regression.html#cb4-2" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">--- Habitat vs Disturbance ---</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb4-3"><a href="correlation-and-linear-regression.html#cb4-3" tabindex="-1"></a><span class="co"># contingency table</span></span>
+<span id="cb4-4"><a href="correlation-and-linear-regression.html#cb4-4" tabindex="-1"></a>tab_hd <span class="ot">&lt;-</span> <span class="fu">table</span>(df1<span class="sc">$</span>habitat, df1<span class="sc">$</span>disturbance)</span>
+<span id="cb4-5"><a href="correlation-and-linear-regression.html#cb4-5" tabindex="-1"></a><span class="co"># Chi-squared test</span></span>
+<span id="cb4-6"><a href="correlation-and-linear-regression.html#cb4-6" tabindex="-1"></a>chi_hd <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(tab_hd)</span>
+<span id="cb4-7"><a href="correlation-and-linear-regression.html#cb4-7" tabindex="-1"></a><span class="fu">print</span>(chi_hd)</span>
+<span id="cb4-8"><a href="correlation-and-linear-regression.html#cb4-8" tabindex="-1"></a><span class="co"># Cramer&#39;s V</span></span>
+<span id="cb4-9"><a href="correlation-and-linear-regression.html#cb4-9" tabindex="-1"></a>assoc_hd <span class="ot">&lt;-</span> <span class="fu">assocstats</span>(tab_hd)</span>
+<span id="cb4-10"><a href="correlation-and-linear-regression.html#cb4-10" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Cramer&#39;s V:&quot;</span>, assoc_hd<span class="sc">$</span>cramer, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb4-11"><a href="correlation-and-linear-regression.html#cb4-11" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="correlation-and-linear-regression.html#cb4-12" tabindex="-1"></a><span class="do">## Habitat vs Fertilizer:</span></span>
+<span id="cb4-13"><a href="correlation-and-linear-regression.html#cb4-13" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">--- Habitat vs Fertilizer ---</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb4-14"><a href="correlation-and-linear-regression.html#cb4-14" tabindex="-1"></a><span class="co"># contingency table</span></span>
+<span id="cb4-15"><a href="correlation-and-linear-regression.html#cb4-15" tabindex="-1"></a>tab_hf <span class="ot">&lt;-</span> <span class="fu">table</span>(df1<span class="sc">$</span>habitat, df1<span class="sc">$</span>fertilizer)</span>
+<span id="cb4-16"><a href="correlation-and-linear-regression.html#cb4-16" tabindex="-1"></a><span class="co"># Chi-squared test</span></span>
+<span id="cb4-17"><a href="correlation-and-linear-regression.html#cb4-17" tabindex="-1"></a>chi_hf <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(tab_hf)</span>
+<span id="cb4-18"><a href="correlation-and-linear-regression.html#cb4-18" tabindex="-1"></a><span class="fu">print</span>(chi_hf)</span>
+<span id="cb4-19"><a href="correlation-and-linear-regression.html#cb4-19" tabindex="-1"></a><span class="co"># Cramer&#39;s V</span></span>
+<span id="cb4-20"><a href="correlation-and-linear-regression.html#cb4-20" tabindex="-1"></a>assoc_hf <span class="ot">&lt;-</span> <span class="fu">assocstats</span>(tab_hf)</span>
+<span id="cb4-21"><a href="correlation-and-linear-regression.html#cb4-21" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Cramer&#39;s V:&quot;</span>, assoc_hf<span class="sc">$</span>cramer, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb4-22"><a href="correlation-and-linear-regression.html#cb4-22" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="correlation-and-linear-regression.html#cb4-23" tabindex="-1"></a><span class="do">## Disturbance vs Fertilizer:</span></span>
+<span id="cb4-24"><a href="correlation-and-linear-regression.html#cb4-24" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">--- Disturbance vs Fertilizer ---</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb4-25"><a href="correlation-and-linear-regression.html#cb4-25" tabindex="-1"></a><span class="co"># contingency table</span></span>
+<span id="cb4-26"><a href="correlation-and-linear-regression.html#cb4-26" tabindex="-1"></a>tab_df <span class="ot">&lt;-</span> <span class="fu">table</span>(df1<span class="sc">$</span>disturbance, df1<span class="sc">$</span>fertilizer)</span>
+<span id="cb4-27"><a href="correlation-and-linear-regression.html#cb4-27" tabindex="-1"></a><span class="co"># Chi-squared test</span></span>
+<span id="cb4-28"><a href="correlation-and-linear-regression.html#cb4-28" tabindex="-1"></a>chi_df <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(tab_df)</span>
+<span id="cb4-29"><a href="correlation-and-linear-regression.html#cb4-29" tabindex="-1"></a><span class="fu">print</span>(chi_df)</span>
+<span id="cb4-30"><a href="correlation-and-linear-regression.html#cb4-30" tabindex="-1"></a><span class="co"># Cramer&#39;s V</span></span>
+<span id="cb4-31"><a href="correlation-and-linear-regression.html#cb4-31" tabindex="-1"></a>assoc_df <span class="ot">&lt;-</span> <span class="fu">assocstats</span>(tab_df)</span>
+<span id="cb4-32"><a href="correlation-and-linear-regression.html#cb4-32" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Cramer&#39;s V:&quot;</span>, assoc_df<span class="sc">$</span>cramer, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## --- Habitat vs Disturbance ---
+## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  tab_hd
+## X-squared = 3.069, df = 4, p-value = 0.5463
+## 
+## Cramer&#39;s V: 0.1011441 
+## 
+## --- Habitat vs Fertilizer ---
+## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  tab_hf
+## X-squared = 2.2989, df = 8, p-value = 0.9705
+## 
+## Cramer&#39;s V: 0.06189881 
+## 
+## --- Disturbance vs Fertilizer ---
+## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  tab_df
+## X-squared = 2.2199, df = 2, p-value = 0.3296
+## 
+## Cramer&#39;s V: 0.08602138</code></pre>
+<p>The <em>pre-screening</em> of correlations among variables is complete and there does not appear to be any substantial correlations among the covariates. However, it is good practice to assess potential correlations after you have fit the model(s) using the <strong>Variance Inflation Factor (VIF)</strong>. This value is computed for each predictor in your regression models and tells you how much of the variance (or uncertainty) of each variable’s coefficient estimate is “inflated” due to correlation with other predictors. A <em>high</em> VIF can lead to less precise estimates and unstable coefficients. This means that small changes in the data could lead to large changes in the estimated coefficients. A *high( VIF could also indicate that it is difficult to distinguish the individual effect of a predictor on the response variable due to shared information between predictors. This can be addressed by combining similar predictors, removing one of the correlated predictors (discussed in lecture), or reconsidering the model specification. The thresholds for VIF are guidelines and not absolute cutoffs. Generally, the following guidelines are used:
+Low VIF (VIF <span class="math inline">\(\approx\)</span> 1): Predictor is independent of others.
+Moderate VIF (1-5): Some collinearity exists, but generally acceptable.
+High VIF (&gt;5): Strong collinearity exists, which may inflate standard errors, make coefficeint estimates unstable, and the model should be re-evaluated.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="correlation-and-linear-regression.html#cb6-1" tabindex="-1"></a><span class="co"># Fit a linear model and assess multicollinearity:</span></span>
+<span id="cb6-2"><a href="correlation-and-linear-regression.html#cb6-2" tabindex="-1"></a>model_1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(species_diversity <span class="sc">~</span> habitat <span class="sc">+</span> disturbance <span class="sc">+</span> fertilizer, <span class="at">data =</span> df1)</span></code></pre></div>
+<pre><code>## 
+## --- Summary model_1 ---</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = species_diversity ~ habitat + disturbance + fertilizer, 
+##     data = df1)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.49246 -0.69073  0.02853  0.66337  2.71803 
+## 
+## Coefficients:
+##                         Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)              13.3690     0.1677  79.730  &lt; 2e-16 ***
+## habitatHabitat2           0.7772     0.1812   4.289 2.44e-05 ***
+## habitatHabitat3           1.7964     0.1907   9.421  &lt; 2e-16 ***
+## habitatHabitat4           2.8294     0.1960  14.437  &lt; 2e-16 ***
+## habitatHabitat5           3.8465     0.1790  21.489  &lt; 2e-16 ***
+## disturbanceNotDisturbed  -4.2486     0.1209 -35.128  &lt; 2e-16 ***
+## fertilizerFert2          -2.9551     0.1527 -19.348  &lt; 2e-16 ***
+## fertilizerFert3          -6.2296     0.1455 -42.819  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.035 on 292 degrees of freedom
+## Multiple R-squared:  0.9219, Adjusted R-squared:   0.92 
+## F-statistic: 492.1 on 7 and 292 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre><code>## 
+## --- VIF model_1 ---</code></pre>
+<pre><code>##                 GVIF Df GVIF^(1/(2*Df))
+## habitat     1.017629  4        1.002187
+## disturbance 1.017372  1        1.008649
+## fertilizer  1.014727  2        1.003662</code></pre>
+<p>The results of the above assessment indicate there are no concerns regarding high correlation among the potential predictor variables. You can follow the same example above with a different data set to see how the results differ. These data are also available on the LEARN site.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="correlation-and-linear-regression.html#cb11-1" tabindex="-1"></a>df2 <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">&quot;DATA/cat_correlation_2.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-2"><a href="correlation-and-linear-regression.html#cb11-2" tabindex="-1"></a><span class="fu">summary</span> (df1)</span></code></pre></div>
+<pre><code>##    habitat          disturbance         fertilizer        species_diversity
+##  Length:300         Length:300         Length:300         Min.   : 0.3983  
+##  Class :character   Class :character   Class :character   1st Qu.: 7.1079  
+##  Mode  :character   Mode  :character   Mode  :character   Median : 9.6998  
+##                                                           Mean   : 9.5893  
+##                                                           3rd Qu.:11.9146  
+##                                                           Max.   :18.6236</code></pre>
+<pre><code>## Warning in chisq.test(tab_hf): Chi-squared approximation may be incorrect</code></pre>
+<pre><code>## 
+## --- Habitat vs Disturbance ---
+## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  tab_hd
+## X-squared = 2.4936, df = 4, p-value = 0.6458
+## 
+## Cramer&#39;s V: 0.091171 
+## 
+## --- Habitat vs Fertilizer ---
+## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  tab_hf
+## X-squared = 11.077, df = 8, p-value = 0.1974
+## 
+## Cramer&#39;s V: 0.1358721 
+## 
+## --- Disturbance vs Fertilizer ---
+## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  tab_df
+## X-squared = 152.96, df = 2, p-value &lt; 2.2e-16
+## 
+## Cramer&#39;s V: 0.714038</code></pre>
+<p>These results indicate a high level of correlation between our disturbance and fertilizer variables. Below we can see the consequences of including these two variables in the same model for our estimated VIF values.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="correlation-and-linear-regression.html#cb15-1" tabindex="-1"></a><span class="co"># Fit a linear model and assess multicollinearity:</span></span>
+<span id="cb15-2"><a href="correlation-and-linear-regression.html#cb15-2" tabindex="-1"></a>model_2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(species_diversity <span class="sc">~</span> habitat <span class="sc">+</span> disturbance <span class="sc">+</span> fertilizer, <span class="at">data =</span> df2)</span></code></pre></div>
+<pre><code>## 
+## --- Summary model_2 ---</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = species_diversity ~ habitat + disturbance + fertilizer, 
+##     data = df2)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.33886 -0.72173  0.05189  0.58885  2.51848 
+## 
+## Coefficients:
+##                         Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)              12.7497     0.1362   93.58  &lt; 2e-16 ***
+## habitatHabitat2           1.0818     0.1751    6.18 2.15e-09 ***
+## habitatHabitat3           2.1290     0.1620   13.14  &lt; 2e-16 ***
+## habitatHabitat4           3.1152     0.1813   17.18  &lt; 2e-16 ***
+## habitatHabitat5           4.0686     0.1690   24.07  &lt; 2e-16 ***
+## disturbanceNotDisturbed  -3.8421     0.1570  -24.47  &lt; 2e-16 ***
+## fertilizerFert2          -3.0478     0.2082  -14.64  &lt; 2e-16 ***
+## fertilizerFert3          -5.9718     0.1645  -36.30  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.9459 on 292 degrees of freedom
+## Multiple R-squared:  0.9618, Adjusted R-squared:  0.9609 
+## F-statistic:  1050 on 7 and 292 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre><code>## 
+## --- VIF model_2 ---</code></pre>
+<pre><code>##                 GVIF Df GVIF^(1/(2*Df))
+## habitat     1.048866  4        1.005982
+## disturbance 2.061176  1        1.435680
+## fertilizer  2.122102  2        1.206956</code></pre>
+<p>The above results suggest a <em>moderate</em> VIF level. At this point, it is likely best to proceed with additional model evaluation steps. The following are steps that are advisable and covered in more detail in later chapters, but listed here for reference:
+Based on your results—where the VIF for disturbance and fertilizer is a little over 2 (which indicates moderate but not alarming collinearity)—you can move forward with additional model evaluation steps. Here are several recommended next steps:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Residual Diagnostics:</strong>
+<ul>
+<li><strong>Residual Plots:</strong> Check residual-versus-fitted values to ensure that there are no obvious patterns (which might indicate nonlinearity or heteroscedasticity).<br />
+</li>
+<li><strong>Normality of Residuals:</strong> For models where normality is assumed (like linear regression in the above example), a Q–Q plot can help assess if residuals are approximately normally distributed.<br />
+</li>
+<li><strong>Influence and Leverage:</strong> Calculate diagnostic measures (e.g., Cook’s distance) to see if any individual observations have an outsized influence on your model estimates.</li>
+</ul></li>
+<li><strong>Goodness-of-Fit and Model Comparison:</strong>
+<ul>
+<li><strong>Information Criteria:</strong> Use metrics such as AIC (Akaike Information Criterion) to compare alternative model specifications (e.g., models with or without interaction terms, or with different sets of predictors).<br />
+</li>
+<li><strong>Cross-Validation:</strong> If prediction is a goal, consider using cross-validation or a hold-out sample to assess the predictive performance of your model.</li>
+</ul></li>
+<li><strong>Model Specification:</strong>
+<ul>
+<li><strong>Interactions:</strong> Given the ecological context, it may be worthwhile to explore whether interactions (for example, between disturbance and fertilizer) add important explanatory power to your model.</li>
+</ul></li>
+<li><strong>Substantive Interpretation and Sensitivity Analysis:</strong>
+<ul>
+<li><strong>Coefficient Interpretations:</strong> Check that the estimated effects of your predictors make sense from an ecological perspective.<br />
+</li>
+<li><strong>Sensitivity Checks:</strong> If you’re concerned about even moderate collinearity, you might explore models where you combine or drop one of the correlated variables to see if the substantive conclusions change.</li>
+</ul></li>
+</ol>
 </div>
 </div>
 <div id="regression" class="section level2 hasAnchor" number="7.2">
@@ -253,43 +476,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Throughout the book, I have tried to use ‘real’ ecological data collected by me and my colleagues. I think this is important because the data are messy and frequently do not behave well. These data can have challenging distributions that can make fitting models to the data difficult. Sometimes wrangling ‘real’ world ecological data and fitting models to those data is as frustrating and challenging as stuffing a tired and angry toddler into a snow suit… in a hot room… while sleep deprived… with your mother-in-law explaining how you are going to be late while she muses that she never had such problems with her kids. But, working with those data will help you with your own data. However, while digging through all the many datasets I have compiled across my career, it turns out I have never collected data that could be modeled using a simple linear regression. Lucky me. So the following data and examples are from the excellent textbook by Pablo Inchausti, <a href="https://global.oup.com/academic/product/statistical-modeling-with-r-9780192859013?cc=us&amp;lang=en&amp;">Statistical Modeling with R</a>, which is currently available through the UW library for this course. The author’s website with data, code, and extra material can be found <a href="https://sites.google.com/view/statistical-modeling-with-r/home">here</a>.</p>
 <p>The data we will work with look at plant tolerance and cadmium levels. Cadmium (Cd) is a metal that has toxic effects on plant and human health. The researchers grew grass in soils with different concentrations of Cd to determine if the grass was a bioaccumulator of the metal to assess its usefulness in bioremediation. More details can be found in the textbook.</p>
 <p>First, we will make sure the packages required are loaded. Remember, you must make sure they are installed.</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="correlation-and-linear-regression.html#cb94-1" tabindex="-1"></a>packages.needed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;broom&quot;</span>, <span class="st">&quot;qqplotr&quot;</span>, <span class="st">&quot;cowplot&quot;</span>, <span class="st">&quot;ggeffects&quot;</span>)</span>
-<span id="cb94-2"><a href="correlation-and-linear-regression.html#cb94-2" tabindex="-1"></a><span class="fu">lapply</span>(packages.needed, <span class="at">FUN =</span> require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="correlation-and-linear-regression.html#cb20-1" tabindex="-1"></a>packages.needed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;broom&quot;</span>, <span class="st">&quot;qqplotr&quot;</span>, <span class="st">&quot;cowplot&quot;</span>, <span class="st">&quot;ggeffects&quot;</span>)</span>
+<span id="cb20-2"><a href="correlation-and-linear-regression.html#cb20-2" tabindex="-1"></a><span class="fu">lapply</span>(packages.needed, <span class="at">FUN =</span> require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Next we load the data provided by Inchausti. The data can be downloaded from the author’s website (referenced above) or the UW LEARN site.</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="correlation-and-linear-regression.html#cb95-1" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">&quot;DATA/Ch 04 Cadmium.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb95-2"><a href="correlation-and-linear-regression.html#cb95-2" tabindex="-1"></a><span class="fu">summary</span> (df)</span></code></pre></div>
-<pre><code>##       soil         shoot            root     
-##  Min.   : 60   Min.   : 16.2   Min.   : 105  
-##  1st Qu.:120   1st Qu.: 52.6   1st Qu.: 245  
-##  Median :180   Median :123.7   Median : 465  
-##  Mean   :180   Mean   :117.0   Mean   : 503  
-##  3rd Qu.:240   3rd Qu.:171.2   3rd Qu.: 665  
-##  Max.   :300   Max.   :217.7   Max.   :1067</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="correlation-and-linear-regression.html#cb21-1" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">&quot;DATA/Ch 04 Cadmium.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-2"><a href="correlation-and-linear-regression.html#cb21-2" tabindex="-1"></a><span class="fu">summary</span> (df)</span></code></pre></div>
+<pre><code>##       soil         shoot             root       
+##  Min.   : 60   Min.   : 16.20   Min.   : 104.6  
+##  1st Qu.:120   1st Qu.: 52.65   1st Qu.: 245.1  
+##  Median :180   Median :123.70   Median : 465.0  
+##  Mean   :180   Mean   :117.02   Mean   : 502.8  
+##  3rd Qu.:240   3rd Qu.:171.18   3rd Qu.: 664.6  
+##  Max.   :300   Max.   :217.70   Max.   :1067.1</code></pre>
 <p>The soil variable represents the level of Cd in the soil and the shoot variable represents the amount of Cd in the shoots.</p>
 <p>The model we want to fit is: <span class="math display">\[shoot = \beta_0 + \beta_1soil + \epsilon_1\]</span></p>
 <p>The <span class="math inline">\(\epsilon\)</span> represents the residuals and there are explicit assumptions about its distribution also. In this case we assume the residuals will follow a normal distribution with a mean = 0.</p>
 <p>Fitting a simple linear regression in R uses the <code>lm</code> function which is part of the <code>stats</code> package. You do not need to load this package because it is automatically loaded by default at the start of every R session. We fit the linear model to our data using the following:</p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="correlation-and-linear-regression.html#cb97-1" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(shoot <span class="sc">~</span> soil, <span class="at">data =</span> df)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="correlation-and-linear-regression.html#cb23-1" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(shoot <span class="sc">~</span> soil, <span class="at">data =</span> df)</span></code></pre></div>
 <p>The code above fits the model we specified in the equation above. The shoot response variable and soil predictor covariate are present in the code. However, we do not need to specify any of the model-estimated components such as the intercept <span class="math inline">\(\beta_0\)</span> the slope of the relationship <span class="math inline">\(\beta_1\)</span> or the error term <span class="math inline">\(\epsilon_1\)</span> because these are unknown to us and are produced by the model estimating function <code>lm</code>. The tilde sign <code>~</code> in R fills the place of the <code>=</code> in the equation and separates the response and predictor variables. We also must specify the data frame which contains the variables with the <code>data = df</code> code. We store the results by assigning the model to an object (<code>m1</code> in the example above) which creates a list containing model results. The most relevant model results are provided using the <code>summary</code> command.</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="correlation-and-linear-regression.html#cb98-1" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="correlation-and-linear-regression.html#cb24-1" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = shoot ~ soil, data = df)
 ## 
 ## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -25.97 -11.22   1.73   7.66  28.68 
+##     Min      1Q  Median      3Q     Max 
+## -25.970 -11.220   1.730   7.655  28.680 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  -19.030      8.355   -2.28    0.035 *  
-## soil           0.756      0.042   18.00  5.9e-13 ***
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -19.03000    8.35547  -2.278   0.0352 *  
+## soil          0.75583    0.04199  18.001 5.88e-13 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 15.9 on 18 degrees of freedom
-## Multiple R-squared:  0.947,  Adjusted R-squared:  0.944 
-## F-statistic:  324 on 1 and 18 DF,  p-value: 5.88e-13</code></pre>
+## Residual standard error: 15.93 on 18 degrees of freedom
+## Multiple R-squared:  0.9474, Adjusted R-squared:  0.9445 
+## F-statistic:   324 on 1 and 18 DF,  p-value: 5.882e-13</code></pre>
 <div id="interpreting-output" class="section level3 hasAnchor" number="7.2.1">
 <h3><span class="header-section-number">7.2.1</span> Interpreting Output<a href="correlation-and-linear-regression.html#interpreting-output" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The most important model estimates are presented under the <code>Coefficients</code> heading (remember “It’s all about the Betas”). The summary output presents estimates of the intercept (<span class="math inline">\(\beta_0\)</span>), the slope (<span class="math inline">\(\beta_1soil\)</span>), and the standard errors associated with each estimate (i.e., the variation around the estimate). The <code>Coefficients</code> section also presents the <code>t value</code> and the <em>p</em>-value (<code>Pr(&gt;|t|)</code>).</p>
@@ -299,10 +522,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The <code>Residuals:</code> section at the top of the model output is largely irrelevant to model interpretation.</p>
 <p>Statistics is so relevant to the real world because it allows us to estimate the inherent uncertainty underlying any complex problem. The <code>Std. Error</code> component give us some indication of the variability around the estimated parameter, but it is typically considered a fairly <em>narrow</em> or overly optimistic estimate of our confidence in the estimate. Therefore, it is common to estimate the confidence interval surrounding the parameter estimate. The interpretation of a confidence interval in a frequentist context is different than in a Bayesian context. In a frequentist context, the confidence interval is a range of equally plausible values of the parameter that we could obtain if we repeated this study many times with the same sample size and the same population. As an aside, in a Bayesian context we would estimate a 95% credible interval which would be accurately interpreted as: there is a 95% chance the true value is within the range presented. This is different.</p>
 <p>To obtain the confidence interval for the model <code>m1</code> we use the <code>confint( )</code> function.</p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="correlation-and-linear-regression.html#cb100-1" tabindex="-1"></a><span class="fu">confint</span>(m1)</span></code></pre></div>
-<pre><code>##               2.5 % 97.5 %
-## (Intercept) -36.584 -1.476
-## soil          0.668  0.844</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="correlation-and-linear-regression.html#cb26-1" tabindex="-1"></a><span class="fu">confint</span>(m1)</span></code></pre></div>
+<pre><code>##                   2.5 %     97.5 %
+## (Intercept) -36.5841840 -1.4758160
+## soil          0.6676202  0.8440464</code></pre>
 <p>So, what is the best way to interpret confidence intervals in the frequentist context? Consider it as a thought experiment. If we ran this study over and over again in the same population with the same sample size, we would end up with a distribution of parameter estimates with a lower 2.5% bound of 0.668 and an upper 97.5% bound of 0.844. Hopefully the example in class helps to further clarify this concept.</p>
 </div>
 </div>
@@ -314,14 +537,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The third common plot presents the sample quantiles on the <em>y</em>-axis and the theoretical quantiles on the <em>x</em>-axis. Since this plot presents the two quantiles and is used to assess the ‘normality’ of the data, it is often refereed to as the “Normal Q-Q plot”. Quantiles are points in your data below which a certain proportion of your data fall. In a normal distribution with a mean of 0, the 0.5 quantile (<em>i.e.</em>, 50th percentile) is 0. The quantiles presented are basically your data sorted in ascending order with each data point labelled as the point below which a certain proportion of the data fall. Therefore, if the model predicted (Theoretical quantiles) match the observed (Sample quantiles) perfectly, they will lie along a perfect diagonal. Thus,if the residuals are normally distributed, they should have a relatively tight scatter of points along the line of perfect fit. It is very common for the points near the tail ends of the distribution (upper and lower) to deviate more from the theoretical perfect fit than the points closer to the center for the distribution. This makes sense because there are more data to inform model fit in the central regions of the distribution than near the tails.</p>
 <p>The final common model validation plot presents Cook’s distance. This is essentially a sensitivity analysis that quantifies the impact of each data point on the parameter estimates. Data points with a “large” Cook’s distance may have an unduly large influence on the parameter estimates. There is no hard-and-fast rule to decide when a Cook’s distance is “too” large. Like much of model validation, it is somewhat subjective and relies on our visual interpretation of the validation plots. If you are concerned about the influence of a particular observation, you can remove that observation, re-run the model and look at the changes in the model parameter estimates. The Cook’s distance plot presents the observations in your data set in order along the <em>x</em>-axis so it is easy to identify potentially large observations. The <em>y</em>-axis presents the Cook’s distance. If you are interested, I will leave you to look up the actual calculation of Cook’s distance on your own. It is not necessary to understand the underlying mathematics in detail. It is enough to know what it represents and how it can inform your modelling choices and interpretation.</p>
 <p>Producing ggplot-type figures requires use of the package <code>broom</code>. First, we create a tibble.</p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="correlation-and-linear-regression.html#cb102-1" tabindex="-1"></a><span class="fu">tidy</span>(m1, <span class="at">conf.int=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="correlation-and-linear-regression.html#cb28-1" tabindex="-1"></a><span class="fu">tidy</span>(m1, <span class="at">conf.int=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 2 × 7
 ##   term        estimate std.error statistic  p.value conf.low conf.high
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
 ## 1 (Intercept)  -19.0      8.36       -2.28 3.52e- 2  -36.6      -1.48 
 ## 2 soil           0.756    0.0420     18.0  5.88e-13    0.668     0.844</code></pre>
 <p>The <code>glance</code> function gathers the model fit data into a more user-friendly format.</p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="correlation-and-linear-regression.html#cb104-1" tabindex="-1"></a><span class="fu">glance</span>(m1)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="correlation-and-linear-regression.html#cb30-1" tabindex="-1"></a><span class="fu">glance</span>(m1)</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 12
 ##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
 ##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -329,7 +552,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## # ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
 <p>Then we create a data frame containing all the information required to produce the four plots. Most importantly, this data frame includes the empirical data, the model fitted values, Cook’s distance, residuals. You can follow the ggplot code below to see what variables are used to create each plot. The code provided comes directly from Inchausti Ch.4 with some slight modifications.</p>
 <p>The <code>augment</code> function accepts a model object and adds information about each observation in the dataset. These are the values we will plot.</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="correlation-and-linear-regression.html#cb106-1" tabindex="-1"></a><span class="fu">augment</span>(m1)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="correlation-and-linear-regression.html#cb32-1" tabindex="-1"></a><span class="fu">augment</span>(m1)</span></code></pre></div>
 <pre><code>## # A tibble: 20 × 8
 ##    shoot  soil .fitted  .resid  .hat .sigma  .cooksd .std.resid
 ##    &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;
@@ -342,39 +565,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  7  52.9   120    71.7 -18.8   0.075   15.7 0.0608      -1.22  
 ...</code></pre>
 <p>Notice the table includes one row for each of the observations (only display 7 above). The next step is to store the results of <code>augment(m1)</code> in order to create the plots.</p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="correlation-and-linear-regression.html#cb108-1" tabindex="-1"></a>res.m1 <span class="ot">&lt;-</span> <span class="fu">augment</span>(m1)</span></code></pre></div>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="correlation-and-linear-regression.html#cb109-1" tabindex="-1"></a><span class="co"># ggplots of the residual analysis of of Frequentist simple regression</span></span>
-<span id="cb109-2"><a href="correlation-and-linear-regression.html#cb109-2" tabindex="-1"></a>m1.res<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>res.m1, <span class="fu">aes</span>(<span class="at">x=</span>.fitted, <span class="at">y=</span>.resid)) <span class="sc">+</span></span>
-<span id="cb109-3"><a href="correlation-and-linear-regression.html#cb109-3" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb109-4"><a href="correlation-and-linear-regression.html#cb109-4" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb109-5"><a href="correlation-and-linear-regression.html#cb109-5" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span> </span>
-<span id="cb109-6"><a href="correlation-and-linear-regression.html#cb109-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Fitted values&quot;</span>, <span class="at">y=</span><span class="st">&quot;Standard residuals&quot;</span>) <span class="sc">+</span></span>
-<span id="cb109-7"><a href="correlation-and-linear-regression.html#cb109-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>), </span>
-<span id="cb109-8"><a href="correlation-and-linear-regression.html#cb109-8" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>))</span>
-<span id="cb109-9"><a href="correlation-and-linear-regression.html#cb109-9" tabindex="-1"></a>m1.res.vs.expl<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>res.m1, <span class="fu">aes</span>(<span class="at">x=</span>soil, <span class="at">y=</span>.resid)) <span class="sc">+</span></span>
-<span id="cb109-10"><a href="correlation-and-linear-regression.html#cb109-10" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb109-11"><a href="correlation-and-linear-regression.html#cb109-11" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb109-12"><a href="correlation-and-linear-regression.html#cb109-12" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span> </span>
-<span id="cb109-13"><a href="correlation-and-linear-regression.html#cb109-13" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Cd in soil&quot;</span>, <span class="at">y=</span><span class="st">&quot;stnd residuals&quot;</span>) <span class="sc">+</span></span>
-<span id="cb109-14"><a href="correlation-and-linear-regression.html#cb109-14" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>),</span>
-<span id="cb109-15"><a href="correlation-and-linear-regression.html#cb109-15" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb109-16"><a href="correlation-and-linear-regression.html#cb109-16" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>))</span>
-<span id="cb109-17"><a href="correlation-and-linear-regression.html#cb109-17" tabindex="-1"></a>m1.Cook<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>res.m1, <span class="fu">aes</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(res.m1),<span class="at">y=</span>.cooksd)) <span class="sc">+</span></span>
-<span id="cb109-18"><a href="correlation-and-linear-regression.html#cb109-18" tabindex="-1"></a>  <span class="fu">geom_linerange</span>(<span class="fu">aes</span>(<span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax=</span>.cooksd)) <span class="sc">+</span></span>
-<span id="cb109-19"><a href="correlation-and-linear-regression.html#cb109-19" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb109-20"><a href="correlation-and-linear-regression.html#cb109-20" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Data point&quot;</span>, <span class="at">y=</span><span class="st">&quot;Cook distance&quot;</span>)<span class="sc">+</span></span>
-<span id="cb109-21"><a href="correlation-and-linear-regression.html#cb109-21" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>), <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>))</span>
-<span id="cb109-22"><a href="correlation-and-linear-regression.html#cb109-22" tabindex="-1"></a>m1.qq<span class="ot">=</span><span class="fu">ggplot</span>(res.m1, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">sample =</span> .std.resid)) <span class="sc">+</span> </span>
-<span id="cb109-23"><a href="correlation-and-linear-regression.html#cb109-23" tabindex="-1"></a>  <span class="fu">stat_qq_point</span>() <span class="sc">+</span></span>
-<span id="cb109-24"><a href="correlation-and-linear-regression.html#cb109-24" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb109-25"><a href="correlation-and-linear-regression.html#cb109-25" tabindex="-1"></a>  <span class="fu">stat_qq_line</span>() <span class="sc">+</span></span>
-<span id="cb109-26"><a href="correlation-and-linear-regression.html#cb109-26" tabindex="-1"></a>  <span class="fu">stat_qq_band</span>(<span class="at">alpha=</span><span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb109-27"><a href="correlation-and-linear-regression.html#cb109-27" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Theoretical quantiles&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Sample quantiles&quot;</span>) <span class="sc">+</span></span>
-<span id="cb109-28"><a href="correlation-and-linear-regression.html#cb109-28" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>), </span>
-<span id="cb109-29"><a href="correlation-and-linear-regression.html#cb109-29" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>))</span>
-<span id="cb109-30"><a href="correlation-and-linear-regression.html#cb109-30" tabindex="-1"></a><span class="fu">plot_grid</span>(m1.res,  m1.res.vs.expl, m1.qq, m1.Cook, <span class="at">ncol=</span><span class="dv">2</span>,<span class="at">labels =</span> LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>],</span>
-<span id="cb109-31"><a href="correlation-and-linear-regression.html#cb109-31" tabindex="-1"></a>             <span class="at">align=</span><span class="st">&quot;hv&quot;</span>,<span class="at">label_x=</span><span class="fl">0.85</span>, <span class="at">label_y=</span><span class="fl">0.95</span>) <span class="co"># Fig 4.5 in Inchausti</span></span></code></pre></div>
-<p><img src="ASEE_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="correlation-and-linear-regression.html#cb34-1" tabindex="-1"></a>res.m1 <span class="ot">&lt;-</span> <span class="fu">augment</span>(m1)</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="correlation-and-linear-regression.html#cb35-1" tabindex="-1"></a><span class="co"># ggplots of the residual analysis of of Frequentist simple regression</span></span>
+<span id="cb35-2"><a href="correlation-and-linear-regression.html#cb35-2" tabindex="-1"></a>m1.res<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>res.m1, <span class="fu">aes</span>(<span class="at">x=</span>.fitted, <span class="at">y=</span>.resid)) <span class="sc">+</span></span>
+<span id="cb35-3"><a href="correlation-and-linear-regression.html#cb35-3" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb35-4"><a href="correlation-and-linear-regression.html#cb35-4" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb35-5"><a href="correlation-and-linear-regression.html#cb35-5" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span> </span>
+<span id="cb35-6"><a href="correlation-and-linear-regression.html#cb35-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Fitted values&quot;</span>, <span class="at">y=</span><span class="st">&quot;Standard residuals&quot;</span>) <span class="sc">+</span></span>
+<span id="cb35-7"><a href="correlation-and-linear-regression.html#cb35-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>), </span>
+<span id="cb35-8"><a href="correlation-and-linear-regression.html#cb35-8" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>))</span>
+<span id="cb35-9"><a href="correlation-and-linear-regression.html#cb35-9" tabindex="-1"></a>m1.res.vs.expl<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>res.m1, <span class="fu">aes</span>(<span class="at">x=</span>soil, <span class="at">y=</span>.resid)) <span class="sc">+</span></span>
+<span id="cb35-10"><a href="correlation-and-linear-regression.html#cb35-10" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb35-11"><a href="correlation-and-linear-regression.html#cb35-11" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb35-12"><a href="correlation-and-linear-regression.html#cb35-12" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span> </span>
+<span id="cb35-13"><a href="correlation-and-linear-regression.html#cb35-13" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Cd in soil&quot;</span>, <span class="at">y=</span><span class="st">&quot;stnd residuals&quot;</span>) <span class="sc">+</span></span>
+<span id="cb35-14"><a href="correlation-and-linear-regression.html#cb35-14" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>),</span>
+<span id="cb35-15"><a href="correlation-and-linear-regression.html#cb35-15" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb35-16"><a href="correlation-and-linear-regression.html#cb35-16" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>))</span>
+<span id="cb35-17"><a href="correlation-and-linear-regression.html#cb35-17" tabindex="-1"></a>m1.Cook<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>res.m1, <span class="fu">aes</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(res.m1),<span class="at">y=</span>.cooksd)) <span class="sc">+</span></span>
+<span id="cb35-18"><a href="correlation-and-linear-regression.html#cb35-18" tabindex="-1"></a>  <span class="fu">geom_linerange</span>(<span class="fu">aes</span>(<span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax=</span>.cooksd)) <span class="sc">+</span></span>
+<span id="cb35-19"><a href="correlation-and-linear-regression.html#cb35-19" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb35-20"><a href="correlation-and-linear-regression.html#cb35-20" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Data point&quot;</span>, <span class="at">y=</span><span class="st">&quot;Cook distance&quot;</span>)<span class="sc">+</span></span>
+<span id="cb35-21"><a href="correlation-and-linear-regression.html#cb35-21" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>), <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>))</span>
+<span id="cb35-22"><a href="correlation-and-linear-regression.html#cb35-22" tabindex="-1"></a>m1.qq<span class="ot">=</span><span class="fu">ggplot</span>(res.m1, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">sample =</span> .std.resid)) <span class="sc">+</span> </span>
+<span id="cb35-23"><a href="correlation-and-linear-regression.html#cb35-23" tabindex="-1"></a>  <span class="fu">stat_qq_point</span>() <span class="sc">+</span></span>
+<span id="cb35-24"><a href="correlation-and-linear-regression.html#cb35-24" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb35-25"><a href="correlation-and-linear-regression.html#cb35-25" tabindex="-1"></a>  <span class="fu">stat_qq_line</span>() <span class="sc">+</span></span>
+<span id="cb35-26"><a href="correlation-and-linear-regression.html#cb35-26" tabindex="-1"></a>  <span class="fu">stat_qq_band</span>(<span class="at">alpha=</span><span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb35-27"><a href="correlation-and-linear-regression.html#cb35-27" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Theoretical quantiles&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Sample quantiles&quot;</span>) <span class="sc">+</span></span>
+<span id="cb35-28"><a href="correlation-and-linear-regression.html#cb35-28" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>), </span>
+<span id="cb35-29"><a href="correlation-and-linear-regression.html#cb35-29" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>))</span>
+<span id="cb35-30"><a href="correlation-and-linear-regression.html#cb35-30" tabindex="-1"></a><span class="fu">plot_grid</span>(m1.res,  m1.res.vs.expl, m1.qq, m1.Cook, <span class="at">ncol=</span><span class="dv">2</span>,<span class="at">labels =</span> LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>],</span>
+<span id="cb35-31"><a href="correlation-and-linear-regression.html#cb35-31" tabindex="-1"></a>             <span class="at">align=</span><span class="st">&quot;hv&quot;</span>,<span class="at">label_x=</span><span class="fl">0.85</span>, <span class="at">label_y=</span><span class="fl">0.95</span>) <span class="co"># Fig 4.5 in Inchausti</span></span></code></pre></div>
+<p><img src="ASEE_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 
 </div>
 </div>

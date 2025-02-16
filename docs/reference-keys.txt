@@ -28,6 +28,7 @@ correlation-and-linear-regression
 correlation
 correlation-coefficient
 non-parametric-correlations
+non-parametic-correlations-in-a-glm-context
 regression
 interpreting-output
 model-validation

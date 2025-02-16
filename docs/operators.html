@@ -23,7 +23,7 @@
 <meta name="author" content="Dr. Brad Fedy" />
 
 
-<meta name="date" content="2025-01-04" />
+<meta name="date" content="2025-02-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -185,6 +185,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="7.1.1" data-path="correlation-and-linear-regression.html"><a href="correlation-and-linear-regression.html#correlation-coefficient"><i class="fa fa-check"></i><b>7.1.1</b> Correlation coefficient</a></li>
 <li class="chapter" data-level="7.1.2" data-path="correlation-and-linear-regression.html"><a href="correlation-and-linear-regression.html#non-parametric-correlations"><i class="fa fa-check"></i><b>7.1.2</b> Non-parametric correlations</a></li>
+<li class="chapter" data-level="7.1.3" data-path="correlation-and-linear-regression.html"><a href="correlation-and-linear-regression.html#non-parametic-correlations-in-a-glm-context"><i class="fa fa-check"></i><b>7.1.3</b> Non-parametic correlations in a GLM context</a></li>
 </ul></li>
 <li class="chapter" data-level="7.2" data-path="correlation-and-linear-regression.html"><a href="correlation-and-linear-regression.html#regression"><i class="fa fa-check"></i><b>7.2</b> Regression</a>
 <ul>
@@ -345,52 +346,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb50-5"><a href="operators.html#cb50-5" tabindex="-1"></a>                       <span class="at">length =</span> <span class="fu">runif</span>(<span class="at">n=</span><span class="dv">20</span>, <span class="at">min=</span><span class="dv">50</span>, <span class="at">max=</span><span class="dv">100</span>))</span>
 <span id="cb50-6"><a href="operators.html#cb50-6" tabindex="-1"></a>snake.df</span></code></pre></div>
 <pre><code>##     species    sex  mass length
-## 1  P.gloydi   male 0.943   97.5
-## 2  P.gloydi female 0.590   90.0
-## 3  P.gloydi   male 0.503   71.0
-## 4  P.gloydi female 1.157   61.8
-## 5  P.gloydi   male 1.283   65.5
-## 6  P.gloydi female 1.008   91.0
-## 7  P.gloydi   male 0.936   74.1
-## 8  P.gloydi female 0.528   77.4
-## 9  P.gloydi   male 0.809   81.7
-## 10 P.gloydi female 1.349   70.1
-## 11 P.gloydi   male 0.944   68.5
-## 12 P.gloydi female 0.823   66.8
-## 13 P.gloydi   male 1.365   85.7
-## 14 P.gloydi female 1.141   91.7
-## 15 P.gloydi   male 1.299   54.2
-## 16 P.gloydi female 0.856   64.1
-## 17 P.gloydi   male 1.271   61.5
-## 18 P.gloydi female 0.783   59.1
-## 19 P.gloydi   male 1.044   62.3
-## 20 P.gloydi female 1.391   55.1</code></pre>
+## 1  P.gloydi   male 1.399   52.1
+## 2  P.gloydi female 1.442   95.0
+## 3  P.gloydi   male 0.763   87.0
+## 4  P.gloydi female 0.676   54.4
+## 5  P.gloydi   male 0.711   52.9
+## 6  P.gloydi female 1.415   82.7
+## 7  P.gloydi   male 0.530   92.6
+## 8  P.gloydi female 0.948   67.7
+## 9  P.gloydi   male 0.713   54.8
+## 10 P.gloydi female 1.463   78.0
+## 11 P.gloydi   male 0.757   84.9
+## 12 P.gloydi female 0.989   56.5
+## 13 P.gloydi   male 1.360   78.4
+## 14 P.gloydi female 0.930   77.3
+## 15 P.gloydi   male 1.183   95.3
+## 16 P.gloydi female 1.221   95.8
+## 17 P.gloydi   male 0.928   72.5
+## 18 P.gloydi female 0.925   76.6
+## 19 P.gloydi   male 1.272   91.6
+## 20 P.gloydi female 0.544   53.5</code></pre>
 <p>Suppose you want to convert the weight of the snakes from kilograms to grams (i.e., multiply by 1000) or create a new variable body condition, which is the weight divided by the length. Both of these can be easily done using an arithmetic operator. Recall, that if you want to call a specific column you simply use the data frame name and the column name separated by a <code>$</code>. If this column exists it will be replaced and if it is does not it will be created.</p>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="operators.html#cb52-1" tabindex="-1"></a><span class="co"># Replace mass column with mass in kg</span></span>
 <span id="cb52-2"><a href="operators.html#cb52-2" tabindex="-1"></a>snake.df<span class="sc">$</span>mass <span class="ot">&lt;-</span> snake.df<span class="sc">$</span>mass<span class="sc">*</span><span class="dv">1000</span></span>
 <span id="cb52-3"><a href="operators.html#cb52-3" tabindex="-1"></a>snake.df<span class="sc">$</span>body.cond <span class="ot">&lt;-</span> snake.df<span class="sc">$</span>mass<span class="sc">/</span>snake.df<span class="sc">$</span>length</span>
 <span id="cb52-4"><a href="operators.html#cb52-4" tabindex="-1"></a>snake.df</span></code></pre></div>
 <pre><code>##     species    sex mass length body.cond
-## 1  P.gloydi   male  943   97.5      9.68
-## 2  P.gloydi female  590   90.0      6.55
-## 3  P.gloydi   male  503   71.0      7.08
-## 4  P.gloydi female 1157   61.8     18.73
-## 5  P.gloydi   male 1283   65.5     19.57
-## 6  P.gloydi female 1008   91.0     11.08
-## 7  P.gloydi   male  936   74.1     12.64
-## 8  P.gloydi female  528   77.4      6.82
-## 9  P.gloydi   male  809   81.7      9.90
-## 10 P.gloydi female 1349   70.1     19.25
-## 11 P.gloydi   male  944   68.5     13.79
-## 12 P.gloydi female  823   66.8     12.32
-## 13 P.gloydi   male 1365   85.7     15.93
-## 14 P.gloydi female 1141   91.7     12.45
-## 15 P.gloydi   male 1299   54.2     23.96
-## 16 P.gloydi female  856   64.1     13.37
-## 17 P.gloydi   male 1271   61.5     20.65
-## 18 P.gloydi female  783   59.1     13.24
-## 19 P.gloydi   male 1044   62.3     16.75
-## 20 P.gloydi female 1391   55.1     25.23</code></pre>
+## 1  P.gloydi   male 1399   52.1     26.87
+## 2  P.gloydi female 1442   95.0     15.18
+## 3  P.gloydi   male  763   87.0      8.77
+## 4  P.gloydi female  676   54.4     12.42
+## 5  P.gloydi   male  711   52.9     13.44
+## 6  P.gloydi female 1415   82.7     17.11
+## 7  P.gloydi   male  530   92.6      5.72
+## 8  P.gloydi female  948   67.7     14.01
+## 9  P.gloydi   male  713   54.8     13.02
+## 10 P.gloydi female 1463   78.0     18.77
+## 11 P.gloydi   male  757   84.9      8.91
+## 12 P.gloydi female  989   56.5     17.51
+## 13 P.gloydi   male 1360   78.4     17.35
+## 14 P.gloydi female  930   77.3     12.04
+## 15 P.gloydi   male 1183   95.3     12.41
+## 16 P.gloydi female 1221   95.8     12.74
+## 17 P.gloydi   male  928   72.5     12.81
+## 18 P.gloydi female  925   76.6     12.07
+## 19 P.gloydi   male 1272   91.6     13.89
+## 20 P.gloydi female  544   53.5     10.18</code></pre>
 <p>A second important class of operators are the comparison operators, which are often used to subset your data in meaningful ways. For example, consider a situation that requires you subset the snake data by sex and you want only female snakes. Here you would use the <code>==</code> operator, combined with the square brackets <code>[ ]</code>. The square brackets were introduced above for indexing a vector. They can also be used to index matrices and dataframes (i.e., 2-dimensional objects…<em>and beyond</em>). Which we know from earlier can be used to subset your data. In this case however, instead of using numbers to select columns, we will use an operator to select rows that are equal to “male”. You can also use other comparison operators such as greater than ‘&gt;’ or less than ‘&lt;’. Finally, we combine a comparison with a logical operator. Remember that when subsetting with the [ ] the first value indicates rows and the value after the “,” indicates columns. When you want all columns, leave the number after the “,” blank, and leave the number before the “,” blank when you want all rows.</p>
 
 </div>
